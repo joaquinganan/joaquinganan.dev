@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import type { FC } from "react";
 import {
   ArrowDown,
   ArrowUpRight,
@@ -450,7 +451,7 @@ export default function Home() {
 
         <div className="portrait-stage">
           <div className="portrait-frame">
-            <img src="/joaquin-ganan-profile.jpeg" alt={t.portrait} />
+            <img src="/joaquin-ganan-profile.png" alt={t.portrait} />
             <div className="portrait-tag" aria-hidden="true">
               <span>QA</span>
               <span>01</span>

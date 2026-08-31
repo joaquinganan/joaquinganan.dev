@@ -565,7 +565,7 @@ export default function Home() {
               </div>
               <a
                 className="project-link"
-                href="https://github.com/joaquinganan/m4pp-sqe"
+                href="https://github.com/joaquinganan"
                 target="_blank"
                 rel="noreferrer"
               >

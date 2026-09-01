@@ -123,8 +123,9 @@ button:focus-visible {
   display: flex;
   align-items: center;
   gap: 2rem;
-  background: rgba(247, 248, 246, 0.96);
-  border-bottom: 1px solid var(--line);
+  background: #f7f8f6;
+  border-bottom: 1px solid rgba(47, 82, 50, 0.24);
+  box-shadow: 0 6px 18px rgba(32, 38, 32, 0.05);
   backdrop-filter: blur(14px);
 }
 

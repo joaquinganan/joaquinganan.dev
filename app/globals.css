@@ -82,10 +82,6 @@ button:focus-visible {
   outline-offset: 4px;
 }
 
-section[id] {
-  scroll-margin-top: 6.5rem;
-}
-
 .site-shell {
   min-height: 100vh;
   overflow: clip;
@@ -179,12 +175,14 @@ section[id] {
   transition: right 160ms ease;
 }
 
-.site-nav a:hover::after {
-  right: 0;
-}
-
 .site-nav a.is-active {
   color: var(--accent);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .site-nav a:hover::after {
+    right: 0;
+  }
 }
 
 .site-nav a.is-active::after {
@@ -608,7 +606,6 @@ section[id] {
   padding: clamp(2.6rem, 5vw, 5rem);
   background: var(--surface);
   border-radius: 1rem;
-  scroll-margin-top: 7.25rem;
 }
 
 .lab-copy {
@@ -1008,10 +1005,6 @@ section[id] {
 @media (max-width: 1050px) {
   html {
     scroll-padding-top: 10rem;
-  }
-
-  section[id] {
-    scroll-margin-top: 10rem;
   }
 
   .site-header {

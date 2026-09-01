@@ -382,6 +382,7 @@ export default function Home() {
               key={href}
               className={activeSection === href.slice(1) ? "is-active" : undefined}
               aria-current={activeSection === href.slice(1) ? "location" : undefined}
+              onClick={() => setActiveSection(href.slice(1))}
             >
               {label}
             </a>

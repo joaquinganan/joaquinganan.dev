@@ -19,16 +19,16 @@ const copy = {
       ["Work", "#work"],
       ["Contact", "#contact"],
     ],
-    language: "Cambiar a español",
-    resume: "Download résumé",
+    language: "Switch to Spanish",
+    resume: "Download résumé (EN)",
     availability: "Open to remote opportunities",
     location: "Santo Domingo · UTC-4",
     eyebrow: "Quality across complex systems",
     headline: "I turn release risk into confident decisions.",
     intro:
       "Senior QA Engineer with 6+ years of experience leading quality across enterprise programs, web and mobile products, REST APIs, and interconnected backend systems.",
-    explore: "Explore my work",
-    contact: "Let’s talk",
+    explore: "View selected work",
+    contact: "Contact me",
     portrait: "Portrait of Joaquín Gañán",
     metrics: [
       ["20+", "integrated applications"],
@@ -36,6 +36,7 @@ const copy = {
       ["36+", "release validations yearly"],
       ["5", "QA leads mentored"],
     ],
+    impactLabel: "Selected impact",
     expertiseLabel: "Expertise",
     expertiseTitle: "Quality from strategy to production.",
     expertise: [
@@ -62,21 +63,26 @@ const copy = {
     labTitle: "This portfolio tests itself.",
     labIntro:
       "A real Playwright framework validates the experience you are using now. The interactive runner is the next step; the current suite and CI history are already public.",
-    labStatus: "Preview · evolving",
-    labMetrics: [
-      ["13", "tests"],
-      ["37", "executions"],
-      ["5", "browser projects"],
-      ["100%", "passing"],
-    ],
+    labStatus: "Lab preview",
+    latestRunTitle: "Latest production run",
+    latestRunText: "37/37 executions passing across 5 browser projects",
     suiteLink: "View automation suite",
-    runsLink: "View latest runs",
+    runsLink: "View latest CI run",
     terminalLabel: "Latest verified suite summary",
+    terminalChecks: [
+      "✓ Homepage smoke coverage",
+      "✓ Section navigation",
+      "✓ External destinations",
+      "✓ Responsive layout",
+      "✓ Cross-browser coverage",
+    ],
+    terminalStatus: "Status: passed",
     workLabel: "Selected work",
     workTitle: "Evidence over buzzwords.",
     featured: "Public automation project",
     confidential: "Anonymized case snapshot",
-    repository: "View repository",
+    repository: "View M4PP project",
+    caseStatus: "Case study in progress",
     projects: [
       {
         title: "M4PP Playwright Automation Suite",
@@ -125,7 +131,7 @@ const copy = {
     contactTitle: "Let’s build reliable software.",
     contactText:
       "I’m open to remote Senior and Mid-level QA opportunities across the US, LATAM, and Europe.",
-    email: "Email me",
+    email: "Start a conversation",
     linkedin: "LinkedIn",
     github: "GitHub",
     footer: "Designed around evidence, clarity, and quality.",
@@ -141,16 +147,16 @@ const copy = {
       ["Proyectos", "#work"],
       ["Contacto", "#contact"],
     ],
-    language: "Switch to English",
-    resume: "Descargar CV",
+    language: "Cambiar a inglés",
+    resume: "Descargar CV (EN)",
     availability: "Disponible para oportunidades remotas",
     location: "Santo Domingo · UTC-4",
     eyebrow: "Calidad en sistemas complejos",
     headline: "Convierto el riesgo de cada release en decisiones seguras.",
     intro:
       "Ingeniero QA Senior con más de 6 años liderando la calidad en programas empresariales, productos web y móviles, APIs REST y sistemas backend interconectados.",
-    explore: "Explorar mi trabajo",
-    contact: "Hablemos",
+    explore: "Ver trabajo seleccionado",
+    contact: "Contáctame",
     portrait: "Retrato de Joaquín Gañán",
     metrics: [
       ["20+", "aplicaciones integradas"],
@@ -158,6 +164,7 @@ const copy = {
       ["36+", "validaciones al año"],
       ["5", "líderes QA mentoreados"],
     ],
+    impactLabel: "Impacto seleccionado",
     expertiseLabel: "Especialidad",
     expertiseTitle: "Calidad desde la estrategia hasta producción.",
     expertise: [
@@ -184,21 +191,26 @@ const copy = {
     labTitle: "Este portafolio se prueba a sí mismo.",
     labIntro:
       "Un framework real de Playwright valida la experiencia que estás utilizando. El runner interactivo es el próximo paso; la suite y su historial de CI ya son públicos.",
-    labStatus: "Vista previa · en evolución",
-    labMetrics: [
-      ["13", "pruebas"],
-      ["37", "ejecuciones"],
-      ["5", "proyectos de navegador"],
-      ["100%", "aprobadas"],
-    ],
+    labStatus: "Vista previa del lab",
+    latestRunTitle: "Última ejecución en producción",
+    latestRunText: "37/37 ejecuciones aprobadas en 5 proyectos de navegador",
     suiteLink: "Ver suite de automatización",
-    runsLink: "Ver últimas ejecuciones",
+    runsLink: "Ver última ejecución CI",
     terminalLabel: "Resumen de la última suite verificada",
+    terminalChecks: [
+      "✓ Cobertura smoke del inicio",
+      "✓ Navegación entre secciones",
+      "✓ Destinos externos",
+      "✓ Layout responsive",
+      "✓ Cobertura cross-browser",
+    ],
+    terminalStatus: "Estado: aprobado",
     workLabel: "Trabajo seleccionado",
     workTitle: "Evidencia antes que palabras de moda.",
     featured: "Proyecto público de automatización",
     confidential: "Caso anonimizado",
-    repository: "Ver repositorio",
+    repository: "Ver proyecto M4PP",
+    caseStatus: "Caso en preparación",
     projects: [
       {
         title: "Suite de automatización Playwright para M4PP",
@@ -247,7 +259,7 @@ const copy = {
     contactTitle: "Construyamos software confiable.",
     contactText:
       "Estoy disponible para oportunidades remotas de QA Senior y Mid-level en Estados Unidos, LATAM y Europa.",
-    email: "Escríbeme",
+    email: "Iniciar una conversación",
     linkedin: "LinkedIn",
     github: "GitHub",
     footer: "Diseñado alrededor de evidencia, claridad y calidad.",
@@ -260,8 +272,37 @@ export default function Home() {
   const t = copy[language];
 
   useEffect(() => {
+    let savedLanguage: string | null = null;
+
+    try {
+      savedLanguage = window.localStorage.getItem("portfolio-language");
+    } catch {
+      return;
+    }
+
+    if (savedLanguage === "en" || savedLanguage === "es") {
+      const frame = window.requestAnimationFrame(() => setLanguage(savedLanguage));
+      return () => window.cancelAnimationFrame(frame);
+    }
+  }, []);
+
+  useEffect(() => {
     document.documentElement.lang = language;
   }, [language]);
+
+  const toggleLanguage = () => {
+    setLanguage((currentLanguage) => {
+      const nextLanguage = currentLanguage === "en" ? "es" : "en";
+
+      try {
+        window.localStorage.setItem("portfolio-language", nextLanguage);
+      } catch {
+        // The language switch still works when storage is unavailable.
+      }
+
+      return nextLanguage;
+    });
+  };
 
   return (
     <main id="content" className="site-shell">
@@ -287,10 +328,12 @@ export default function Home() {
             type="button"
             variant="ghost"
             className="language-button"
-            onClick={() => setLanguage(language === "en" ? "es" : "en")}
+            onClick={toggleLanguage}
             aria-label={t.language}
           >
-            {language === "en" ? "ES" : "EN"}
+            <span className={language === "en" ? "is-active" : undefined}>EN</span>
+            <span aria-hidden="true">·</span>
+            <span className={language === "es" ? "is-active" : undefined}>ES</span>
           </Button>
           <a className="resume-link" href="/joaquin-ganan-resume.pdf" download>
             <Download aria-hidden="true" />
@@ -319,11 +362,11 @@ export default function Home() {
           <p className="hero-intro">{t.intro}</p>
 
           <div className="hero-actions">
-            <a className="primary-link" href="#impact">
+            <a className="primary-link" href="#work">
               {t.explore}
               <ArrowDown aria-hidden="true" />
             </a>
-            <a className="text-link" href="mailto:joaquinganan95@gmail.com">
+            <a className="text-link" href="#contact">
               {t.contact}
               <ArrowUpRight aria-hidden="true" />
             </a>
@@ -342,7 +385,7 @@ export default function Home() {
         </div>
       </section>
 
-      <section id="impact" className="metric-row" aria-label="Selected impact">
+      <section id="impact" className="metric-row" aria-label={t.impactLabel}>
         {t.metrics.map(([value, label]) => (
           <article className="metric" key={value}>
             <strong>{value}</strong>
@@ -365,22 +408,72 @@ export default function Home() {
         </div>
       </section>
 
+      <section id="experience" className="content-section experience-section">
+        <SectionIntro label={t.experienceLabel} title={t.experienceTitle} />
+        <div className="timeline">
+          {t.experience.map((job) => (
+            <article className="job" key={`${job.company}-${job.dates}`}>
+              <span className="job-dates">{job.dates}</span>
+              <div className="job-title">
+                <h3>{job.title}</h3>
+                <strong>{job.company}</strong>
+              </div>
+              <p>{job.text}</p>
+            </article>
+          ))}
+        </div>
+        <p className="earlier-role">{t.earlier}</p>
+      </section>
+
+      <section id="work" className="content-section work-section">
+        <SectionIntro label={t.workLabel} title={t.workTitle} />
+        <div className="project-list">
+          {t.projects.map((project, index) => (
+            <article className="project-row" key={project.title}>
+              <span className="project-number">0{index + 1}</span>
+              <div>
+                <p className="project-type">{index === 0 ? t.featured : t.confidential}</p>
+                <h3>{project.title}</h3>
+                <p>{project.text}</p>
+              </div>
+              <div className="project-meta">
+                <span>{project.meta}</span>
+                {index === 0 ? (
+                  <a
+                    href="https://github.com/joaquinganan/m4pp-sqe"
+                    target="_blank"
+                    rel="noreferrer"
+                  >
+                    {t.repository}
+                    <ArrowUpRight aria-hidden="true" />
+                  </a>
+                ) : (
+                  <span className="project-status">
+                    <i aria-hidden="true" />
+                    {t.caseStatus}
+                  </span>
+                )}
+              </div>
+            </article>
+          ))}
+        </div>
+      </section>
+
       <section id="qa-lab" className="lab-section" aria-labelledby="lab-title">
         <div className="lab-copy">
           <div className="lab-heading-row">
             <p className="section-label">{t.labLabel}</p>
-            <span className="status-badge">{t.labStatus}</span>
+            <span className="status-badge">
+              <i aria-hidden="true" />
+              {t.labStatus}
+            </span>
           </div>
           <h2 id="lab-title">{t.labTitle}</h2>
           <p className="lab-intro">{t.labIntro}</p>
 
-          <div className="lab-metrics">
-            {t.labMetrics.map(([value, label]) => (
-              <div key={label}>
-                <strong>{value}</strong>
-                <span>{label}</span>
-              </div>
-            ))}
+          <div className="lab-summary">
+            <span>{t.latestRunTitle}</span>
+            <strong>{t.latestRunText}</strong>
           </div>
 
           <div className="lab-actions">
@@ -413,65 +506,10 @@ export default function Home() {
           </div>
           <pre>{`$ npm run test:prod
 
-✓ homepage smoke tests
-✓ section navigation
-✓ external destinations
-✓ responsive layout
-✓ cross-browser coverage
+${t.terminalChecks.join("\n")}
 
-Test suites:  2 passed
-Tests:        13 passed
-Executions:   37 passed
-Projects:     5
-
-All quality checks passed.`}</pre>
+${t.terminalStatus}`}</pre>
         </div>
-      </section>
-
-      <section id="work" className="content-section work-section">
-        <SectionIntro label={t.workLabel} title={t.workTitle} />
-        <div className="project-list">
-          {t.projects.map((project, index) => (
-            <article className="project-row" key={project.title}>
-              <span className="project-number">0{index + 1}</span>
-              <div>
-                <p className="project-type">{index === 0 ? t.featured : t.confidential}</p>
-                <h3>{project.title}</h3>
-                <p>{project.text}</p>
-              </div>
-              <div className="project-meta">
-                <span>{project.meta}</span>
-                {index === 0 ? (
-                  <a
-                    href="https://github.com/joaquinganan/m4pp-sqe"
-                    target="_blank"
-                    rel="noreferrer"
-                  >
-                    {t.repository}
-                    <ArrowUpRight aria-hidden="true" />
-                  </a>
-                ) : null}
-              </div>
-            </article>
-          ))}
-        </div>
-      </section>
-
-      <section id="experience" className="content-section experience-section">
-        <SectionIntro label={t.experienceLabel} title={t.experienceTitle} />
-        <div className="timeline">
-          {t.experience.map((job) => (
-            <article className="job" key={`${job.company}-${job.dates}`}>
-              <span className="job-dates">{job.dates}</span>
-              <div className="job-title">
-                <h3>{job.title}</h3>
-                <strong>{job.company}</strong>
-              </div>
-              <p>{job.text}</p>
-            </article>
-          ))}
-        </div>
-        <p className="earlier-role">{t.earlier}</p>
       </section>
 
       <section className="content-section toolbox-section">

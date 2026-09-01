@@ -34,5 +34,8 @@ test("renders the public portfolio and E2E navigation contract", async () => {
   assert.match(html, /href="#contact">Contact<\/a>/);
   assert.match(html, /id="qa-lab"/);
   assert.match(html, /QA Automation Lab/);
+  assert.match(html, /href="#work">View selected work/);
+  assert.match(html, /View M4PP project/);
+  assert.match(html, /Case study in progress/);
   assert.match(html, /portfolio-e2e-automation/);
 });

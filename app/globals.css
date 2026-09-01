@@ -3,22 +3,29 @@
 @import "../vendor/shadcn-tailwind-4.13.0.css";
 
 :root {
-  --mughal: #2f5232;
-  --mughal-dark: #203c24;
-  --mughal-soft: #49644b;
-  --pistachio: #8aca74;
-  --bone: #dcdec5;
+  --background: #f7f8f6;
+  --surface: #eef3ec;
+  --surface-strong: #e3ebdf;
+  --ink: #202620;
+  --muted: #566157;
+  --accent: #2f5232;
+  --accent-dark: #203c24;
+  --accent-bright: #8aca74;
+  --mughal: var(--accent);
+  --mughal-dark: var(--accent-dark);
+  --mughal-soft: var(--muted);
+  --pistachio: var(--accent-bright);
+  --bone: var(--background);
   --line: rgba(47, 82, 50, 0.2);
   --line-strong: rgba(47, 82, 50, 0.42);
-  --background: var(--bone);
-  --foreground: var(--mughal);
+  --foreground: var(--ink);
   --primary: var(--mughal);
   --primary-foreground: #ffffff;
   --secondary: rgba(138, 202, 116, 0.32);
   --secondary-foreground: var(--mughal);
   --muted-foreground: var(--mughal-soft);
   --border: var(--line);
-  --accent: rgba(138, 202, 116, 0.4);
+  --ui-accent: rgba(138, 202, 116, 0.4);
   --accent-foreground: var(--mughal);
   --ring: var(--mughal);
   --radius: 0.15rem;
@@ -33,7 +40,7 @@
   --color-secondary-foreground: var(--secondary-foreground);
   --color-muted-foreground: var(--muted-foreground);
   --color-border: var(--border);
-  --color-accent: var(--accent);
+  --color-accent: var(--ui-accent);
   --color-accent-foreground: var(--accent-foreground);
   --color-ring: var(--ring);
   --radius-sm: 0;
@@ -52,8 +59,8 @@ html {
 
 body {
   margin: 0;
-  background: var(--bone);
-  color: var(--mughal);
+  background: var(--background);
+  color: var(--ink);
   font-family: Arial, Helvetica, sans-serif;
   text-rendering: optimizeLegibility;
 }
@@ -70,8 +77,12 @@ a {
 
 a:focus-visible,
 button:focus-visible {
-  outline: 2px solid var(--mughal);
+  outline: 2px solid var(--accent);
   outline-offset: 4px;
+}
+
+section[id] {
+  scroll-margin-top: 9rem;
 }
 
 .site-shell {
@@ -108,14 +119,25 @@ button:focus-visible {
 }
 
 .site-header {
+  position: sticky;
+  z-index: 50;
+  top: 0;
   min-height: 78px;
   display: flex;
   align-items: center;
   gap: 2rem;
+  background: rgba(247, 248, 246, 0.96);
   border-bottom: 1px solid var(--line);
+  backdrop-filter: blur(14px);
 }
 
 .brand {
+  min-width: 44px;
+  min-height: 44px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: flex-start;
+  color: var(--accent);
   font-family: Georgia, "Times New Roman", serif;
   font-size: 1.3rem;
   line-height: 1;
@@ -131,7 +153,7 @@ button:focus-visible {
 .site-nav a,
 .resume-link,
 .language-button {
-  font-size: 0.68rem;
+  font-size: 0.75rem;
   font-weight: 700;
   letter-spacing: 0.08em;
   text-transform: uppercase;
@@ -139,6 +161,9 @@ button:focus-visible {
 
 .site-nav a {
   position: relative;
+  min-height: 44px;
+  display: inline-flex;
+  align-items: center;
   padding-block: 0.7rem;
 }
 
@@ -164,18 +189,27 @@ button:focus-visible {
 }
 
 .language-button {
-  height: 32px;
-  min-width: 32px;
-  padding: 0;
+  min-width: 76px;
+  min-height: 44px;
+  gap: 0.32rem;
+  padding: 0 0.65rem;
+  border: 1px solid var(--line);
   border-radius: 0;
-  color: var(--mughal);
+  color: var(--muted);
+  cursor: pointer;
+}
+
+.language-button .is-active {
+  color: var(--accent);
+  font-weight: 850;
 }
 
 .resume-link {
+  min-height: 44px;
   display: inline-flex;
   align-items: center;
   gap: 0.45rem;
-  padding-bottom: 0.25rem;
+  padding: 0.25rem 0;
   border-bottom: 1px solid var(--mughal);
 }
 
@@ -199,7 +233,7 @@ button:focus-visible {
   gap: 1.1rem;
   margin-bottom: 2.5rem;
   color: var(--mughal-soft);
-  font-size: 0.74rem;
+  font-size: 0.875rem;
 }
 
 .availability,
@@ -226,7 +260,7 @@ button:focus-visible {
 .contact-label {
   margin: 0;
   color: var(--mughal);
-  font-size: 0.68rem;
+  font-size: 0.75rem;
   font-weight: 750;
   letter-spacing: 0.16em;
   text-transform: uppercase;
@@ -242,7 +276,7 @@ button:focus-visible {
 
 .hero-role {
   margin: 0.85rem 0 0;
-  color: var(--mughal);
+  color: var(--accent);
   font-family: Georgia, "Times New Roman", serif;
   font-size: clamp(1.05rem, 1.65vw, 1.45rem);
 }
@@ -261,7 +295,7 @@ button:focus-visible {
   max-width: 620px;
   margin: 0;
   color: var(--mughal-soft);
-  font-size: 0.96rem;
+  font-size: 1rem;
   line-height: 1.7;
 }
 
@@ -283,7 +317,7 @@ button:focus-visible {
   align-items: center;
   justify-content: center;
   gap: 0.55rem;
-  font-size: 0.76rem;
+  font-size: 0.875rem;
   font-weight: 700;
 }
 
@@ -299,8 +333,8 @@ button:focus-visible {
 }
 
 .text-link {
-  min-height: auto;
-  padding-block: 0.45rem;
+  min-height: 44px;
+  padding-block: 0.55rem;
   border-bottom: 1px solid var(--line-strong);
 }
 
@@ -315,7 +349,7 @@ button:focus-visible {
   width: min(100%, 510px);
   height: 430px;
   overflow: hidden;
-  background: var(--pistachio);
+  background: var(--surface-strong);
 }
 
 .portrait-frame img {
@@ -358,12 +392,12 @@ button:focus-visible {
 .metric span {
   margin-top: 0.45rem;
   color: var(--mughal-soft);
-  font-size: 0.7rem;
+  font-size: 0.875rem;
   line-height: 1.4;
 }
 
 .content-section {
-  padding: 7rem 0;
+  padding: 5.5rem 0;
 }
 
 .section-intro {
@@ -382,7 +416,7 @@ button:focus-visible {
 .contact-section h2 {
   margin: 0;
   font-family: Georgia, "Times New Roman", serif;
-  font-size: clamp(2.55rem, 4.8vw, 5rem);
+  font-size: clamp(2.75rem, 4.2vw, 3.75rem);
   font-weight: 400;
   letter-spacing: -0.05em;
   line-height: 0.98;
@@ -411,8 +445,8 @@ button:focus-visible {
 }
 
 .expertise-item > span {
-  color: var(--mughal);
-  font-size: 0.64rem;
+  color: var(--accent);
+  font-size: 0.75rem;
   font-weight: 800;
   letter-spacing: 0.13em;
 }
@@ -428,15 +462,15 @@ button:focus-visible {
   min-height: 5rem;
   margin: 0;
   color: var(--mughal-soft);
-  font-size: 0.83rem;
+  font-size: 1rem;
   line-height: 1.65;
 }
 
 .expertise-item small {
   display: block;
   margin-top: 1.8rem;
-  color: var(--mughal);
-  font-size: 0.65rem;
+  color: var(--accent);
+  font-size: 0.875rem;
   font-weight: 700;
   line-height: 1.6;
 }
@@ -446,7 +480,7 @@ button:focus-visible {
   grid-template-columns: minmax(0, 0.9fr) minmax(430px, 1.1fr);
   gap: clamp(2rem, 5vw, 5rem);
   padding: clamp(2.6rem, 5vw, 5rem);
-  background: rgba(138, 202, 116, 0.42);
+  background: var(--surface);
 }
 
 .lab-copy {
@@ -462,13 +496,24 @@ button:focus-visible {
 }
 
 .status-badge {
-  padding: 0.32rem 0.5rem;
-  border: 1px solid var(--line-strong);
-  color: var(--mughal-soft);
-  font-size: 0.58rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  color: var(--muted);
+  font-size: 0.75rem;
   font-weight: 700;
   letter-spacing: 0.08em;
   text-transform: uppercase;
+}
+
+.status-badge i,
+.project-status i {
+  width: 7px;
+  height: 7px;
+  flex: 0 0 auto;
+  border-radius: 50%;
+  background: var(--accent-bright);
+  box-shadow: 0 0 0 3px rgba(138, 202, 116, 0.18);
 }
 
 .lab-copy h2 {
@@ -479,48 +524,36 @@ button:focus-visible {
   max-width: 600px;
   margin: 1.35rem 0 0;
   color: var(--mughal-soft);
-  font-size: 0.88rem;
+  font-size: 1rem;
   line-height: 1.7;
 }
 
-.lab-metrics {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
+.lab-summary {
+  display: flex;
+  flex-direction: column;
+  gap: 0.45rem;
   margin-top: 2rem;
-  border-top: 1px solid var(--line);
-  border-bottom: 1px solid var(--line);
+  padding: 0.2rem 0 0.2rem 1rem;
+  border-left: 3px solid var(--accent);
 }
 
-.lab-metrics > div {
-  min-width: 0;
-  padding: 1.2rem 0.7rem;
-  border-right: 1px solid var(--line);
-}
-
-.lab-metrics > div:first-child {
-  padding-left: 0;
-}
-
-.lab-metrics > div:last-child {
-  border-right: 0;
-}
-
-.lab-metrics strong,
-.lab-metrics span {
+.lab-summary strong,
+.lab-summary span {
   display: block;
 }
 
-.lab-metrics strong {
+.lab-summary strong {
   font-family: Georgia, "Times New Roman", serif;
-  font-size: 1.55rem;
+  font-size: 1.08rem;
   font-weight: 400;
+  line-height: 1.45;
 }
 
-.lab-metrics span {
-  margin-top: 0.35rem;
-  color: var(--mughal-soft);
-  font-size: 0.58rem;
-  line-height: 1.3;
+.lab-summary span {
+  color: var(--muted);
+  font-size: 0.75rem;
+  font-weight: 750;
+  letter-spacing: 0.08em;
   text-transform: uppercase;
 }
 
@@ -528,8 +561,8 @@ button:focus-visible {
   min-width: 0;
   align-self: center;
   overflow: hidden;
-  background: var(--mughal);
-  color: var(--bone);
+  background: var(--accent-dark);
+  color: var(--background);
 }
 
 .terminal-bar {
@@ -538,7 +571,7 @@ button:focus-visible {
   align-items: center;
   gap: 0.45rem;
   padding: 0 1rem;
-  border-bottom: 1px solid rgba(220, 222, 197, 0.16);
+  border-bottom: 1px solid rgba(247, 248, 246, 0.16);
 }
 
 .terminal-bar i {
@@ -553,16 +586,16 @@ button:focus-visible {
 }
 
 .terminal-bar i:nth-child(3) {
-  background: var(--mughal);
+  background: rgba(247, 248, 246, 0.42);
 }
 
 .terminal pre {
-  min-height: 340px;
+  min-height: 280px;
   margin: 0;
   overflow-x: auto;
   padding: clamp(1.5rem, 3vw, 2.5rem);
-  color: var(--bone);
-  font: 0.76rem/1.72 "Courier New", monospace;
+  color: var(--background);
+  font: 0.875rem/1.72 "Courier New", monospace;
   white-space: pre-wrap;
 }
 
@@ -586,8 +619,8 @@ button:focus-visible {
 
 .project-number,
 .job-dates {
-  color: var(--mughal);
-  font-size: 0.65rem;
+  color: var(--accent);
+  font-size: 0.75rem;
   font-weight: 750;
   letter-spacing: 0.08em;
 }
@@ -610,7 +643,7 @@ button:focus-visible {
   max-width: 680px;
   margin: 0.75rem 0 0;
   color: var(--mughal-soft);
-  font-size: 0.82rem;
+  font-size: 1rem;
   line-height: 1.65;
 }
 
@@ -621,16 +654,17 @@ button:focus-visible {
   justify-content: space-between;
   gap: 1.2rem;
   color: var(--mughal-soft);
-  font-size: 0.65rem;
+  font-size: 0.875rem;
   line-height: 1.5;
   text-align: right;
 }
 
 .project-meta a {
+  min-height: 44px;
   display: inline-flex;
   align-items: center;
   gap: 0.45rem;
-  padding-bottom: 0.3rem;
+  padding: 0.55rem 0;
   border-bottom: 1px solid var(--mughal);
   color: var(--mughal);
   font-weight: 750;
@@ -638,6 +672,15 @@ button:focus-visible {
 
 .project-meta svg {
   width: 13px;
+}
+
+.project-status {
+  min-height: 44px;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.55rem;
+  color: var(--muted);
+  font-weight: 700;
 }
 
 .experience-section {
@@ -656,7 +699,7 @@ button:focus-visible {
   display: block;
   margin-top: 0.45rem;
   color: var(--mughal-soft);
-  font-size: 0.7rem;
+  font-size: 0.875rem;
 }
 
 .job > p {
@@ -666,7 +709,7 @@ button:focus-visible {
 .earlier-role {
   margin: 1.25rem 0 0;
   color: var(--mughal-soft);
-  font-size: 0.68rem;
+  font-size: 0.875rem;
 }
 
 .toolbox-section {
@@ -684,7 +727,7 @@ button:focus-visible {
 .tool-list h3 {
   margin: 0;
   color: var(--mughal);
-  font-size: 0.7rem;
+  font-size: 0.75rem;
   letter-spacing: 0.08em;
   text-transform: uppercase;
 }
@@ -692,7 +735,7 @@ button:focus-visible {
 .tool-list p {
   margin: 0;
   color: var(--mughal-soft);
-  font-size: 0.78rem;
+  font-size: 1rem;
   line-height: 1.65;
 }
 
@@ -718,8 +761,8 @@ button:focus-visible {
   align-items: center;
   gap: 4rem;
   padding: clamp(3rem, 6vw, 5rem);
-  background: var(--mughal);
-  color: var(--bone);
+  background: var(--accent);
+  color: var(--background);
 }
 
 .contact-label {
@@ -728,14 +771,14 @@ button:focus-visible {
 
 .contact-section h2 {
   margin-top: 0.8rem;
-  color: var(--bone);
+  color: var(--background);
 }
 
 .contact-section > div > p:last-child {
   max-width: 620px;
   margin: 1rem 0 0;
-  color: rgba(220, 222, 197, 0.72);
-  font-size: 0.84rem;
+  color: rgba(247, 248, 246, 0.9);
+  font-size: 1rem;
   line-height: 1.65;
 }
 
@@ -749,14 +792,18 @@ button:focus-visible {
 
 .contact-primary {
   padding: 0.75rem 1.05rem;
-  background: var(--bone);
-  color: var(--mughal);
+  background: var(--background);
+  color: var(--accent);
 }
 
 .contact-links > a:not(.contact-primary) {
-  min-height: auto;
-  color: var(--bone);
-  border-bottom: 1px solid rgba(220, 222, 197, 0.45);
+  min-height: 44px;
+  color: var(--background);
+  border-bottom: 1px solid rgba(247, 248, 246, 0.58);
+}
+
+.contact-section a:focus-visible {
+  outline-color: var(--background);
 }
 
 .site-footer {
@@ -765,7 +812,7 @@ button:focus-visible {
   align-items: center;
   gap: 1.2rem;
   color: var(--mughal-soft);
-  font-size: 0.66rem;
+  font-size: 0.8125rem;
 }
 
 .site-footer > span {
@@ -779,6 +826,7 @@ button:focus-visible {
 }
 
 .site-footer a {
+  min-height: 44px;
   display: inline-flex;
   align-items: center;
   gap: 0.4rem;
@@ -792,7 +840,31 @@ button:focus-visible {
 }
 
 @media (max-width: 1050px) {
+  section[id] {
+    scroll-margin-top: 9.5rem;
+  }
+
+  .site-header {
+    flex-wrap: wrap;
+    gap: 0.35rem 1rem;
+    padding: 0.65rem 0 0;
+  }
+
+  .brand {
+    margin-right: auto;
+  }
+
   .site-nav {
+    order: 3;
+    width: 100%;
+    margin-left: 0;
+    overflow-x: auto;
+    gap: clamp(1.25rem, 5vw, 3rem);
+    border-top: 1px solid var(--line);
+    scrollbar-width: none;
+  }
+
+  .site-nav::-webkit-scrollbar {
     display: none;
   }
 
@@ -828,7 +900,7 @@ button:focus-visible {
   .hero {
     grid-template-columns: 1fr;
     gap: 3.5rem;
-    padding-top: 54px;
+    padding-top: 48px;
   }
 
   .portrait-frame {
@@ -905,7 +977,7 @@ button:focus-visible {
 
 @media (max-width: 560px) {
   .site-header {
-    min-height: 68px;
+    min-height: 112px;
   }
 
   .header-actions {
@@ -913,6 +985,8 @@ button:focus-visible {
   }
 
   .resume-link {
+    width: 44px;
+    justify-content: center;
     font-size: 0;
   }
 
@@ -935,7 +1009,7 @@ button:focus-visible {
   }
 
   .content-section {
-    padding: 5rem 0;
+    padding: 4.5rem 0;
   }
 
   .lab-section {
@@ -943,21 +1017,9 @@ button:focus-visible {
     padding: 3.5rem 1rem;
   }
 
-  .lab-metrics {
-    grid-template-columns: repeat(2, 1fr);
-  }
-
-  .lab-metrics > div:nth-child(2) {
-    border-right: 0;
-  }
-
-  .lab-metrics > div:nth-child(-n + 2) {
-    border-bottom: 1px solid var(--line);
-  }
-
   .terminal pre {
-    min-height: 250px;
-    font-size: 0.67rem;
+    min-height: 230px;
+    font-size: 0.76rem;
   }
 
   .tool-list article,

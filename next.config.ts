@@ -6,7 +6,8 @@ const nextConfig: NextConfig = {
   output: process.env.GITHUB_ACTIONS === "true" ? "export" : undefined,
   trailingSlash: process.env.GITHUB_ACTIONS === "true",
   images: {
-    unoptimized: process.env.GITHUB_ACTIONS === "true",
+    // Keep one deterministic image path across Sites and the GitHub Pages export.
+    unoptimized: true,
   },
 };
 

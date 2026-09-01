@@ -66,8 +66,8 @@ const copy = {
     labIntro:
       "A real Playwright framework validates the experience you are using now. The interactive runner is the next step; the current suite and CI history are already public.",
     labStatus: "Lab preview",
-    latestRunTitle: "Latest production run",
-    latestRunText: "37/37 executions passing across 5 browser projects",
+    latestRunTitle: "Current production coverage",
+    latestRunText: "16 test cases · 44 cross-browser executions · 5 browser projects",
     suiteLink: "View automation suite",
     runsLink: "View latest CI run",
     terminalLabel: "Latest verified suite summary",
@@ -196,8 +196,8 @@ const copy = {
     labIntro:
       "Un framework real de Playwright valida la experiencia que estás utilizando. El runner interactivo es el próximo paso; la suite y su historial de CI ya son públicos.",
     labStatus: "Vista previa del lab",
-    latestRunTitle: "Última ejecución en producción",
-    latestRunText: "37/37 ejecuciones aprobadas en 5 proyectos de navegador",
+    latestRunTitle: "Cobertura actual en producción",
+    latestRunText: "16 casos de prueba · 44 ejecuciones cross-browser · 5 proyectos de navegador",
     suiteLink: "Ver suite de automatización",
     runsLink: "Ver última ejecución CI",
     terminalLabel: "Resumen de la última suite verificada",
@@ -540,9 +540,11 @@ export default function Home() {
         <div className="project-list">
           {t.projects.map((project, index) => (
             <article className="project-row" key={project.title}>
-              <span className="project-number">0{index + 1}</span>
               <div>
-                <p className="project-type">{index === 0 ? t.featured : t.confidential}</p>
+                <div className="project-heading">
+                  <span className="project-number" aria-hidden="true">0{index + 1}</span>
+                  <p className="project-type">{index === 0 ? t.featured : t.confidential}</p>
+                </div>
                 <h3>{project.title}</h3>
                 <p>{project.text}</p>
               </div>

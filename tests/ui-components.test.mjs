@@ -36,6 +36,10 @@ test("defines the portfolio palette and responsive accessibility rules", async (
   assert.match(css, /border-top:\s*2px solid var\(--accent\)/);
   assert.match(css, /@media \(prefers-reduced-motion:\s*no-preference\)/);
   assert.match(css, /\.site-nav a\.is-active/);
+  assert.match(css, /scroll-padding-top:\s*6\.5rem/);
+  assert.match(css, /\.resume-label-short/);
+  assert.match(css, /\.site-footer a\s*{[^}]*border-radius:\s*999px/s);
+  assert.match(css, /\.expertise-item\s*{[^}]*text-align:\s*center/s);
   assert.doesNotMatch(css, /\.site-nav\s*{[^}]*display:\s*none/s);
 });
 

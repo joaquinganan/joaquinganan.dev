@@ -27,7 +27,7 @@ test("renders the public portfolio and E2E navigation contract", async () => {
   const html = await response.text();
   assert.match(html, /<title>Joaquín Gañán \| Senior QA Engineer<\/title>/);
   assert.match(html, /<meta property="og:image" content="https:\/\/joaquinganan\.dev\/og-portfolio\.png"/);
-  assert.match(html, /aria-label="Joaquín Gañán — home"/);
+  assert.match(html, /aria-label="Joaquín Gañán - home"/);
   assert.match(html, /href="#expertise">Expertise<\/a>/);
   assert.match(html, /href="#experience">Experience<\/a>/);
   assert.match(html, /href="#work">Work<\/a>/);
@@ -35,7 +35,7 @@ test("renders the public portfolio and E2E navigation contract", async () => {
   assert.match(html, /id="qa-lab"/);
   assert.match(html, /QA Automation Lab/);
   assert.match(html, /href="#work">View selected work/);
-  assert.match(html, /Newtech SRL · Verizon contractor · 2019 — 2024/);
+  assert.match(html, /Newtech SRL · Verizon contractor · 2019 - 2024/);
   assert.match(html, /<span aria-hidden="true">01<\/span>/);
   assert.match(html, /<span aria-hidden="true">06<\/span>/);
   assert.match(html, /aria-expanded="false"/);
@@ -43,4 +43,7 @@ test("renders the public portfolio and E2E navigation contract", async () => {
   assert.match(html, /View M4PP project/);
   assert.match(html, /Case study in progress/);
   assert.match(html, /portfolio-e2e-automation/);
+  assert.match(html, /joaquin-ganan-resume-en\.pdf/);
+  assert.match(html, /Download résumé \(EN\)/);
+  assert.doesNotMatch(html, /—|–/);
 });

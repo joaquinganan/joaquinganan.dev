@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import Image from "next/image";
-import { ArrowDown, ArrowUpRight, ChevronDown, Download, Mail, MapPin } from "lucide-react";
+import { ArrowDown, ArrowUp, ArrowUpRight, ChevronDown, Download, Languages, Mail, MapPin } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 
@@ -21,6 +21,7 @@ const copy = {
     ],
     language: "Switch to Spanish",
     resume: "Download résumé (EN)",
+    resumeShort: "CV (EN)",
     availability: "Open to remote opportunities",
     location: "Santo Domingo · UTC-4",
     eyebrow: "Quality across complex systems",
@@ -37,7 +38,7 @@ const copy = {
       ["6", "QAs mentored"],
     ],
     impactLabel: "Project impact",
-    impactScope: "Newtech SRL · Verizon contractor · 2019 — 2024",
+    impactScope: "Newtech SRL · Verizon contractor · 2019 - 2024",
     expertiseLabel: "Expertise",
     expertiseTitle: "Quality from strategy to production.",
     expertise: [
@@ -100,25 +101,25 @@ const copy = {
     experienceTitle: "Enterprise scale. Hands-on depth.",
     experience: [
       {
-        dates: "2024 — 2026",
+        dates: "2024 - 2026",
         title: "Software Testing Analyst",
         company: "Thryv Dominicana",
         text: "Quality ownership for integrated web applications, API validation, accessibility, Playwright maintenance, and release readiness.",
       },
       {
-        dates: "2019 — 2024",
+        dates: "2019 - 2024",
         title: "QA Program Lead / QA Project Manager",
         company: "Newtech SRL · Verizon contractor",
-        text: "Led QA across 20+ connected applications, teams of 6–10 analysts, 100+ stakeholders, and 36+ releases per year.",
+        text: "Led QA across 20+ connected applications, teams of 6-10 analysts, 100+ stakeholders, and 36+ releases per year.",
       },
       {
-        dates: "2021 — 2023",
+        dates: "2021 - 2023",
         title: "Software QA Analyst",
         company: "Applaudo Studios",
         text: "Manual and exploratory QA across distributed Agile teams delivering web and mobile products.",
       },
     ],
-    earlier: "Earlier: Supervisor & Quality Analyst · Visionary Solutions FTZ · 2017 — 2019",
+    earlier: "Earlier: Supervisor & Quality Analyst · Visionary Solutions FTZ · 2017 - 2019",
     toolboxLabel: "Toolbox & education",
     toolboxTitle: "Hands-on where the evidence lives.",
     toolGroups: [
@@ -127,7 +128,7 @@ const copy = {
       ["Delivery", "Playwright · JavaScript · Git · GitHub Actions · Jenkins · Jira · Xray · Zephyr"],
     ],
     education: "B.S. Computer Systems Engineering · Universidad APEC (UNAPEC)",
-    languages: "Spanish — Native · English — Full professional proficiency",
+    languages: "Spanish - Native · English - Full professional proficiency",
     contactLabel: "Let’s work together",
     contactTitle: "Let’s build reliable software.",
     contactText:
@@ -149,7 +150,8 @@ const copy = {
       ["Contacto", "#contact"],
     ],
     language: "Cambiar a inglés",
-    resume: "Descargar CV (EN)",
+    resume: "Descargar CV (ES)",
+    resumeShort: "CV (ES)",
     availability: "Disponible para oportunidades remotas",
     location: "Santo Domingo · UTC-4",
     eyebrow: "Calidad en sistemas complejos",
@@ -166,7 +168,7 @@ const copy = {
       ["6", "QAs mentoreados"],
     ],
     impactLabel: "Impacto del proyecto",
-    impactScope: "Newtech SRL · Contratista de Verizon · 2019 — 2024",
+    impactScope: "Newtech SRL · Contratista de Verizon · 2019 - 2024",
     expertiseLabel: "Especialidad",
     expertiseTitle: "Calidad desde la estrategia hasta producción.",
     expertise: [
@@ -229,25 +231,25 @@ const copy = {
     experienceTitle: "Escala empresarial. Profundidad práctica.",
     experience: [
       {
-        dates: "2024 — 2026",
+        dates: "2024 - 2026",
         title: "Software Testing Analyst",
         company: "Thryv Dominicana",
         text: "Responsabilidad de calidad para aplicaciones integradas, validación API, accesibilidad, mantenimiento de Playwright y preparación de releases.",
       },
       {
-        dates: "2019 — 2024",
+        dates: "2019 - 2024",
         title: "QA Program Lead / QA Project Manager",
         company: "Newtech SRL · Contratista de Verizon",
-        text: "Lideré QA en más de 20 aplicaciones conectadas, equipos de 6–10 analistas, más de 100 stakeholders y 36+ releases al año.",
+        text: "Lideré QA en más de 20 aplicaciones conectadas, equipos de 6-10 analistas, más de 100 stakeholders y 36+ releases al año.",
       },
       {
-        dates: "2021 — 2023",
+        dates: "2021 - 2023",
         title: "Software QA Analyst",
         company: "Applaudo Studios",
         text: "QA manual y exploratorio en equipos Agile distribuidos para productos web y móviles.",
       },
     ],
-    earlier: "Anterior: Supervisor & Quality Analyst · Visionary Solutions FTZ · 2017 — 2019",
+    earlier: "Anterior: Supervisor & Quality Analyst · Visionary Solutions FTZ · 2017 - 2019",
     toolboxLabel: "Herramientas y educación",
     toolboxTitle: "Experiencia práctica donde vive la evidencia.",
     toolGroups: [
@@ -256,7 +258,7 @@ const copy = {
       ["Entrega", "Playwright · JavaScript · Git · GitHub Actions · Jenkins · Jira · Xray · Zephyr"],
     ],
     education: "Ingeniería de Sistemas de Computación · Universidad APEC (UNAPEC)",
-    languages: "Español — Nativo · Inglés — Dominio profesional completo",
+    languages: "Español - Nativo · Inglés - Dominio profesional completo",
     contactLabel: "Trabajemos juntos",
     contactTitle: "Construyamos software confiable.",
     contactText:
@@ -295,7 +297,7 @@ export default function Home() {
   }, [language]);
 
   useEffect(() => {
-    const sections = ["expertise", "experience", "work", "contact"]
+    const sections = ["expertise", "experience", "work", "qa-lab", "toolbox", "contact"]
       .map((id) => document.getElementById(id))
       .filter((section): section is HTMLElement => Boolean(section));
     const revealItems = Array.from(
@@ -369,7 +371,7 @@ export default function Home() {
       </a>
 
       <header className="site-header">
-        <a className="brand" href="#intro" aria-label="Joaquín Gañán — home">
+        <a className="brand" href="#intro" aria-label="Joaquín Gañán - home">
           JG
         </a>
 
@@ -394,13 +396,18 @@ export default function Home() {
             onClick={toggleLanguage}
             aria-label={t.language}
           >
-            <span className={language === "en" ? "is-active" : undefined}>EN</span>
-            <span aria-hidden="true">·</span>
-            <span className={language === "es" ? "is-active" : undefined}>ES</span>
+            <Languages aria-hidden="true" />
+            <span>{language.toUpperCase()}</span>
           </Button>
-          <a className="resume-link" href="/joaquin-ganan-resume.pdf" download>
+          <a
+            className="resume-link"
+            href={language === "es" ? "/joaquin-ganan-resume-es.pdf" : "/joaquin-ganan-resume-en.pdf"}
+            download
+            aria-label={t.resume}
+          >
             <Download aria-hidden="true" />
-            {t.resume}
+            <span className="resume-label-full">{t.resume}</span>
+            <span className="resume-label-short" aria-hidden="true">{t.resumeShort}</span>
           </a>
         </div>
       </header>
@@ -644,7 +651,7 @@ ${t.terminalStatus}`}</pre>
         <p>© 2026 Joaquín Gañán. {t.footer}</p>
         <a href="#intro">
           {t.backToTop}
-          <ArrowUpRight aria-hidden="true" />
+          <ArrowUp aria-hidden="true" />
         </a>
       </footer>
     </main>

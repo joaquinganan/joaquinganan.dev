@@ -24,7 +24,7 @@ export const metadata: Metadata = {
         url: "/og-portfolio.png",
         width: 1200,
         height: 630,
-        alt: "Joaquín Gañán — Senior QA Engineer",
+        alt: "Joaquín Gañán - Senior QA Engineer",
       },
     ],
   },

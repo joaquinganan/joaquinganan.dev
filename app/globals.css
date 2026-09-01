@@ -55,6 +55,7 @@
 
 html {
   scroll-behavior: smooth;
+  scroll-padding-top: 6.5rem;
 }
 
 body {
@@ -82,7 +83,7 @@ button:focus-visible {
 }
 
 section[id] {
-  scroll-margin-top: 9rem;
+  scroll-margin-top: 6.5rem;
 }
 
 .site-shell {
@@ -198,7 +199,7 @@ section[id] {
 }
 
 .language-button {
-  min-width: 76px;
+  min-width: 72px;
   min-height: 44px;
   gap: 0.32rem;
   padding: 0 0.65rem;
@@ -213,17 +214,28 @@ section[id] {
   font-weight: 850;
 }
 
+.language-button svg {
+  width: 15px;
+}
+
 .resume-link {
   min-height: 44px;
   display: inline-flex;
   align-items: center;
   gap: 0.45rem;
-  padding: 0.25rem 0;
-  border-bottom: 1px solid var(--mughal);
+  padding: 0.65rem 0.9rem;
+  border: 1px solid var(--line-strong);
+  border-radius: 999px;
+  color: var(--accent);
+  white-space: nowrap;
 }
 
 .resume-link svg {
   width: 13px;
+}
+
+.resume-label-short {
+  display: none;
 }
 
 .hero {
@@ -505,14 +517,10 @@ section[id] {
   padding: 2.25rem clamp(1.5rem, 3vw, 2.75rem);
   border-right: 1px solid var(--line);
   transition: background 220ms ease, transform 220ms ease, box-shadow 220ms ease;
-}
-
-.expertise-item:first-child {
-  padding-left: 0;
+  text-align: center;
 }
 
 .expertise-item:last-child {
-  padding-right: 0;
   border-right: 0;
 }
 
@@ -526,13 +534,18 @@ section[id] {
 .expertise-item h3 button {
   width: 100%;
   min-height: 44px;
-  display: flex;
+  display: grid;
+  grid-template-columns: 20px minmax(0, 1fr) 20px;
   align-items: center;
-  justify-content: space-between;
   gap: 1rem;
   color: inherit;
   cursor: pointer;
-  text-align: left;
+  text-align: center;
+}
+
+.expertise-item h3 button::before {
+  content: "";
+  width: 20px;
 }
 
 .expertise-item h3 svg {
@@ -540,6 +553,7 @@ section[id] {
   flex: 0 0 auto;
   color: var(--accent);
   transition: transform 220ms ease;
+  justify-self: end;
 }
 
 .expertise-item.is-expanded {
@@ -558,6 +572,7 @@ section[id] {
   color: var(--mughal-soft);
   font-size: 1rem;
   line-height: 1.65;
+  text-wrap: pretty;
 }
 
 .expertise-detail {
@@ -593,6 +608,7 @@ section[id] {
   padding: clamp(2.6rem, 5vw, 5rem);
   background: var(--surface);
   border-radius: 1rem;
+  scroll-margin-top: 7.25rem;
 }
 
 .lab-copy {
@@ -630,6 +646,7 @@ section[id] {
 
 .lab-copy h2 {
   max-width: 580px;
+  color: var(--ink);
 }
 
 .lab-intro {
@@ -638,6 +655,7 @@ section[id] {
   color: var(--mughal-soft);
   font-size: 1rem;
   line-height: 1.7;
+  text-wrap: pretty;
 }
 
 .lab-summary {
@@ -710,6 +728,7 @@ section[id] {
   color: var(--background);
   font: 0.875rem/1.72 "Courier New", monospace;
   white-space: pre-wrap;
+  overflow-wrap: anywhere;
 }
 
 .work-section {
@@ -976,6 +995,10 @@ section[id] {
   margin-left: auto;
   color: var(--mughal);
   font-weight: 750;
+  padding: 0.65rem 0.9rem;
+  border: 1px solid var(--line-strong);
+  border-radius: 999px;
+  white-space: nowrap;
 }
 
 .site-footer svg {
@@ -983,8 +1006,12 @@ section[id] {
 }
 
 @media (max-width: 1050px) {
+  html {
+    scroll-padding-top: 10rem;
+  }
+
   section[id] {
-    scroll-margin-top: 9.5rem;
+    scroll-margin-top: 10rem;
   }
 
   .site-header {
@@ -1129,13 +1156,23 @@ section[id] {
   }
 
   .resume-link {
-    width: 44px;
+    width: auto;
+    min-width: 72px;
     justify-content: center;
-    font-size: 0;
+    padding-inline: 0.65rem;
+    font-size: 0.75rem;
   }
 
   .resume-link svg {
     width: 16px;
+  }
+
+  .resume-label-full {
+    display: none;
+  }
+
+  .resume-label-short {
+    display: inline;
   }
 
   .hero {
@@ -1204,8 +1241,9 @@ section[id] {
   }
 
   .site-footer a {
-    width: 100%;
-    margin-left: 0;
+    width: auto;
+    margin-left: auto;
+    align-self: flex-end;
   }
 }
 

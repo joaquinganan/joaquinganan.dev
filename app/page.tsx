@@ -36,7 +36,8 @@ const copy = {
       ["36+", "release validations yearly"],
       ["6", "QAs mentored"],
     ],
-    impactLabel: "Selected impact",
+    impactLabel: "Project impact",
+    impactScope: "Newtech SRL · Verizon contractor · 2019 — 2024",
     expertiseLabel: "Expertise",
     expertiseTitle: "Quality from strategy to production.",
     expertise: [
@@ -164,7 +165,8 @@ const copy = {
       ["36+", "validaciones al año"],
       ["6", "QAs mentoreados"],
     ],
-    impactLabel: "Impacto seleccionado",
+    impactLabel: "Impacto del proyecto",
+    impactScope: "Newtech SRL · Contratista de Verizon · 2019 — 2024",
     expertiseLabel: "Especialidad",
     expertiseTitle: "Calidad desde la estrategia hasta producción.",
     expertise: [
@@ -385,7 +387,11 @@ export default function Home() {
         </div>
       </section>
 
-      <section id="impact" className="metric-row" aria-label={t.impactLabel}>
+      <section id="impact" className="metric-row" aria-labelledby="impact-context-title">
+        <div className="metric-context">
+          <p className="section-label">{t.impactLabel}</p>
+          <p id="impact-context-title">{t.impactScope}</p>
+        </div>
         {t.metrics.map(([value, label]) => (
           <article className="metric" key={value}>
             <strong>{value}</strong>

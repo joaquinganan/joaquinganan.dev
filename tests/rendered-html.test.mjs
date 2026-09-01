@@ -35,6 +35,7 @@ test("renders the public portfolio and E2E navigation contract", async () => {
   assert.match(html, /id="qa-lab"/);
   assert.match(html, /QA Automation Lab/);
   assert.match(html, /href="#work">View selected work/);
+  assert.match(html, /Newtech SRL · Verizon contractor · 2019 — 2024/);
   assert.match(html, /View M4PP project/);
   assert.match(html, /Case study in progress/);
   assert.match(html, /portfolio-e2e-automation/);

@@ -368,6 +368,30 @@ section[id] {
   border-bottom: 1px solid var(--line);
 }
 
+.metric-context {
+  min-height: 70px;
+  grid-column: 1 / -1;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1.5rem;
+  padding: 1rem clamp(1rem, 3vw, 2.6rem);
+  background: var(--surface);
+  border-bottom: 1px solid var(--line);
+}
+
+.metric-context p {
+  margin: 0;
+}
+
+.metric-context p:last-child {
+  color: var(--muted);
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 1rem;
+  line-height: 1.4;
+  text-align: right;
+}
+
 .metric {
   min-height: 122px;
   display: flex;
@@ -913,11 +937,11 @@ section[id] {
     grid-template-columns: repeat(2, 1fr);
   }
 
-  .metric:nth-child(2) {
+  .metric:nth-of-type(2) {
     border-right: 0;
   }
 
-  .metric:nth-child(-n + 2) {
+  .metric:nth-of-type(-n + 2) {
     border-bottom: 1px solid var(--line);
   }
 
@@ -1006,6 +1030,16 @@ section[id] {
   .metric {
     min-height: 105px;
     padding: 1.25rem 0.8rem;
+  }
+
+  .metric-context {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 0.45rem;
+  }
+
+  .metric-context p:last-child {
+    text-align: left;
   }
 
   .content-section {

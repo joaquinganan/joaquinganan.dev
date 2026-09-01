@@ -401,7 +401,7 @@ export default function Home() {
       </section>
 
       <section id="expertise" className="content-section expertise-section">
-        <SectionIntro label={t.expertiseLabel} title={t.expertiseTitle} />
+        <SectionIntro number="01" label={t.expertiseLabel} title={t.expertiseTitle} />
         <div className="expertise-grid">
           {t.expertise.map((item) => (
             <article className="expertise-item" key={item.number}>
@@ -415,7 +415,7 @@ export default function Home() {
       </section>
 
       <section id="experience" className="content-section experience-section">
-        <SectionIntro label={t.experienceLabel} title={t.experienceTitle} />
+        <SectionIntro number="02" label={t.experienceLabel} title={t.experienceTitle} />
         <div className="timeline">
           {t.experience.map((job) => (
             <article className="job" key={`${job.company}-${job.dates}`}>
@@ -432,7 +432,7 @@ export default function Home() {
       </section>
 
       <section id="work" className="content-section work-section">
-        <SectionIntro label={t.workLabel} title={t.workTitle} />
+        <SectionIntro number="03" label={t.workLabel} title={t.workTitle} />
         <div className="project-list">
           {t.projects.map((project, index) => (
             <article className="project-row" key={project.title}>
@@ -468,7 +468,10 @@ export default function Home() {
       <section id="qa-lab" className="lab-section" aria-labelledby="lab-title">
         <div className="lab-copy">
           <div className="lab-heading-row">
-            <p className="section-label">{t.labLabel}</p>
+            <p className="section-label section-marker">
+              <span aria-hidden="true">04</span>
+              <span>{t.labLabel}</span>
+            </p>
             <span className="status-badge">
               <i aria-hidden="true" />
               {t.labStatus}
@@ -518,8 +521,8 @@ ${t.terminalStatus}`}</pre>
         </div>
       </section>
 
-      <section className="content-section toolbox-section">
-        <SectionIntro label={t.toolboxLabel} title={t.toolboxTitle} />
+      <section id="toolbox" className="content-section toolbox-section">
+        <SectionIntro number="05" label={t.toolboxLabel} title={t.toolboxTitle} />
         <div className="tool-list">
           {t.toolGroups.map(([title, items]) => (
             <article key={title}>
@@ -536,7 +539,10 @@ ${t.terminalStatus}`}</pre>
 
       <section id="contact" className="contact-section">
         <div>
-          <p className="contact-label">{t.contactLabel}</p>
+          <p className="contact-label section-marker">
+            <span aria-hidden="true">06</span>
+            <span>{t.contactLabel}</span>
+          </p>
           <h2>{t.contactTitle}</h2>
           <p>{t.contactText}</p>
         </div>
@@ -568,10 +574,21 @@ ${t.terminalStatus}`}</pre>
   );
 }
 
-function SectionIntro({ label, title }: { label: string; title: string }) {
+function SectionIntro({
+  number,
+  label,
+  title,
+}: {
+  number: string;
+  label: string;
+  title: string;
+}) {
   return (
     <div className="section-intro">
-      <p className="section-label">{label}</p>
+      <p className="section-label section-marker">
+        <span aria-hidden="true">{number}</span>
+        <span>{label}</span>
+      </p>
       <h2>{title}</h2>
     </div>
   );

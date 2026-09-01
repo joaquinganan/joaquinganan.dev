@@ -266,6 +266,28 @@ section[id] {
   text-transform: uppercase;
 }
 
+.section-marker {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.8rem;
+}
+
+.section-marker > span:first-child {
+  min-width: 2rem;
+  color: var(--accent);
+  font-variant-numeric: tabular-nums;
+}
+
+.section-marker > span:first-child::after {
+  content: "";
+  width: 24px;
+  height: 1px;
+  display: inline-block;
+  margin-left: 0.65rem;
+  vertical-align: middle;
+  background: var(--accent-bright);
+}
+
 .hero-name {
   margin: 0.8rem 0 0;
   font-family: Georgia, "Times New Roman", serif;
@@ -426,18 +448,29 @@ section[id] {
 }
 
 .content-section {
-  padding: 5.5rem 0;
+  padding: 7rem 0 6rem;
 }
 
 .section-intro {
   display: grid;
   grid-template-columns: minmax(140px, 0.28fr) minmax(0, 1fr);
   gap: 2.5rem;
-  margin-bottom: 3.5rem;
+  margin-bottom: 4.25rem;
 }
 
 .section-intro .section-label {
   padding-top: 0.65rem;
+}
+
+.expertise-section {
+  border-top: 2px solid var(--accent);
+}
+
+.experience-section,
+.toolbox-section {
+  background: var(--surface);
+  box-shadow: 0 0 0 100vmax var(--surface);
+  clip-path: inset(0 -100vmax);
 }
 
 .section-intro h2,
@@ -631,7 +664,8 @@ section[id] {
 }
 
 .work-section {
-  padding-bottom: 4rem;
+  padding-bottom: 6rem;
+  border-top: 1px solid var(--line-strong);
 }
 
 .project-list,
@@ -715,7 +749,7 @@ section[id] {
 }
 
 .experience-section {
-  padding-top: 4rem;
+  padding-top: 7rem;
 }
 
 .job {
@@ -744,7 +778,8 @@ section[id] {
 }
 
 .toolbox-section {
-  padding-top: 4rem;
+  padding-top: 7rem;
+  border-top: 1px solid var(--line-strong);
 }
 
 .tool-list article {
@@ -798,6 +833,10 @@ section[id] {
 }
 
 .contact-label {
+  color: var(--pistachio);
+}
+
+.contact-label.section-marker > span:first-child {
   color: var(--pistachio);
 }
 

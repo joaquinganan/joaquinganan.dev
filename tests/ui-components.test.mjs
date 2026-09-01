@@ -32,6 +32,8 @@ test("defines the portfolio palette and responsive accessibility rules", async (
   assert.match(css, /position:\s*sticky/);
   assert.match(css, /aspect-ratio:\s*4\s*\/\s*5/);
   assert.match(css, /border-radius:\s*999px/);
+  assert.match(css, /box-shadow:\s*0 0 0 100vmax var\(--surface\)/);
+  assert.match(css, /border-top:\s*2px solid var\(--accent\)/);
   assert.doesNotMatch(css, /\.site-nav\s*{[^}]*display:\s*none/s);
 });
 

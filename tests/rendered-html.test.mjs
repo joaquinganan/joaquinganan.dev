@@ -1,10 +1,7 @@
 import assert from "node:assert/strict";
 import test from "node:test";
 
-const developmentPreviewMeta =
-  /<meta(?=[^>]*\bname=["']codex-preview["'])(?=[^>]*\bcontent=["']development["'])[^>]*>/i;
-
-test("renders development preview metadata", async () => {
+test("renders the public portfolio and E2E navigation contract", async () => {
   const workerUrl = new URL("../dist/server/index.js", import.meta.url);
   workerUrl.searchParams.set("test", `${process.pid}-${Date.now()}`);
   const { default: worker } = await import(workerUrl.href);
@@ -25,9 +22,17 @@ test("renders development preview metadata", async () => {
   );
 
   assert.equal(response.status, 200);
-  assert.match(
-    response.headers.get("content-type") ?? "",
-    /^text\/html\b/i,
-  );
-  assert.match(await response.text(), developmentPreviewMeta);
+  assert.match(response.headers.get("content-type") ?? "", /^text\/html\b/i);
+
+  const html = await response.text();
+  assert.match(html, /<title>Joaquín Gañán \| Senior QA Engineer<\/title>/);
+  assert.match(html, /<meta property="og:image" content="https:\/\/joaquinganan\.dev\/og-portfolio\.png"/);
+  assert.match(html, /aria-label="Joaquín Gañán — home"/);
+  assert.match(html, /href="#expertise">Expertise<\/a>/);
+  assert.match(html, /href="#experience">Experience<\/a>/);
+  assert.match(html, /href="#work">Work<\/a>/);
+  assert.match(html, /href="#contact">Contact<\/a>/);
+  assert.match(html, /id="qa-lab"/);
+  assert.match(html, /QA Automation Lab/);
+  assert.match(html, /portfolio-e2e-automation/);
 });

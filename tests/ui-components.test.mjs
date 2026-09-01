@@ -1,6 +1,5 @@
 import assert from "node:assert/strict";
-import { readdir, readFile } from "node:fs/promises";
-import path from "node:path";
+import { readFile } from "node:fs/promises";
 import test, { after } from "node:test";
 import { fileURLToPath } from "node:url";
 
@@ -21,31 +20,17 @@ after(async () => {
   await vite.close();
 });
 
-async function readCssTree(directory) {
-  const entries = await readdir(directory, { withFileTypes: true });
-  const contents = await Promise.all(
-    entries.map(async (entry) => {
-      const entryPath = path.join(directory, entry.name);
-      if (entry.isDirectory()) {
-        return readCssTree(entryPath);
-      }
-      return entry.name.endsWith(".css") ? readFile(entryPath, "utf8") : "";
-    }),
-  );
-  return contents.join("\n");
-}
+test("defines the portfolio palette and responsive accessibility rules", async () => {
+  const css = await readFile(new URL("../app/globals.css", import.meta.url), "utf8");
 
-test("emits the catalog's animation and scrolling utilities", async () => {
-  const css = await readCssTree(path.join(root, "dist"));
-
-  assert.match(css, /--tw-enter-opacity/);
-  assert.match(css, /scrollbar-width:\s*thin/);
-  assert.match(css, /scrollbar-width:\s*none/);
-  assert.match(css, /scrollbar-gutter:\s*stable/);
-  assert.match(css, /scroll-fade-reveal-b/);
-  assert.match(css, /mask-image:/);
-  assert.match(css, /tw-shimmer/);
-  assert.match(css, /prefers-reduced-motion:\s*reduce/);
+  assert.match(css, /--cream:\s*#f5f5d5/i);
+  assert.match(css, /--sand:\s*#c7b793/i);
+  assert.match(css, /--sage:\s*#a3b68a/i);
+  assert.match(css, /--olive:\s*#5c724a/i);
+  assert.match(css, /--forest:\s*#354a2f/i);
+  assert.match(css, /@media \(max-width:\s*560px\)/);
+  assert.match(css, /@media \(prefers-reduced-motion:\s*reduce\)/);
+  assert.match(css, /outline:\s*2px solid var\(--forest\)/);
 });
 
 test("forwards progress semantics to the primitive", async () => {

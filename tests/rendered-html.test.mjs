@@ -34,6 +34,7 @@ test("renders the public portfolio and E2E navigation contract", async () => {
   assert.match(html, /href="#contact">Contact<\/a>/);
   assert.match(html, /id="qa-lab"/);
   assert.match(html, /QA Automation Lab/);
+  assert.match(html, /16 test cases · 44 cross-browser executions · 5 browser projects/);
   assert.match(html, /href="#work">View selected work/);
   assert.match(html, /Newtech SRL · Verizon contractor · 2019 - 2024/);
   assert.match(html, /<span aria-hidden="true">01<\/span>/);
@@ -42,6 +43,8 @@ test("renders the public portfolio and E2E navigation contract", async () => {
   assert.match(html, /aria-controls="expertise-detail-0"/);
   assert.match(html, /View M4PP project/);
   assert.match(html, /Case study in progress/);
+  assert.match(html, /<div class="project-heading"><span class="project-number" aria-hidden="true">0/);
+  assert.match(html, /<p class="project-type">Public automation project<\/p>/);
   assert.match(html, /portfolio-e2e-automation/);
   assert.match(html, /joaquin-ganan-resume-en\.pdf/);
   assert.match(html, /Download résumé \(EN\)/);

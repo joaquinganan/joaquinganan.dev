@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import Image from "next/image";
-import { ArrowDown, ArrowUpRight, Download, Mail, MapPin } from "lucide-react";
+import { ArrowDown, ArrowUpRight, ChevronDown, Download, Mail, MapPin } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 
@@ -271,6 +271,8 @@ const copy = {
 
 export default function Home() {
   const [language, setLanguage] = useState<Language>("en");
+  const [activeSection, setActiveSection] = useState("");
+  const [expandedExpertise, setExpandedExpertise] = useState<number | null>(null);
   const t = copy[language];
 
   useEffect(() => {
@@ -291,6 +293,60 @@ export default function Home() {
   useEffect(() => {
     document.documentElement.lang = language;
   }, [language]);
+
+  useEffect(() => {
+    const sections = ["expertise", "experience", "work", "contact"]
+      .map((id) => document.getElementById(id))
+      .filter((section): section is HTMLElement => Boolean(section));
+    const revealItems = Array.from(
+      document.querySelectorAll<HTMLElement>(
+        ".section-intro, .expertise-item, .job, .project-row, .lab-copy, .terminal, .tool-list article, .education-row",
+      ),
+    );
+    const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+    document.documentElement.classList.add("motion-ready");
+    revealItems.forEach((item) => item.classList.add("reveal-item"));
+
+    if (reduceMotion) {
+      revealItems.forEach((item) => item.classList.add("is-visible"));
+    }
+
+    const revealObserver = reduceMotion
+      ? null
+      : new IntersectionObserver(
+          (entries, observer) => {
+            entries.forEach((entry) => {
+              if (entry.isIntersecting) {
+                entry.target.classList.add("is-visible");
+                observer.unobserve(entry.target);
+              }
+            });
+          },
+          { threshold: 0.12 },
+        );
+
+    revealItems.forEach((item) => revealObserver?.observe(item));
+
+    const navigationObserver = new IntersectionObserver(
+      (entries) => {
+        const visibleSection = entries
+          .filter((entry) => entry.isIntersecting)
+          .sort((a, b) => b.intersectionRatio - a.intersectionRatio)[0];
+
+        if (visibleSection) setActiveSection(visibleSection.target.id);
+      },
+      { rootMargin: "-28% 0px -58%", threshold: [0, 0.2, 0.5] },
+    );
+
+    sections.forEach((section) => navigationObserver.observe(section));
+
+    return () => {
+      revealObserver?.disconnect();
+      navigationObserver.disconnect();
+      document.documentElement.classList.remove("motion-ready");
+    };
+  }, []);
 
   const toggleLanguage = () => {
     setLanguage((currentLanguage) => {
@@ -319,7 +375,12 @@ export default function Home() {
 
         <nav className="site-nav" aria-label={t.navLabel}>
           {t.nav.map(([label, href]) => (
-            <a href={href} key={href}>
+            <a
+              href={href}
+              key={href}
+              className={activeSection === href.slice(1) ? "is-active" : undefined}
+              aria-current={activeSection === href.slice(1) ? "location" : undefined}
+            >
               {label}
             </a>
           ))}
@@ -403,13 +464,30 @@ export default function Home() {
       <section id="expertise" className="content-section expertise-section">
         <SectionIntro number="01" label={t.expertiseLabel} title={t.expertiseTitle} />
         <div className="expertise-grid">
-          {t.expertise.map((item) => (
-            <article className="expertise-item" key={item.title}>
-              <h3>{item.title}</h3>
+          {t.expertise.map((item, index) => {
+            const isExpanded = expandedExpertise === index;
+            const detailId = `expertise-detail-${index}`;
+
+            return (
+            <article className={`expertise-item${isExpanded ? " is-expanded" : ""}`} key={item.title}>
+              <h3>
+                <button
+                  type="button"
+                  aria-expanded={isExpanded}
+                  aria-controls={detailId}
+                  onClick={() => setExpandedExpertise(isExpanded ? null : index)}
+                >
+                  <span>{item.title}</span>
+                  <ChevronDown aria-hidden="true" />
+                </button>
+              </h3>
               <p>{item.text}</p>
-              <small>{item.detail}</small>
+              <div className="expertise-detail" id={detailId} aria-hidden={!isExpanded}>
+                <small>{item.detail}</small>
+              </div>
             </article>
-          ))}
+            );
+          })}
         </div>
       </section>
 

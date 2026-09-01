@@ -38,6 +38,8 @@ test("renders the public portfolio and E2E navigation contract", async () => {
   assert.match(html, /Newtech SRL · Verizon contractor · 2019 — 2024/);
   assert.match(html, /<span aria-hidden="true">01<\/span>/);
   assert.match(html, /<span aria-hidden="true">06<\/span>/);
+  assert.match(html, /aria-expanded="false"/);
+  assert.match(html, /aria-controls="expertise-detail-0"/);
   assert.match(html, /View M4PP project/);
   assert.match(html, /Case study in progress/);
   assert.match(html, /portfolio-e2e-automation/);

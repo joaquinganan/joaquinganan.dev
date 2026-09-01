@@ -506,15 +506,8 @@ section[id] {
   border-right: 0;
 }
 
-.expertise-item > span {
-  color: var(--accent);
-  font-size: 0.75rem;
-  font-weight: 800;
-  letter-spacing: 0.13em;
-}
-
 .expertise-item h3 {
-  margin: 2rem 0 0.85rem;
+  margin: 0 0 0.85rem;
   font-family: Georgia, "Times New Roman", serif;
   font-size: clamp(1.45rem, 2.2vw, 2.05rem);
   font-weight: 400;

@@ -404,8 +404,7 @@ export default function Home() {
         <SectionIntro number="01" label={t.expertiseLabel} title={t.expertiseTitle} />
         <div className="expertise-grid">
           {t.expertise.map((item) => (
-            <article className="expertise-item" key={item.number}>
-              <span>{item.number}</span>
+            <article className="expertise-item" key={item.title}>
               <h3>{item.title}</h3>
               <p>{item.text}</p>
               <small>{item.detail}</small>

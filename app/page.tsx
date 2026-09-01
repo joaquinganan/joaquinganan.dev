@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, type MouseEvent } from "react";
 import Image from "next/image";
 import { ArrowDown, ArrowUp, ArrowUpRight, ChevronDown, Download, Languages, Mail, MapPin } from "lucide-react";
 
@@ -364,6 +364,25 @@ export default function Home() {
     });
   };
 
+  const navigateToSection = (event: MouseEvent<HTMLAnchorElement>, href: string) => {
+    const target = document.querySelector<HTMLElement>(href);
+    const header = document.querySelector<HTMLElement>(".site-header");
+
+    if (!target || !header) return;
+
+    event.preventDefault();
+    const targetTop = window.scrollY + target.getBoundingClientRect().top;
+    const headerHeight = header.getBoundingClientRect().height;
+    const sectionId = href.slice(1);
+
+    setActiveSection(sectionId);
+    window.history.pushState(null, "", href);
+    window.scrollTo({
+      top: Math.max(0, targetTop - headerHeight - 8),
+      behavior: "smooth",
+    });
+  };
+
   return (
     <main id="content" className="site-shell">
       <a className="skip-link" href="#intro">
@@ -382,7 +401,7 @@ export default function Home() {
               key={href}
               className={activeSection === href.slice(1) ? "is-active" : undefined}
               aria-current={activeSection === href.slice(1) ? "location" : undefined}
-              onClick={() => setActiveSection(href.slice(1))}
+              onClick={(event) => navigateToSection(event, href)}
             >
               {label}
             </a>

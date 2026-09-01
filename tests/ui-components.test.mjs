@@ -23,14 +23,12 @@ after(async () => {
 test("defines the portfolio palette and responsive accessibility rules", async () => {
   const css = await readFile(new URL("../app/globals.css", import.meta.url), "utf8");
 
-  assert.match(css, /--cream:\s*#f5f5d5/i);
-  assert.match(css, /--sand:\s*#c7b793/i);
-  assert.match(css, /--sage:\s*#a3b68a/i);
-  assert.match(css, /--olive:\s*#5c724a/i);
-  assert.match(css, /--forest:\s*#354a2f/i);
+  assert.match(css, /--mughal:\s*#2f5232/i);
+  assert.match(css, /--pistachio:\s*#8aca74/i);
+  assert.match(css, /--bone:\s*#dcdec5/i);
   assert.match(css, /@media \(max-width:\s*560px\)/);
   assert.match(css, /@media \(prefers-reduced-motion:\s*reduce\)/);
-  assert.match(css, /outline:\s*2px solid var\(--forest\)/);
+  assert.match(css, /outline:\s*2px solid var\(--mughal\)/);
 });
 
 test("forwards progress semantics to the primitive", async () => {

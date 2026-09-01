@@ -3,26 +3,24 @@
 @import "../vendor/shadcn-tailwind-4.13.0.css";
 
 :root {
-  --cream: #f5f5d5;
-  --sand: #c7b793;
-  --sage: #a3b68a;
-  --olive: #5c724a;
-  --forest: #354a2f;
-  --forest-soft: #52624b;
-  --paper: #faf9e8;
-  --line: rgba(53, 74, 47, 0.22);
-  --line-strong: rgba(53, 74, 47, 0.42);
-  --background: var(--cream);
-  --foreground: var(--forest);
-  --primary: var(--olive);
+  --mughal: #2f5232;
+  --mughal-dark: #203c24;
+  --mughal-soft: #49644b;
+  --pistachio: #8aca74;
+  --bone: #dcdec5;
+  --line: rgba(47, 82, 50, 0.2);
+  --line-strong: rgba(47, 82, 50, 0.42);
+  --background: var(--bone);
+  --foreground: var(--mughal);
+  --primary: var(--mughal);
   --primary-foreground: #ffffff;
-  --secondary: rgba(163, 182, 138, 0.34);
-  --secondary-foreground: var(--forest);
-  --muted-foreground: var(--forest-soft);
+  --secondary: rgba(138, 202, 116, 0.32);
+  --secondary-foreground: var(--mughal);
+  --muted-foreground: var(--mughal-soft);
   --border: var(--line);
-  --accent: rgba(163, 182, 138, 0.42);
-  --accent-foreground: var(--forest);
-  --ring: var(--olive);
+  --accent: rgba(138, 202, 116, 0.4);
+  --accent-foreground: var(--mughal);
+  --ring: var(--mughal);
   --radius: 0.15rem;
 }
 
@@ -54,8 +52,8 @@ html {
 
 body {
   margin: 0;
-  background: var(--cream);
-  color: var(--forest);
+  background: var(--bone);
+  color: var(--mughal);
   font-family: Arial, Helvetica, sans-serif;
   text-rendering: optimizeLegibility;
 }
@@ -72,7 +70,7 @@ a {
 
 a:focus-visible,
 button:focus-visible {
-  outline: 2px solid var(--forest);
+  outline: 2px solid var(--mughal);
   outline-offset: 4px;
 }
 
@@ -88,8 +86,8 @@ button:focus-visible {
   left: 1rem;
   padding: 0.75rem 1rem;
   transform: translateY(-160%);
-  background: var(--forest);
-  color: var(--cream);
+  background: var(--mughal);
+  color: var(--bone);
   font-size: 0.82rem;
   transition: transform 160ms ease;
 }
@@ -151,7 +149,7 @@ button:focus-visible {
   bottom: 0.35rem;
   left: 0;
   height: 1px;
-  background: var(--forest);
+  background: var(--mughal);
   transition: right 160ms ease;
 }
 
@@ -170,7 +168,7 @@ button:focus-visible {
   min-width: 32px;
   padding: 0;
   border-radius: 0;
-  color: var(--forest);
+  color: var(--mughal);
 }
 
 .resume-link {
@@ -178,7 +176,7 @@ button:focus-visible {
   align-items: center;
   gap: 0.45rem;
   padding-bottom: 0.25rem;
-  border-bottom: 1px solid var(--forest);
+  border-bottom: 1px solid var(--mughal);
 }
 
 .resume-link svg {
@@ -200,7 +198,7 @@ button:focus-visible {
   flex-wrap: wrap;
   gap: 1.1rem;
   margin-bottom: 2.5rem;
-  color: var(--forest-soft);
+  color: var(--mughal-soft);
   font-size: 0.74rem;
 }
 
@@ -215,7 +213,7 @@ button:focus-visible {
   width: 7px;
   height: 7px;
   border-radius: 50%;
-  background: var(--olive);
+  background: var(--mughal);
 }
 
 .location svg {
@@ -227,7 +225,7 @@ button:focus-visible {
 .project-type,
 .contact-label {
   margin: 0;
-  color: var(--olive);
+  color: var(--mughal);
   font-size: 0.68rem;
   font-weight: 750;
   letter-spacing: 0.16em;
@@ -244,7 +242,7 @@ button:focus-visible {
 
 .hero-role {
   margin: 0.85rem 0 0;
-  color: var(--olive);
+  color: var(--mughal);
   font-family: Georgia, "Times New Roman", serif;
   font-size: clamp(1.05rem, 1.65vw, 1.45rem);
 }
@@ -262,7 +260,7 @@ button:focus-visible {
 .hero-intro {
   max-width: 620px;
   margin: 0;
-  color: var(--forest-soft);
+  color: var(--mughal-soft);
   font-size: 0.96rem;
   line-height: 1.7;
 }
@@ -291,13 +289,13 @@ button:focus-visible {
 
 .primary-link {
   padding: 0.8rem 1.15rem;
-  background: var(--olive);
+  background: var(--mughal);
   color: #fff;
   transition: background 160ms ease;
 }
 
 .primary-link:hover {
-  background: var(--forest);
+  background: var(--mughal-dark);
 }
 
 .text-link {
@@ -317,7 +315,7 @@ button:focus-visible {
   width: min(100%, 510px);
   height: 430px;
   overflow: hidden;
-  background: var(--sage);
+  background: var(--pistachio);
 }
 
 .portrait-frame img {
@@ -359,7 +357,7 @@ button:focus-visible {
 
 .metric span {
   margin-top: 0.45rem;
-  color: var(--forest-soft);
+  color: var(--mughal-soft);
   font-size: 0.7rem;
   line-height: 1.4;
 }
@@ -413,7 +411,7 @@ button:focus-visible {
 }
 
 .expertise-item > span {
-  color: var(--olive);
+  color: var(--mughal);
   font-size: 0.64rem;
   font-weight: 800;
   letter-spacing: 0.13em;
@@ -429,7 +427,7 @@ button:focus-visible {
 .expertise-item p {
   min-height: 5rem;
   margin: 0;
-  color: var(--forest-soft);
+  color: var(--mughal-soft);
   font-size: 0.83rem;
   line-height: 1.65;
 }
@@ -437,7 +435,7 @@ button:focus-visible {
 .expertise-item small {
   display: block;
   margin-top: 1.8rem;
-  color: var(--olive);
+  color: var(--mughal);
   font-size: 0.65rem;
   font-weight: 700;
   line-height: 1.6;
@@ -448,7 +446,7 @@ button:focus-visible {
   grid-template-columns: minmax(0, 0.9fr) minmax(430px, 1.1fr);
   gap: clamp(2rem, 5vw, 5rem);
   padding: clamp(2.6rem, 5vw, 5rem);
-  background: rgba(163, 182, 138, 0.42);
+  background: rgba(138, 202, 116, 0.42);
 }
 
 .lab-copy {
@@ -466,7 +464,7 @@ button:focus-visible {
 .status-badge {
   padding: 0.32rem 0.5rem;
   border: 1px solid var(--line-strong);
-  color: var(--forest-soft);
+  color: var(--mughal-soft);
   font-size: 0.58rem;
   font-weight: 700;
   letter-spacing: 0.08em;
@@ -480,7 +478,7 @@ button:focus-visible {
 .lab-intro {
   max-width: 600px;
   margin: 1.35rem 0 0;
-  color: var(--forest-soft);
+  color: var(--mughal-soft);
   font-size: 0.88rem;
   line-height: 1.7;
 }
@@ -520,7 +518,7 @@ button:focus-visible {
 
 .lab-metrics span {
   margin-top: 0.35rem;
-  color: var(--forest-soft);
+  color: var(--mughal-soft);
   font-size: 0.58rem;
   line-height: 1.3;
   text-transform: uppercase;
@@ -530,8 +528,8 @@ button:focus-visible {
   min-width: 0;
   align-self: center;
   overflow: hidden;
-  background: var(--forest);
-  color: var(--cream);
+  background: var(--mughal);
+  color: var(--bone);
 }
 
 .terminal-bar {
@@ -540,22 +538,22 @@ button:focus-visible {
   align-items: center;
   gap: 0.45rem;
   padding: 0 1rem;
-  border-bottom: 1px solid rgba(245, 245, 213, 0.16);
+  border-bottom: 1px solid rgba(220, 222, 197, 0.16);
 }
 
 .terminal-bar i {
   width: 7px;
   height: 7px;
   border-radius: 50%;
-  background: var(--sand);
+  background: var(--pistachio);
 }
 
 .terminal-bar i:nth-child(2) {
-  background: var(--sage);
+  background: var(--pistachio);
 }
 
 .terminal-bar i:nth-child(3) {
-  background: var(--olive);
+  background: var(--mughal);
 }
 
 .terminal pre {
@@ -563,7 +561,7 @@ button:focus-visible {
   margin: 0;
   overflow-x: auto;
   padding: clamp(1.5rem, 3vw, 2.5rem);
-  color: #e9efce;
+  color: var(--bone);
   font: 0.76rem/1.72 "Courier New", monospace;
   white-space: pre-wrap;
 }
@@ -588,7 +586,7 @@ button:focus-visible {
 
 .project-number,
 .job-dates {
-  color: var(--olive);
+  color: var(--mughal);
   font-size: 0.65rem;
   font-weight: 750;
   letter-spacing: 0.08em;
@@ -611,7 +609,7 @@ button:focus-visible {
 .job > p {
   max-width: 680px;
   margin: 0.75rem 0 0;
-  color: var(--forest-soft);
+  color: var(--mughal-soft);
   font-size: 0.82rem;
   line-height: 1.65;
 }
@@ -622,7 +620,7 @@ button:focus-visible {
   align-items: flex-end;
   justify-content: space-between;
   gap: 1.2rem;
-  color: var(--forest-soft);
+  color: var(--mughal-soft);
   font-size: 0.65rem;
   line-height: 1.5;
   text-align: right;
@@ -633,8 +631,8 @@ button:focus-visible {
   align-items: center;
   gap: 0.45rem;
   padding-bottom: 0.3rem;
-  border-bottom: 1px solid var(--forest);
-  color: var(--forest);
+  border-bottom: 1px solid var(--mughal);
+  color: var(--mughal);
   font-weight: 750;
 }
 
@@ -657,7 +655,7 @@ button:focus-visible {
 .job-title strong {
   display: block;
   margin-top: 0.45rem;
-  color: var(--forest-soft);
+  color: var(--mughal-soft);
   font-size: 0.7rem;
 }
 
@@ -667,7 +665,7 @@ button:focus-visible {
 
 .earlier-role {
   margin: 1.25rem 0 0;
-  color: var(--forest-soft);
+  color: var(--mughal-soft);
   font-size: 0.68rem;
 }
 
@@ -685,7 +683,7 @@ button:focus-visible {
 
 .tool-list h3 {
   margin: 0;
-  color: var(--olive);
+  color: var(--mughal);
   font-size: 0.7rem;
   letter-spacing: 0.08em;
   text-transform: uppercase;
@@ -693,7 +691,7 @@ button:focus-visible {
 
 .tool-list p {
   margin: 0;
-  color: var(--forest-soft);
+  color: var(--mughal-soft);
   font-size: 0.78rem;
   line-height: 1.65;
 }
@@ -720,23 +718,23 @@ button:focus-visible {
   align-items: center;
   gap: 4rem;
   padding: clamp(3rem, 6vw, 5rem);
-  background: var(--forest);
-  color: var(--cream);
+  background: var(--mughal);
+  color: var(--bone);
 }
 
 .contact-label {
-  color: var(--sage);
+  color: var(--pistachio);
 }
 
 .contact-section h2 {
   margin-top: 0.8rem;
-  color: var(--cream);
+  color: var(--bone);
 }
 
 .contact-section > div > p:last-child {
   max-width: 620px;
   margin: 1rem 0 0;
-  color: rgba(245, 245, 213, 0.72);
+  color: rgba(220, 222, 197, 0.72);
   font-size: 0.84rem;
   line-height: 1.65;
 }
@@ -751,14 +749,14 @@ button:focus-visible {
 
 .contact-primary {
   padding: 0.75rem 1.05rem;
-  background: var(--cream);
-  color: var(--forest);
+  background: var(--bone);
+  color: var(--mughal);
 }
 
 .contact-links > a:not(.contact-primary) {
   min-height: auto;
-  color: var(--cream);
-  border-bottom: 1px solid rgba(245, 245, 213, 0.45);
+  color: var(--bone);
+  border-bottom: 1px solid rgba(220, 222, 197, 0.45);
 }
 
 .site-footer {
@@ -766,12 +764,12 @@ button:focus-visible {
   display: flex;
   align-items: center;
   gap: 1.2rem;
-  color: var(--forest-soft);
+  color: var(--mughal-soft);
   font-size: 0.66rem;
 }
 
 .site-footer > span {
-  color: var(--forest);
+  color: var(--mughal);
   font-family: Georgia, "Times New Roman", serif;
   font-size: 1.05rem;
 }
@@ -785,7 +783,7 @@ button:focus-visible {
   align-items: center;
   gap: 0.4rem;
   margin-left: auto;
-  color: var(--forest);
+  color: var(--mughal);
   font-weight: 750;
 }
 

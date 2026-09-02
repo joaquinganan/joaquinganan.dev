@@ -1,4 +1,7 @@
-// Intentionally empty by default.
-// Add Drizzle tables here when the site actually needs a database.
-// See examples/d1/db/schema.ts for an opt-in example.
-export {};
+import { integer, sqliteTable, text } from "drizzle-orm/sqlite-core";
+
+export const qaLabDispatchLocks = sqliteTable("qa_lab_dispatch_locks", {
+  key: text("key").primaryKey(),
+  requestId: text("request_id").notNull(),
+  dispatchedAt: integer("dispatched_at").notNull(),
+});

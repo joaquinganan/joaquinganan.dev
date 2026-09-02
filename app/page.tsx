@@ -20,6 +20,7 @@ import {
 } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
+import { QaAutomationLab } from "@/components/qa-automation-lab";
 
 type Language = "en" | "es";
 
@@ -71,7 +72,7 @@ const copy = {
       ["Provisioning flow", "SME"],
     ],
     impactLabel: "Project impact",
-    impactScope: "Newtech SRL · Verizon contractor · 2019 — 2024",
+    impactScope: "Newtech SRL · Verizon contractor · 2019 - 2024",
     expertiseLabel: "Expertise",
     expertiseTitle: "Quality from strategy to production.",
     expertise: [
@@ -134,25 +135,25 @@ const copy = {
     experienceTitle: "Enterprise scale. Hands-on depth.",
     experience: [
       {
-        dates: "2024 — 2026",
+        dates: "2024 - 2026",
         title: "Software Testing Analyst",
         company: "Thryv Dominicana",
         text: "Quality ownership for integrated web applications, API validation, accessibility, Playwright maintenance, and release readiness.",
       },
       {
-        dates: "2019 — 2024",
+        dates: "2019 - 2024",
         title: "QA Program Lead / QA Project Manager",
         company: "Newtech SRL · Verizon contractor",
-        text: "Led QA across 20+ connected applications, teams of 6–10 analysts, 100+ stakeholders, and 36+ releases per year.",
+        text: "Led QA across 20+ connected applications, teams of 6-10 analysts, 100+ stakeholders, and 36+ releases per year.",
       },
       {
-        dates: "2021 — 2023",
+        dates: "2021 - 2023",
         title: "Software QA Analyst",
         company: "Applaudo Studios",
         text: "Manual and exploratory QA across distributed Agile teams delivering web and mobile products.",
       },
     ],
-    earlier: "Earlier: Supervisor & Quality Analyst · Visionary Solutions FTZ · 2017 — 2019",
+    earlier: "Earlier: Supervisor & Quality Analyst · Visionary Solutions FTZ · 2017 - 2019",
     toolboxLabel: "Toolbox & education",
     toolboxTitle: "Hands-on where the evidence lives.",
     toolGroups: [
@@ -161,7 +162,7 @@ const copy = {
       ["Delivery", "Playwright · JavaScript · Git · GitHub Actions · Jenkins · Jira · Xray · Zephyr"],
     ],
     education: "B.S. Computer Systems Engineering · Universidad APEC (UNAPEC)",
-    languages: "Spanish — Native · English — Full professional proficiency",
+    languages: "Spanish - Native · English - Full professional proficiency",
     contactLabel: "Let’s work together",
     contactTitle: "Let’s build reliable software.",
     contactText:
@@ -206,7 +207,7 @@ const copy = {
       ["Flujo de provisioning", "SME"],
     ],
     impactLabel: "Impacto del proyecto",
-    impactScope: "Newtech SRL · Contratista de Verizon · 2019 — 2024",
+    impactScope: "Newtech SRL · Contratista de Verizon · 2019 - 2024",
     expertiseLabel: "Especialidad",
     expertiseTitle: "Calidad desde la estrategia hasta producción.",
     expertise: [
@@ -269,25 +270,25 @@ const copy = {
     experienceTitle: "Escala empresarial. Profundidad práctica.",
     experience: [
       {
-        dates: "2024 — 2026",
+        dates: "2024 - 2026",
         title: "Software Testing Analyst",
         company: "Thryv Dominicana",
         text: "Responsabilidad de calidad para aplicaciones integradas, validación API, accesibilidad, mantenimiento de Playwright y preparación de releases.",
       },
       {
-        dates: "2019 — 2024",
+        dates: "2019 - 2024",
         title: "QA Program Lead / QA Project Manager",
         company: "Newtech SRL · Contratista de Verizon",
-        text: "Lideré QA en más de 20 aplicaciones conectadas, equipos de 6–10 analistas, más de 100 stakeholders y 36+ releases al año.",
+        text: "Lideré QA en más de 20 aplicaciones conectadas, equipos de 6-10 analistas, más de 100 stakeholders y 36+ releases al año.",
       },
       {
-        dates: "2021 — 2023",
+        dates: "2021 - 2023",
         title: "Software QA Analyst",
         company: "Applaudo Studios",
         text: "QA manual y exploratorio en equipos Agile distribuidos para productos web y móviles.",
       },
     ],
-    earlier: "Anterior: Supervisor & Quality Analyst · Visionary Solutions FTZ · 2017 — 2019",
+    earlier: "Anterior: Supervisor & Quality Analyst · Visionary Solutions FTZ · 2017 - 2019",
     toolboxLabel: "Herramientas y educación",
     toolboxTitle: "Experiencia práctica donde vive la evidencia.",
     toolGroups: [
@@ -296,7 +297,7 @@ const copy = {
       ["Entrega", "Playwright · JavaScript · Git · GitHub Actions · Jenkins · Jira · Xray · Zephyr"],
     ],
     education: "Ingeniería de Sistemas de Computación · Universidad APEC (UNAPEC)",
-    languages: "Español — Nativo · Inglés — Dominio profesional completo",
+    languages: "Español - Nativo · Inglés - Dominio profesional completo",
     contactLabel: "Trabajemos juntos",
     contactTitle: "Construyamos software confiable.",
     contactText:
@@ -411,7 +412,7 @@ export default function Home() {
       </a>
 
       <header className="site-header">
-        <a className="brand" href="#intro" aria-label="Joaquín Gañán — home">
+        <a className="brand" href="#intro" aria-label="Joaquín Gañán - home">
           JG
         </a>
 
@@ -623,56 +624,7 @@ export default function Home() {
       </section>
 
       <section id="qa-lab" className="lab-section" aria-labelledby="lab-title">
-        <div className="lab-copy">
-          <div className="lab-heading-row">
-            <p className="section-label">{t.labLabel}</p>
-            <span className="status-badge">
-              <i aria-hidden="true" />
-              {t.labStatus}
-            </span>
-          </div>
-          <h2 id="lab-title">{t.labTitle}</h2>
-          <p className="lab-intro">{t.labIntro}</p>
-
-          <div className="lab-summary">
-            <span>{t.latestRunTitle}</span>
-            <strong>{t.latestRunText}</strong>
-          </div>
-
-          <div className="lab-actions">
-            <a
-              className="primary-link"
-              href="https://github.com/joaquinganan/portfolio-e2e-automation"
-              target="_blank"
-              rel="noreferrer"
-            >
-              {t.suiteLink}
-              <ArrowUpRight aria-hidden="true" />
-            </a>
-            <a
-              className="text-link"
-              href="https://github.com/joaquinganan/portfolio-e2e-automation/actions"
-              target="_blank"
-              rel="noreferrer"
-            >
-              {t.runsLink}
-              <ArrowUpRight aria-hidden="true" />
-            </a>
-          </div>
-        </div>
-
-        <div className="terminal" role="img" aria-label={t.terminalLabel}>
-          <div className="terminal-bar" aria-hidden="true">
-            <i />
-            <i />
-            <i />
-          </div>
-          <pre>{`$ npm run test:prod
-
-${t.terminalChecks.join("\n")}
-
-${t.terminalStatus}`}</pre>
-        </div>
+        <QaAutomationLab language={language} />
       </section>
 
       <section id="toolbox" className="content-section toolbox-section">

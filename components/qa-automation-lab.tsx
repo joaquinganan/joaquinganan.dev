@@ -1,0 +1,354 @@
+"use client";
+
+import { useCallback, useEffect, useRef, useState } from "react";
+import {
+  ArrowUpRight,
+  Check,
+  CircleDot,
+  Clock3,
+  Code2,
+  ExternalLink,
+  GitCommitHorizontal,
+  LoaderCircle,
+  Play,
+  RefreshCw,
+  ShieldCheck,
+} from "lucide-react";
+
+type Language = "en" | "es";
+
+type LabData = {
+  run: {
+    id: number;
+    number: number;
+    title: string;
+    event: string;
+    status: string;
+    conclusion: string | null;
+    url: string;
+    branch: string;
+    commit: string;
+    commitSha: string;
+    actor: string;
+    createdAt: string;
+    startedAt: string | null;
+    updatedAt: string;
+    durationSeconds: number;
+  };
+  requestedRunFound: boolean;
+  coverage: {
+    definedTests: number;
+    executions: number;
+    projects: number;
+    categories: Array<{ name: string; defined: number; executions: number }>;
+    browsers: Array<{ project: string; target: string; executions: number }>;
+  };
+  environment: { name: string; baseUrl: string; runner: string };
+  jobs: Array<{
+    id: number;
+    name: string;
+    status: string;
+    conclusion: string | null;
+    steps?: Array<{ name: string; status: string; conclusion: string | null; number: number }>;
+  }>;
+  artifacts: Array<{ id: number; name: string; size_in_bytes: number; expired: boolean; expires_at: string }>;
+  links: { report: string; repository: string; actions: string };
+};
+
+const API_BASE = "https://joaquinganan-dev.joaquinganan.chatgpt.site";
+
+const labels = {
+  en: {
+    status: "Live QA Lab",
+    title: "This portfolio tests itself.",
+    intro: "Run the production Playwright suite and follow its progress from the same interface it validates.",
+    loading: "Loading the latest CI evidence...",
+    unavailable: "Live CI data is temporarily unavailable.",
+    retry: "Try again",
+    latest: "Latest production run",
+    run: "Run production suite",
+    running: "Suite in progress",
+    queued: "Request accepted. Waiting for a GitHub runner...",
+    cooldown: "The runner is protected by a short cooldown. Try again shortly.",
+    defined: "Tests defined",
+    executions: "Cross-browser executions",
+    projects: "Browser projects",
+    environment: "Environment",
+    commit: "Commit",
+    duration: "Duration",
+    triggered: "Triggered",
+    browserMatrix: "Browser matrix",
+    coverage: "Coverage by category",
+    progress: "Live progress",
+    evidence: "Evidence & diagnostics",
+    report: "Open HTML report",
+    workflow: "View GitHub run",
+    repository: "View framework",
+    artifacts: "Artifacts retained for 14 days",
+    passed: "Passed",
+    failed: "Failed",
+    cancelled: "Cancelled",
+    active: "Running",
+    waiting: "Waiting",
+    unknown: "Status unavailable",
+    mins: "min",
+    secure: "Server-side dispatch · 10-minute cooldown · no credentials exposed",
+    scope: "Production · Chromium, Firefox, WebKit, Pixel 7 and iPhone 15",
+  },
+  es: {
+    status: "QA Lab en vivo",
+    title: "Este portafolio se prueba a sí mismo.",
+    intro: "Ejecuta la suite de Playwright en producción y sigue su progreso desde la misma interfaz que valida.",
+    loading: "Cargando la evidencia más reciente de CI...",
+    unavailable: "Los datos de CI no están disponibles temporalmente.",
+    retry: "Intentar nuevamente",
+    latest: "Última ejecución en producción",
+    run: "Ejecutar suite en producción",
+    running: "Suite en progreso",
+    queued: "Solicitud aceptada. Esperando un runner de GitHub...",
+    cooldown: "El runner tiene un cooldown de protección. Intenta nuevamente en unos minutos.",
+    defined: "Pruebas definidas",
+    executions: "Ejecuciones cross-browser",
+    projects: "Proyectos de navegador",
+    environment: "Ambiente",
+    commit: "Commit",
+    duration: "Duración",
+    triggered: "Iniciada por",
+    browserMatrix: "Matriz de navegadores",
+    coverage: "Cobertura por categoría",
+    progress: "Progreso en vivo",
+    evidence: "Evidencia y diagnósticos",
+    report: "Abrir reporte HTML",
+    workflow: "Ver ejecución en GitHub",
+    repository: "Ver framework",
+    artifacts: "Artefactos conservados durante 14 días",
+    passed: "Aprobada",
+    failed: "Fallida",
+    cancelled: "Cancelada",
+    active: "En ejecución",
+    waiting: "En espera",
+    unknown: "Estado no disponible",
+    mins: "min",
+    secure: "Ejecución server-side · cooldown de 10 minutos · credenciales protegidas",
+    scope: "Producción · Chromium, Firefox, WebKit, Pixel 7 y iPhone 15",
+  },
+} as const;
+
+function runState(data: LabData | null, language: Language) {
+  const t = labels[language];
+  if (!data) return { text: t.unknown, tone: "neutral" };
+  if (data.run.status !== "completed") return { text: t.active, tone: "active" };
+  if (data.run.conclusion === "success") return { text: t.passed, tone: "passed" };
+  if (data.run.conclusion === "cancelled") return { text: t.cancelled, tone: "neutral" };
+  return { text: t.failed, tone: "failed" };
+}
+
+function formatDuration(seconds: number) {
+  if (seconds < 60) return `${seconds}s`;
+  const minutes = Math.floor(seconds / 60);
+  const remainder = seconds % 60;
+  return `${minutes}m ${remainder}s`;
+}
+
+export function QaAutomationLab({ language }: { language: Language }) {
+  const t = labels[language];
+  const [data, setData] = useState<LabData | null>(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState("");
+  const [requestId, setRequestId] = useState<string | null>(null);
+  const [dispatching, setDispatching] = useState(false);
+  const pollRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  const loadStatus = useCallback(async (correlationId?: string | null) => {
+    const url = new URL("/api/qa-lab", API_BASE);
+    if (correlationId) url.searchParams.set("request_id", correlationId);
+    const response = await fetch(url, { headers: { Accept: "application/json" } });
+    if (!response.ok) throw new Error("status");
+    const nextData = (await response.json()) as LabData;
+    setData(nextData);
+    setError("");
+    setLoading(false);
+    return nextData;
+  }, []);
+
+  useEffect(() => {
+    const timer = window.setTimeout(() => {
+      loadStatus().catch(() => {
+        setError(t.unavailable);
+        setLoading(false);
+      });
+    }, 0);
+
+    return () => window.clearTimeout(timer);
+  }, [loadStatus, t.unavailable]);
+
+  useEffect(() => () => {
+    if (pollRef.current) clearTimeout(pollRef.current);
+  }, []);
+
+  useEffect(() => {
+    if (!requestId) return;
+
+    let cancelled = false;
+    const poll = async () => {
+      try {
+        const nextData = await loadStatus(requestId);
+        const finished = nextData.requestedRunFound && nextData.run.status === "completed";
+        if (finished) {
+          setRequestId(null);
+          return;
+        }
+      } catch {
+        // Keep polling transient GitHub API failures for the active request.
+      }
+      if (!cancelled) pollRef.current = setTimeout(poll, 5000);
+    };
+
+    pollRef.current = setTimeout(poll, 2500);
+    return () => {
+      cancelled = true;
+      if (pollRef.current) clearTimeout(pollRef.current);
+    };
+  }, [loadStatus, requestId]);
+
+  const dispatch = async () => {
+    setDispatching(true);
+    setError("");
+    try {
+      const response = await fetch(new URL("/api/qa-lab", API_BASE), {
+        method: "POST",
+        headers: { "Content-Type": "application/json", Accept: "application/json" },
+        body: JSON.stringify({ intent: "run-production-regression", website: "" }),
+      });
+      const payload = (await response.json()) as { requestId?: string; error?: string; run?: LabData["run"] };
+      if (response.status === 409 && payload.run) {
+        setData((current) => current ? { ...current, run: payload.run! } : current);
+        setError(t.running);
+        return;
+      }
+      if (response.status === 429) {
+        setError(t.cooldown);
+        return;
+      }
+      if (!response.ok || !payload.requestId) throw new Error(payload.error ?? "dispatch");
+      setRequestId(payload.requestId);
+    } catch {
+      setError(t.unavailable);
+    } finally {
+      setDispatching(false);
+    }
+  };
+
+  const state = runState(data, language);
+  const isActive = dispatching || Boolean(requestId) || data?.run.status !== "completed";
+  const testJob = data?.jobs.find((job) => job.name.toLowerCase().includes("test")) ?? data?.jobs[0];
+  const progressSteps = testJob?.steps ?? [];
+
+  return (
+    <div className="qa-lab-live">
+      <div className="qa-lab-intro">
+        <div>
+          <div className="lab-heading-row">
+            <p className="section-label">QA Automation Lab</p>
+            <span className={`run-badge run-badge-${state.tone}`}><CircleDot aria-hidden="true" />{t.status}</span>
+          </div>
+          <h2 id="lab-title">{t.title}</h2>
+          <p>{t.intro}</p>
+        </div>
+        <div className="qa-lab-run-control">
+          <button type="button" className="qa-run-button" onClick={dispatch} disabled={isActive}>
+            {isActive ? <LoaderCircle className="spin" aria-hidden="true" /> : <Play aria-hidden="true" />}
+            {isActive ? t.running : t.run}
+          </button>
+          <span><ShieldCheck aria-hidden="true" />{t.secure}</span>
+        </div>
+      </div>
+
+      {loading ? (
+        <div className="qa-lab-message"><LoaderCircle className="spin" aria-hidden="true" />{t.loading}</div>
+      ) : error && !data ? (
+        <div className="qa-lab-message qa-lab-error">
+          <span>{error}</span>
+          <button type="button" onClick={() => { setLoading(true); loadStatus().catch(() => setLoading(false)); }}>
+            <RefreshCw aria-hidden="true" />{t.retry}
+          </button>
+        </div>
+      ) : data ? (
+        <>
+          {(requestId || error) && <div className="qa-lab-notice" role="status">{requestId ? t.queued : error}</div>}
+
+          <div className="qa-run-overview">
+            <div className="qa-run-heading">
+              <div>
+                <span>{t.latest}</span>
+                <strong>#{data.run.number}</strong>
+              </div>
+              <span className={`run-badge run-badge-${state.tone}`}>
+                {state.tone === "passed" ? <Check aria-hidden="true" /> : state.tone === "active" ? <LoaderCircle className="spin" aria-hidden="true" /> : <CircleDot aria-hidden="true" />}
+                {state.text}
+              </span>
+            </div>
+
+            <div className="qa-metric-grid">
+              <article><strong>{data.coverage.definedTests}</strong><span>{t.defined}</span></article>
+              <article><strong>{data.coverage.executions}</strong><span>{t.executions}</span></article>
+              <article><strong>{data.coverage.projects}</strong><span>{t.projects}</span></article>
+            </div>
+
+            <dl className="qa-run-meta">
+              <div><dt><Code2 aria-hidden="true" />{t.environment}</dt><dd><a href={data.environment.baseUrl}>{data.environment.name}</a></dd></div>
+              <div><dt><GitCommitHorizontal aria-hidden="true" />{t.commit}</dt><dd><a href={`https://github.com/joaquinganan/portfolio-e2e-automation/commit/${data.run.commitSha}`} target="_blank" rel="noreferrer">{data.run.commit}</a></dd></div>
+              <div><dt><Clock3 aria-hidden="true" />{t.duration}</dt><dd>{formatDuration(data.run.durationSeconds)}</dd></div>
+              <div><dt><Play aria-hidden="true" />{t.triggered}</dt><dd>{data.run.actor}</dd></div>
+            </dl>
+          </div>
+
+          <div className="qa-lab-details">
+            <article className="qa-panel">
+              <h3>{t.browserMatrix}</h3>
+              <div className="browser-matrix">
+                {data.coverage.browsers.map((browser) => (
+                  <div key={browser.project}><span><i aria-hidden="true" />{browser.target}</span><strong>{browser.executions}</strong></div>
+                ))}
+              </div>
+              <p>{t.scope}</p>
+            </article>
+
+            <article className="qa-panel">
+              <h3>{t.coverage}</h3>
+              <div className="coverage-bars">
+                {data.coverage.categories.map((category) => (
+                  <div key={category.name}>
+                    <span>{category.name}<small>{category.defined} / {category.executions}</small></span>
+                    <i><b style={{ width: `${(category.executions / data.coverage.executions) * 100}%` }} /></i>
+                  </div>
+                ))}
+              </div>
+            </article>
+
+            <article className="qa-panel qa-progress-panel">
+              <h3>{t.progress}</h3>
+              <ol className="qa-progress-list">
+                {progressSteps.length ? progressSteps.map((step) => (
+                  <li key={`${step.number}-${step.name}`} className={`step-${step.conclusion ?? step.status}`}>
+                    {step.conclusion === "success" ? <Check aria-hidden="true" /> : step.status === "in_progress" ? <LoaderCircle className="spin" aria-hidden="true" /> : <span aria-hidden="true" />}
+                    <span>{step.name}</span>
+                  </li>
+                )) : <li><span aria-hidden="true" /><span>{t.waiting}</span></li>}
+              </ol>
+            </article>
+          </div>
+
+          <div className="qa-evidence">
+            <div><h3>{t.evidence}</h3><p>{t.artifacts}</p></div>
+            <div className="qa-evidence-links">
+              <a className="primary-link" href={data.links.report} target="_blank" rel="noreferrer">{t.report}<ExternalLink aria-hidden="true" /></a>
+              <a href={data.run.url} target="_blank" rel="noreferrer">{t.workflow}<ArrowUpRight aria-hidden="true" /></a>
+              <a href={data.links.repository} target="_blank" rel="noreferrer">{t.repository}<ArrowUpRight aria-hidden="true" /></a>
+            </div>
+          </div>
+        </>
+      ) : null}
+    </div>
+  );
+}

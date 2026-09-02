@@ -54,7 +54,7 @@ const copy = {
       ["6+", "QAs mentored"],
       ["Global", "multinational delivery teams"],
       ["E2E", "UI + backend validation"],
-      ["Provisioning", "flow SME"],
+      ["Provisioning flow", "SME"],
     ],
     impactLabel: "Project impact",
     impactScope: "Newtech SRL · Verizon contractor · 2019 - 2024",
@@ -187,7 +187,7 @@ const copy = {
       ["6+", "QAs mentoreados"],
       ["Global", "equipos multinacionales"],
       ["E2E", "validación de UI + backend"],
-      ["Provisioning", "SME de flujos"],
+      ["Flujo de provisioning", "SME"],
     ],
     impactLabel: "Impacto del proyecto",
     impactScope: "Newtech SRL · Contratista de Verizon · 2019 - 2024",
@@ -510,7 +510,10 @@ export default function Home() {
                   const MetricIcon = metricIcons[index];
 
                   return (
-                    <article className="metric" key={`${value}-${label}`}>
+                    <article
+                      className={`metric${index === metricIcons.length - 1 ? " metric-long" : ""}`}
+                      key={`${value}-${label}`}
+                    >
                       <MetricIcon aria-hidden="true" />
                       <div>
                         <strong>{value}</strong>

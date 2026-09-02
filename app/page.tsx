@@ -168,6 +168,8 @@ const copy = {
     linkedin: "LinkedIn",
     github: "GitHub",
     footer: "Designed around evidence, clarity, and quality.",
+    trademarkNotice:
+      "Company and product trademarks belong to their respective owners. Their appearance identifies professional experience and does not imply endorsement or affiliation.",
     backToTop: "Back to top",
   },
   es: {
@@ -300,6 +302,8 @@ const copy = {
     linkedin: "LinkedIn",
     github: "GitHub",
     footer: "Diseñado alrededor de evidencia, claridad y calidad.",
+    trademarkNotice:
+      "Las marcas de empresas y productos pertenecen a sus respectivos propietarios. Su aparición identifica experiencia profesional y no implica respaldo ni afiliación.",
     backToTop: "Volver arriba",
   },
 } as const;
@@ -560,6 +564,7 @@ export default function Home() {
                         width={40}
                         height={40}
                         sizes="40px"
+                        unoptimized
                       />
                     </span>
                   ))}
@@ -703,7 +708,10 @@ ${t.terminalStatus}`}</pre>
 
       <footer className="site-footer">
         <span>JG</span>
-        <p>© 2026 Joaquín Gañán. {t.footer}</p>
+        <div className="footer-copy">
+          <p>© 2026 Joaquín Gañán. {t.footer}</p>
+          <small>{t.trademarkNotice}</small>
+        </div>
         <a href="#intro">
           {t.backToTop}
           <ArrowUpRight aria-hidden="true" />

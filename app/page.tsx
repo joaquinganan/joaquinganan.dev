@@ -2,7 +2,23 @@
 
 import { useEffect, useState, type MouseEvent } from "react";
 import Image from "next/image";
-import { ArrowDown, ArrowUp, ArrowUpRight, ChevronDown, Download, Languages, Mail, MapPin } from "lucide-react";
+import {
+  AppWindow,
+  ArrowDown,
+  ArrowUp,
+  ArrowUpRight,
+  CalendarCheck,
+  ChevronDown,
+  Download,
+  Globe2,
+  GraduationCap,
+  Languages,
+  Mail,
+  MapPin,
+  Network,
+  Users,
+  Workflow,
+} from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 
@@ -34,8 +50,11 @@ const copy = {
     metrics: [
       ["20+", "integrated applications"],
       ["100+", "stakeholders coordinated"],
-      ["36+", "release validations yearly"],
-      ["6", "QAs mentored"],
+      ["36+", "release validations per year"],
+      ["6+", "QAs mentored"],
+      ["Global", "multinational delivery teams"],
+      ["E2E", "UI + backend validation"],
+      ["Provisioning", "flow SME"],
     ],
     impactLabel: "Project impact",
     impactScope: "Newtech SRL · Verizon contractor · 2019 - 2024",
@@ -164,8 +183,11 @@ const copy = {
     metrics: [
       ["20+", "aplicaciones integradas"],
       ["100+", "stakeholders coordinados"],
-      ["36+", "validaciones al año"],
-      ["6", "QAs mentoreados"],
+      ["36+", "validaciones de release por año"],
+      ["6+", "QAs mentoreados"],
+      ["Global", "equipos multinacionales"],
+      ["E2E", "validación de UI + backend"],
+      ["Provisioning", "SME de flujos"],
     ],
     impactLabel: "Impacto del proyecto",
     impactScope: "Newtech SRL · Contratista de Verizon · 2019 - 2024",
@@ -480,12 +502,27 @@ export default function Home() {
           <p className="section-label">{t.impactLabel}</p>
           <p id="impact-context-title">{t.impactScope}</p>
         </div>
-        {t.metrics.map(([value, label]) => (
-          <article className="metric" key={value}>
-            <strong>{value}</strong>
-            <span>{label}</span>
-          </article>
-        ))}
+        <div className="metric-marquee">
+          <div className="metric-track">
+            {[false, true].map((isDuplicate) => (
+              <div className="metric-set" aria-hidden={isDuplicate || undefined} key={String(isDuplicate)}>
+                {t.metrics.map(([value, label], index) => {
+                  const MetricIcon = metricIcons[index];
+
+                  return (
+                    <article className="metric" key={`${value}-${label}`}>
+                      <MetricIcon aria-hidden="true" />
+                      <div>
+                        <strong>{value}</strong>
+                        <span>{label}</span>
+                      </div>
+                    </article>
+                  );
+                })}
+              </div>
+            ))}
+          </div>
+        </div>
       </section>
 
       <section id="expertise" className="content-section expertise-section">
@@ -673,6 +710,8 @@ ${t.terminalStatus}`}</pre>
     </main>
   );
 }
+
+const metricIcons = [AppWindow, Users, CalendarCheck, GraduationCap, Globe2, Workflow, Network];
 
 function SectionIntro({
   label,

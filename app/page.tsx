@@ -558,13 +558,13 @@ export default function Home() {
                 <div className="job-brands">
                   {experienceBrands[index].map((brand) => (
                     <span className="job-brand" key={brand.name} title={brand.name}>
-                      <Image
+                      {/* Static brand assets intentionally bypass image transformation. */}
+                      {/* eslint-disable-next-line @next/next/no-img-element */}
+                      <img
                         src={brand.src}
                         alt={`${brand.name} logo`}
                         width={40}
                         height={40}
-                        sizes="40px"
-                        unoptimized
                       />
                     </span>
                   ))}
@@ -708,14 +708,12 @@ ${t.terminalStatus}`}</pre>
 
       <footer className="site-footer">
         <span>JG</span>
-        <div className="footer-copy">
-          <p>© 2026 Joaquín Gañán. {t.footer}</p>
-          <small>{t.trademarkNotice}</small>
-        </div>
+        <p>© 2026 Joaquín Gañán. {t.footer}</p>
         <a href="#intro">
           {t.backToTop}
           <ArrowUpRight aria-hidden="true" />
         </a>
+        <small className="footer-trademark">{t.trademarkNotice}</small>
       </footer>
     </main>
   );

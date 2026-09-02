@@ -488,8 +488,10 @@ export function QaAutomationLab({ language }: { language: Language }) {
             <div><h3>{t.evidence}</h3><p>{t.artifacts}</p></div>
             <div className="qa-evidence-links">
               <a className="primary-link" href={data.links.report} target="_blank" rel="noreferrer">{t.report}<ExternalLink aria-hidden="true" /></a>
-              <a href={data.run.url} target="_blank" rel="noreferrer">{t.workflow}<ArrowUpRight aria-hidden="true" /></a>
-              <a href={data.links.repository} target="_blank" rel="noreferrer">{t.repository}<ArrowUpRight aria-hidden="true" /></a>
+              <div className="qa-evidence-secondary">
+                <a href={data.run.url} target="_blank" rel="noreferrer">{t.workflow}<ArrowUpRight aria-hidden="true" /></a>
+                <a href={data.links.repository} target="_blank" rel="noreferrer">{t.repository}<ArrowUpRight aria-hidden="true" /></a>
+              </div>
             </div>
           </footer>
         </>

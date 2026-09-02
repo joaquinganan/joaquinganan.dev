@@ -38,6 +38,9 @@ test("defines the portfolio palette and responsive accessibility rules", async (
   assert.match(css, /box-shadow:\s*0 0 0 100vmax var\(--surface\)/);
   assert.match(css, /\.lab-section\s*\{[\s\S]*?background:\s*#000;[\s\S]*?box-shadow:\s*none;/);
   assert.match(css, /\.toolbox-section\s*\{[\s\S]*?box-shadow:\s*0 0 0 100vmax var\(--background\)/);
+  assert.match(css, /\.qa-evidence-secondary\s*\{[\s\S]*?display:\s*flex;[\s\S]*?justify-content:\s*flex-end;/);
+  assert.match(css, /\.footer-trademark\s*\{[\s\S]*?grid-column:\s*1 \/ -1;[\s\S]*?max-width:\s*none;/);
+  assert.match(css, /\.content-section\[id\]\s*\{\s*scroll-margin-top:\s*-1\.25rem;/);
   assert.match(css, /\.site-header\s*{[^}]*width:\s*100%/s);
   assert.doesNotMatch(css, /\.section-marker\s*{/);
   assert.match(css, /@media \(prefers-reduced-motion:\s*no-preference\)/);

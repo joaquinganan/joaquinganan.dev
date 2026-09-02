@@ -11,6 +11,7 @@ import {
   Download,
   Globe2,
   GraduationCap,
+  Languages,
   Mail,
   MapPin,
   Network,
@@ -433,9 +434,8 @@ export default function Home() {
             onClick={toggleLanguage}
             aria-label={t.language}
           >
-            <span className={language === "en" ? "is-active" : undefined}>EN</span>
-            <span aria-hidden="true">·</span>
-            <span className={language === "es" ? "is-active" : undefined}>ES</span>
+            <Languages aria-hidden="true" />
+            <span>{language.toUpperCase()}</span>
           </Button>
           <a className="resume-link" href="/joaquin-ganan-resume.pdf" download>
             <Download aria-hidden="true" />

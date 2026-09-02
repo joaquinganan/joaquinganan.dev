@@ -202,19 +202,24 @@ section[id] {
 }
 
 .language-button {
-  min-width: 76px;
+  min-width: 82px;
   min-height: 44px;
-  gap: 0.32rem;
-  padding: 0 0.65rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0 0.9rem;
   border: 1px solid var(--line);
   border-radius: 999px;
-  color: var(--muted);
+  background: #f7f8f6;
+  color: var(--mughal-soft);
   cursor: pointer;
 }
 
-.language-button .is-active {
-  color: var(--accent);
-  font-weight: 850;
+.language-button svg {
+  width: 16px;
+  height: 16px;
+  flex: 0 0 16px;
 }
 
 .resume-link {
@@ -1036,8 +1041,8 @@ section[id] {
   max-width: 82ch;
   margin-top: 0.5rem;
   padding-top: 1rem;
-  border-top: 1px solid color-mix(in srgb, var(--bone) 24%, transparent);
-  color: color-mix(in srgb, var(--bone) 82%, transparent);
+  border-top: 1px solid var(--line);
+  color: var(--mughal-soft);
   font-size: 0.75rem;
   line-height: 1.5;
 }

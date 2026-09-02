@@ -49,8 +49,8 @@ test("returns normalized live QA Lab evidence without exposing its credential", 
     assert.equal(response.status, 200);
     assert.equal(body.run.conclusion, "success");
     assert.equal(body.run.commit, "1234567");
-    assert.equal(body.coverage.definedTests, 16);
-    assert.equal(body.coverage.executions, 44);
+    assert.equal(body.coverage.definedTests, 28);
+    assert.equal(body.coverage.executions, 78);
     assert.equal(body.coverage.projects, 5);
     assert.doesNotMatch(JSON.stringify(body), /never-return-this-token/);
   } finally {

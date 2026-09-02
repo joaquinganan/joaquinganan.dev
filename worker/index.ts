@@ -142,13 +142,13 @@ async function getQaLabStatus(request: Request, env: Env) {
     run: normalizeRun(selectedRun),
     requestedRunFound: requestId ? Boolean(requestedRun) : true,
     coverage: {
-      definedTests: 16,
-      executions: 44,
+      definedTests: 28,
+      executions: 78,
       projects: 5,
       categories: [
-        { name: "Smoke", defined: 3, executions: 9 },
-        { name: "Regression", defined: 9, executions: 27 },
-        { name: "Responsive", defined: 4, executions: 8 },
+        { name: "Smoke", defined: 5, executions: 15 },
+        { name: "Regression", defined: 17, executions: 51 },
+        { name: "Responsive", defined: 6, executions: 12 },
       ],
       browsers: [
         { project: "chromium-desktop", target: "Desktop Chrome", executions: 12 },

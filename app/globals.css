@@ -710,7 +710,6 @@ button:focus-visible {
 
 .work-section {
   padding-bottom: 6rem;
-  border-top: 1px solid var(--line-strong);
 }
 
 .project-list,

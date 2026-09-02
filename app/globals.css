@@ -55,7 +55,6 @@
 
 html {
   scroll-behavior: smooth;
-  scroll-padding-top: 6.5rem;
 }
 
 body {
@@ -80,6 +79,10 @@ a:focus-visible,
 button:focus-visible {
   outline: 2px solid var(--accent);
   outline-offset: 4px;
+}
+
+section[id] {
+  scroll-margin-top: 9rem;
 }
 
 .site-shell {
@@ -179,14 +182,12 @@ button:focus-visible {
   transition: right 160ms ease;
 }
 
-.site-nav a.is-active {
-  color: var(--accent);
+.site-nav a:hover::after {
+  right: 0;
 }
 
-@media (hover: hover) and (pointer: fine) {
-  .site-nav a:hover::after {
-    right: 0;
-  }
+.site-nav a.is-active {
+  color: var(--accent);
 }
 
 .site-nav a.is-active::after {
@@ -201,7 +202,7 @@ button:focus-visible {
 }
 
 .language-button {
-  min-width: 72px;
+  min-width: 76px;
   min-height: 44px;
   gap: 0.32rem;
   padding: 0 0.65rem;
@@ -216,28 +217,17 @@ button:focus-visible {
   font-weight: 850;
 }
 
-.language-button svg {
-  width: 15px;
-}
-
 .resume-link {
   min-height: 44px;
   display: inline-flex;
   align-items: center;
   gap: 0.45rem;
-  padding: 0.65rem 0.9rem;
-  border: 1px solid var(--line-strong);
-  border-radius: 999px;
-  color: var(--accent);
-  white-space: nowrap;
+  padding: 0.25rem 0;
+  border-bottom: 1px solid var(--mughal);
 }
 
 .resume-link svg {
   width: 13px;
-}
-
-.resume-label-short {
-  display: none;
 }
 
 .hero {
@@ -539,10 +529,14 @@ button:focus-visible {
   padding: 2.25rem clamp(1.5rem, 3vw, 2.75rem);
   border-right: 1px solid var(--line);
   transition: background 220ms ease, transform 220ms ease, box-shadow 220ms ease;
-  text-align: center;
+}
+
+.expertise-item:first-child {
+  padding-left: 0;
 }
 
 .expertise-item:last-child {
+  padding-right: 0;
   border-right: 0;
 }
 
@@ -556,18 +550,13 @@ button:focus-visible {
 .expertise-item h3 button {
   width: 100%;
   min-height: 44px;
-  display: grid;
-  grid-template-columns: 20px minmax(0, 1fr) 20px;
+  display: flex;
   align-items: center;
+  justify-content: space-between;
   gap: 1rem;
   color: inherit;
   cursor: pointer;
-  text-align: center;
-}
-
-.expertise-item h3 button::before {
-  content: "";
-  width: 20px;
+  text-align: left;
 }
 
 .expertise-item h3 svg {
@@ -575,7 +564,6 @@ button:focus-visible {
   flex: 0 0 auto;
   color: var(--accent);
   transition: transform 220ms ease;
-  justify-self: end;
 }
 
 .expertise-item.is-expanded {
@@ -594,7 +582,6 @@ button:focus-visible {
   color: var(--mughal-soft);
   font-size: 1rem;
   line-height: 1.65;
-  text-wrap: pretty;
 }
 
 .expertise-detail {
@@ -667,7 +654,6 @@ button:focus-visible {
 
 .lab-copy h2 {
   max-width: 580px;
-  color: var(--ink);
 }
 
 .lab-intro {
@@ -676,7 +662,6 @@ button:focus-visible {
   color: var(--mughal-soft);
   font-size: 1rem;
   line-height: 1.7;
-  text-wrap: pretty;
 }
 
 .lab-summary {
@@ -749,7 +734,6 @@ button:focus-visible {
   color: var(--background);
   font: 0.875rem/1.72 "Courier New", monospace;
   white-space: pre-wrap;
-  overflow-wrap: anywhere;
 }
 
 .work-section {
@@ -882,6 +866,32 @@ button:focus-visible {
   margin-top: 0.45rem;
   color: var(--mughal-soft);
   font-size: 0.875rem;
+}
+
+.job-brands {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+  margin-bottom: 1rem;
+}
+
+.job-brand {
+  width: 44px;
+  height: 44px;
+  display: grid;
+  place-items: center;
+  flex: 0 0 44px;
+  padding: 6px;
+  overflow: hidden;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  background: var(--background);
+}
+
+.job-brand img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
 }
 
 .job > p {
@@ -1025,10 +1035,6 @@ button:focus-visible {
   margin-left: auto;
   color: var(--mughal);
   font-weight: 750;
-  padding: 0.65rem 0.9rem;
-  border: 1px solid var(--line-strong);
-  border-radius: 999px;
-  white-space: nowrap;
 }
 
 .site-footer svg {
@@ -1036,8 +1042,8 @@ button:focus-visible {
 }
 
 @media (max-width: 1050px) {
-  html {
-    scroll-padding-top: 10rem;
+  section[id] {
+    scroll-margin-top: 9.5rem;
   }
 
   .site-header {
@@ -1145,7 +1151,6 @@ button:focus-visible {
     gap: 1rem;
   }
 
-
   .project-meta {
     align-items: flex-start;
     text-align: left;
@@ -1171,23 +1176,13 @@ button:focus-visible {
   }
 
   .resume-link {
-    width: auto;
-    min-width: 72px;
+    width: 44px;
     justify-content: center;
-    padding-inline: 0.65rem;
-    font-size: 0.75rem;
+    font-size: 0;
   }
 
   .resume-link svg {
     width: 16px;
-  }
-
-  .resume-label-full {
-    display: none;
-  }
-
-  .resume-label-short {
-    display: inline;
   }
 
   .hero {
@@ -1268,7 +1263,6 @@ button:focus-visible {
   .site-footer a {
     width: auto;
     margin-left: 0;
-    align-self: auto;
   }
 }
 

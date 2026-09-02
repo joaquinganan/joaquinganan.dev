@@ -1,18 +1,16 @@
 "use client";
 
-import { useEffect, useState, type MouseEvent } from "react";
+import { useEffect, useState } from "react";
 import Image from "next/image";
 import {
   AppWindow,
   ArrowDown,
-  ArrowUp,
   ArrowUpRight,
   CalendarCheck,
   ChevronDown,
   Download,
   Globe2,
   GraduationCap,
-  Languages,
   Mail,
   MapPin,
   Network,
@@ -23,6 +21,21 @@ import {
 import { Button } from "@/components/ui/button";
 
 type Language = "en" | "es";
+
+const experienceBrands = [
+  [
+    { name: "Thryv", src: "/company-logos/thryv.png" },
+    { name: "Keap", src: "/company-logos/keap.png" },
+  ],
+  [
+    { name: "Newtech", src: "/company-logos/newtech.png" },
+    { name: "Verizon", src: "/company-logos/verizon.png" },
+  ],
+  [
+    { name: "Applaudo Studios", src: "/company-logos/applaudo.png" },
+    { name: "GoLuuk", src: "/company-logos/goluuk.jpg" },
+  ],
+] as const;
 
 const copy = {
   en: {
@@ -37,7 +50,6 @@ const copy = {
     ],
     language: "Switch to Spanish",
     resume: "Download résumé (EN)",
-    resumeShort: "CV (EN)",
     availability: "Open to remote opportunities",
     location: "Santo Domingo · UTC-4",
     eyebrow: "Quality across complex systems",
@@ -57,7 +69,7 @@ const copy = {
       ["Provisioning flow", "SME"],
     ],
     impactLabel: "Project impact",
-    impactScope: "Newtech SRL · Verizon contractor · 2019 - 2024",
+    impactScope: "Newtech SRL · Verizon contractor · 2019 — 2024",
     expertiseLabel: "Expertise",
     expertiseTitle: "Quality from strategy to production.",
     expertise: [
@@ -120,25 +132,25 @@ const copy = {
     experienceTitle: "Enterprise scale. Hands-on depth.",
     experience: [
       {
-        dates: "2024 - 2026",
+        dates: "2024 — 2026",
         title: "Software Testing Analyst",
         company: "Thryv Dominicana",
         text: "Quality ownership for integrated web applications, API validation, accessibility, Playwright maintenance, and release readiness.",
       },
       {
-        dates: "2019 - 2024",
+        dates: "2019 — 2024",
         title: "QA Program Lead / QA Project Manager",
         company: "Newtech SRL · Verizon contractor",
-        text: "Led QA across 20+ connected applications, teams of 6-10 analysts, 100+ stakeholders, and 36+ releases per year.",
+        text: "Led QA across 20+ connected applications, teams of 6–10 analysts, 100+ stakeholders, and 36+ releases per year.",
       },
       {
-        dates: "2021 - 2023",
+        dates: "2021 — 2023",
         title: "Software QA Analyst",
         company: "Applaudo Studios",
         text: "Manual and exploratory QA across distributed Agile teams delivering web and mobile products.",
       },
     ],
-    earlier: "Earlier: Supervisor & Quality Analyst · Visionary Solutions FTZ · 2017 - 2019",
+    earlier: "Earlier: Supervisor & Quality Analyst · Visionary Solutions FTZ · 2017 — 2019",
     toolboxLabel: "Toolbox & education",
     toolboxTitle: "Hands-on where the evidence lives.",
     toolGroups: [
@@ -147,7 +159,7 @@ const copy = {
       ["Delivery", "Playwright · JavaScript · Git · GitHub Actions · Jenkins · Jira · Xray · Zephyr"],
     ],
     education: "B.S. Computer Systems Engineering · Universidad APEC (UNAPEC)",
-    languages: "Spanish - Native · English - Full professional proficiency",
+    languages: "Spanish — Native · English — Full professional proficiency",
     contactLabel: "Let’s work together",
     contactTitle: "Let’s build reliable software.",
     contactText:
@@ -169,8 +181,7 @@ const copy = {
       ["Contacto", "#contact"],
     ],
     language: "Cambiar a inglés",
-    resume: "Descargar CV (ES)",
-    resumeShort: "CV (ES)",
+    resume: "Descargar CV (EN)",
     availability: "Disponible para oportunidades remotas",
     location: "Santo Domingo · UTC-4",
     eyebrow: "Calidad en sistemas complejos",
@@ -190,7 +201,7 @@ const copy = {
       ["Flujo de provisioning", "SME"],
     ],
     impactLabel: "Impacto del proyecto",
-    impactScope: "Newtech SRL · Contratista de Verizon · 2019 - 2024",
+    impactScope: "Newtech SRL · Contratista de Verizon · 2019 — 2024",
     expertiseLabel: "Especialidad",
     expertiseTitle: "Calidad desde la estrategia hasta producción.",
     expertise: [
@@ -253,25 +264,25 @@ const copy = {
     experienceTitle: "Escala empresarial. Profundidad práctica.",
     experience: [
       {
-        dates: "2024 - 2026",
+        dates: "2024 — 2026",
         title: "Software Testing Analyst",
         company: "Thryv Dominicana",
         text: "Responsabilidad de calidad para aplicaciones integradas, validación API, accesibilidad, mantenimiento de Playwright y preparación de releases.",
       },
       {
-        dates: "2019 - 2024",
+        dates: "2019 — 2024",
         title: "QA Program Lead / QA Project Manager",
         company: "Newtech SRL · Contratista de Verizon",
-        text: "Lideré QA en más de 20 aplicaciones conectadas, equipos de 6-10 analistas, más de 100 stakeholders y 36+ releases al año.",
+        text: "Lideré QA en más de 20 aplicaciones conectadas, equipos de 6–10 analistas, más de 100 stakeholders y 36+ releases al año.",
       },
       {
-        dates: "2021 - 2023",
+        dates: "2021 — 2023",
         title: "Software QA Analyst",
         company: "Applaudo Studios",
         text: "QA manual y exploratorio en equipos Agile distribuidos para productos web y móviles.",
       },
     ],
-    earlier: "Anterior: Supervisor & Quality Analyst · Visionary Solutions FTZ · 2017 - 2019",
+    earlier: "Anterior: Supervisor & Quality Analyst · Visionary Solutions FTZ · 2017 — 2019",
     toolboxLabel: "Herramientas y educación",
     toolboxTitle: "Experiencia práctica donde vive la evidencia.",
     toolGroups: [
@@ -280,7 +291,7 @@ const copy = {
       ["Entrega", "Playwright · JavaScript · Git · GitHub Actions · Jenkins · Jira · Xray · Zephyr"],
     ],
     education: "Ingeniería de Sistemas de Computación · Universidad APEC (UNAPEC)",
-    languages: "Español - Nativo · Inglés - Dominio profesional completo",
+    languages: "Español — Nativo · Inglés — Dominio profesional completo",
     contactLabel: "Trabajemos juntos",
     contactTitle: "Construyamos software confiable.",
     contactText:
@@ -319,7 +330,7 @@ export default function Home() {
   }, [language]);
 
   useEffect(() => {
-    const sections = ["expertise", "experience", "work", "qa-lab", "toolbox", "contact"]
+    const sections = ["expertise", "experience", "work", "contact"]
       .map((id) => document.getElementById(id))
       .filter((section): section is HTMLElement => Boolean(section));
     const revealItems = Array.from(
@@ -386,25 +397,6 @@ export default function Home() {
     });
   };
 
-  const navigateToSection = (event: MouseEvent<HTMLAnchorElement>, href: string) => {
-    const target = document.querySelector<HTMLElement>(href);
-    const header = document.querySelector<HTMLElement>(".site-header");
-
-    if (!target || !header) return;
-
-    event.preventDefault();
-    const targetTop = window.scrollY + target.getBoundingClientRect().top;
-    const headerHeight = header.getBoundingClientRect().height;
-    const sectionId = href.slice(1);
-
-    setActiveSection(sectionId);
-    window.history.pushState(null, "", href);
-    window.scrollTo({
-      top: Math.max(0, targetTop - headerHeight - 8),
-      behavior: "smooth",
-    });
-  };
-
   return (
     <main id="content" className="site-shell">
       <a className="skip-link" href="#intro">
@@ -412,7 +404,7 @@ export default function Home() {
       </a>
 
       <header className="site-header">
-        <a className="brand" href="#intro" aria-label="Joaquín Gañán - home">
+        <a className="brand" href="#intro" aria-label="Joaquín Gañán — home">
           JG
         </a>
 
@@ -423,7 +415,6 @@ export default function Home() {
               key={href}
               className={activeSection === href.slice(1) ? "is-active" : undefined}
               aria-current={activeSection === href.slice(1) ? "location" : undefined}
-              onClick={(event) => navigateToSection(event, href)}
             >
               {label}
             </a>
@@ -438,18 +429,13 @@ export default function Home() {
             onClick={toggleLanguage}
             aria-label={t.language}
           >
-            <Languages aria-hidden="true" />
-            <span>{language.toUpperCase()}</span>
+            <span className={language === "en" ? "is-active" : undefined}>EN</span>
+            <span aria-hidden="true">·</span>
+            <span className={language === "es" ? "is-active" : undefined}>ES</span>
           </Button>
-          <a
-            className="resume-link"
-            href={language === "es" ? "/joaquin-ganan-resume-es.pdf" : "/joaquin-ganan-resume-en.pdf"}
-            download
-            aria-label={t.resume}
-          >
+          <a className="resume-link" href="/joaquin-ganan-resume.pdf" download>
             <Download aria-hidden="true" />
-            <span className="resume-label-full">{t.resume}</span>
-            <span className="resume-label-short" aria-hidden="true">{t.resumeShort}</span>
+            {t.resume}
           </a>
         </div>
       </header>
@@ -561,10 +547,23 @@ export default function Home() {
       <section id="experience" className="content-section experience-section">
         <SectionIntro label={t.experienceLabel} title={t.experienceTitle} />
         <div className="timeline">
-          {t.experience.map((job) => (
+          {t.experience.map((job, index) => (
             <article className="job" key={`${job.company}-${job.dates}`}>
               <span className="job-dates">{job.dates}</span>
               <div className="job-title">
+                <div className="job-brands">
+                  {experienceBrands[index].map((brand) => (
+                    <span className="job-brand" key={brand.name} title={brand.name}>
+                      <Image
+                        src={brand.src}
+                        alt={`${brand.name} logo`}
+                        width={40}
+                        height={40}
+                        sizes="40px"
+                      />
+                    </span>
+                  ))}
+                </div>
                 <h3>{job.title}</h3>
                 <strong>{job.company}</strong>
               </div>
@@ -707,7 +706,7 @@ ${t.terminalStatus}`}</pre>
         <p>© 2026 Joaquín Gañán. {t.footer}</p>
         <a href="#intro">
           {t.backToTop}
-          <ArrowUp aria-hidden="true" />
+          <ArrowUpRight aria-hidden="true" />
         </a>
       </footer>
     </main>

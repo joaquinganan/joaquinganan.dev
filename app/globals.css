@@ -635,8 +635,8 @@ section[id] {
   overflow: hidden;
   border: 1px solid rgba(138, 202, 116, 0.24);
   border-radius: 1.25rem;
-  background: var(--accent-dark);
-  box-shadow: 0 24px 60px rgba(32, 60, 36, 0.16);
+  background: #000;
+  box-shadow: none;
   color: var(--background);
 }
 
@@ -1538,6 +1538,8 @@ section[id] {
 .toolbox-section {
   padding-top: 7rem;
   background: var(--background);
+  box-shadow: 0 0 0 100vmax var(--background);
+  clip-path: inset(0 -100vmax);
 }
 
 .tool-list article:last-child,

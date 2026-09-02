@@ -28,6 +28,9 @@ test("defines the portfolio palette and responsive accessibility rules", async (
   assert.match(css, /--accent-bright:\s*#8aca74/i);
   assert.match(css, /@media \(max-width:\s*560px\)/);
   assert.match(css, /@media \(prefers-reduced-motion:\s*reduce\)/);
+  assert.match(css, /@keyframes metric-scroll/);
+  assert.match(css, /\.metric-marquee:hover \.metric-track/);
+  assert.match(css, /\.metric-set\[aria-hidden="true"\]/);
   assert.match(css, /outline:\s*2px solid var\(--accent\)/);
   assert.match(css, /position:\s*sticky/);
   assert.match(css, /aspect-ratio:\s*4\s*\/\s*5/);

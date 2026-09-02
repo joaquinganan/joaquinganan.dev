@@ -49,6 +49,8 @@ test("defines the portfolio palette and responsive accessibility rules", async (
   assert.match(css, /@media \(prefers-reduced-motion:\s*no-preference\)/);
   assert.match(css, /\.site-nav a\.is-active/);
   assert.doesNotMatch(css, /\.site-nav\s*{[^}]*display:\s*none/s);
+  assert.match(css, /\.expertise-item\s*{[\s\S]*?padding:\s*2\.25rem clamp\(1\.75rem, 2\.5vw, 2\.25rem\)/);
+  assert.doesNotMatch(css, /\.expertise-item:first-child\s*{\s*padding-left:\s*0/);
   assert.match(lab, /setAwaitingRequestedRun\(true\)/);
   assert.match(lab, /const progressSteps = awaitingRequestedRun \? \[\]/);
   assert.match(lab, /awaitingRequestedRun \? t\.starting : t\.waiting/);

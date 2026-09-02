@@ -593,17 +593,12 @@ section[id] {
 
 .expertise-item {
   min-width: 0;
-  padding: 2.25rem clamp(1.5rem, 3vw, 2.75rem);
+  padding: 2.25rem clamp(1.75rem, 2.5vw, 2.25rem);
   border-right: 1px solid var(--line);
   transition: background 220ms ease, transform 220ms ease, box-shadow 220ms ease;
 }
 
-.expertise-item:first-child {
-  padding-left: 0;
-}
-
 .expertise-item:last-child {
-  padding-right: 0;
   border-right: 0;
 }
 
@@ -1855,7 +1850,7 @@ section[id] {
   .expertise-item,
   .expertise-item:first-child,
   .expertise-item:last-child {
-    padding: 2rem 0;
+    padding: 2rem clamp(1rem, 4vw, 1.5rem);
     border-right: 0;
     border-bottom: 1px solid var(--line);
   }

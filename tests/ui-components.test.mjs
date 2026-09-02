@@ -22,6 +22,7 @@ after(async () => {
 
 test("defines the portfolio palette and responsive accessibility rules", async () => {
   const css = await readFile(new URL("../app/globals.css", import.meta.url), "utf8");
+  const lab = await readFile(new URL("../components/qa-automation-lab.tsx", import.meta.url), "utf8");
 
   assert.match(css, /--background:\s*#f7f8f6/i);
   assert.match(css, /--accent:\s*#2f5232/i);
@@ -48,6 +49,9 @@ test("defines the portfolio palette and responsive accessibility rules", async (
   assert.match(css, /@media \(prefers-reduced-motion:\s*no-preference\)/);
   assert.match(css, /\.site-nav a\.is-active/);
   assert.doesNotMatch(css, /\.site-nav\s*{[^}]*display:\s*none/s);
+  assert.match(lab, /setAwaitingRequestedRun\(true\)/);
+  assert.match(lab, /const progressSteps = awaitingRequestedRun \? \[\]/);
+  assert.match(lab, /awaitingRequestedRun \? t\.starting : t\.waiting/);
 });
 
 test("forwards progress semantics to the primitive", async () => {

@@ -51,6 +51,7 @@ const copy = {
     ],
     language: "Switch to Spanish",
     resume: "Download résumé (EN)",
+    resumeShort: "CV (EN)",
     availability: "Open to remote opportunities",
     location: "Santo Domingo · UTC-4",
     eyebrow: "Quality across complex systems",
@@ -184,7 +185,8 @@ const copy = {
       ["Contacto", "#contact"],
     ],
     language: "Cambiar a inglés",
-    resume: "Descargar CV (EN)",
+    resume: "Descargar CV (ES)",
+    resumeShort: "CV (ES)",
     availability: "Disponible para oportunidades remotas",
     location: "Santo Domingo · UTC-4",
     eyebrow: "Calidad en sistemas complejos",
@@ -437,9 +439,14 @@ export default function Home() {
             <Languages aria-hidden="true" />
             <span>{language.toUpperCase()}</span>
           </Button>
-          <a className="resume-link" href="/joaquin-ganan-resume.pdf" download>
+          <a
+            className="resume-link"
+            href={language === "es" ? "/joaquin-ganan-resume-es.pdf" : "/joaquin-ganan-resume.pdf"}
+            download={language === "es" ? "CV-Joaquin-Ganan-ES.pdf" : "CV-Joaquin-Ganan-EN.pdf"}
+          >
             <Download aria-hidden="true" />
-            {t.resume}
+            <span className="resume-long">{t.resume}</span>
+            <span className="resume-short">{t.resumeShort}</span>
           </a>
         </div>
       </header>

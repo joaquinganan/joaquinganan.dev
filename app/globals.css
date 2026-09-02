@@ -442,6 +442,15 @@ button:focus-visible {
   flex-direction: column;
 }
 
+.metric-long {
+  width: clamp(300px, 26vw, 360px);
+}
+
+.metric-long strong {
+  font-size: clamp(1.65rem, 2.4vw, 2.35rem);
+  white-space: nowrap;
+}
+
 .metric strong {
   font-family: Georgia, "Times New Roman", serif;
   font-size: clamp(2.1rem, 3.6vw, 3.4rem);
@@ -1194,6 +1203,14 @@ button:focus-visible {
     width: 230px;
     min-height: 110px;
     padding: 1.25rem;
+  }
+
+  .metric-long {
+    width: 290px;
+  }
+
+  .metric-long strong {
+    font-size: 1.7rem;
   }
 
   .metric-context {

@@ -134,6 +134,9 @@ async function getQaLabStatus(request: Request, env: Env) {
   const artifactsPayload = (await artifactsResponse.json()) as {
     artifacts: Array<{ id: number; name: string; size_in_bytes: number; expired: boolean; expires_at: string }>;
   };
+  const reportArtifact = artifactsPayload.artifacts.find(
+    (artifact) => artifact.name === "playwright-report" && !artifact.expired,
+  );
 
   return json(request, {
     run: normalizeRun(selectedRun),
@@ -157,9 +160,14 @@ async function getQaLabStatus(request: Request, env: Env) {
     },
     environment: { name: "Production", baseUrl: "https://joaquinganan.dev", runner: "ubuntu-latest" },
     jobs: jobsPayload.jobs,
-    artifacts: artifactsPayload.artifacts,
+    artifacts: artifactsPayload.artifacts.map((artifact) => ({
+      ...artifact,
+      downloadUrl: `${selectedRun.html_url}/artifacts/${artifact.id}`,
+    })),
     links: {
-      report: `https://${GITHUB_OWNER}.github.io/${GITHUB_REPO}/`,
+      report: reportArtifact
+        ? `${selectedRun.html_url}/artifacts/${reportArtifact.id}`
+        : selectedRun.html_url,
       repository: `https://github.com/${GITHUB_OWNER}/${GITHUB_REPO}`,
       actions: `https://github.com/${GITHUB_OWNER}/${GITHUB_REPO}/actions/workflows/${GITHUB_WORKFLOW}`,
     },

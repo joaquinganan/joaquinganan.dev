@@ -681,14 +681,16 @@ export default function Home() {
             <Mail aria-hidden="true" />
             {t.email}
           </a>
-          <a href="https://www.linkedin.com/in/joaquinganan95" target="_blank" rel="noreferrer">
-            {t.linkedin}
-            <ArrowUpRight aria-hidden="true" />
-          </a>
-          <a href="https://github.com/joaquinganan" target="_blank" rel="noreferrer">
-            {t.github}
-            <ArrowUpRight aria-hidden="true" />
-          </a>
+          <div className="contact-secondary-links">
+            <a href="https://www.linkedin.com/in/joaquinganan95" target="_blank" rel="noreferrer">
+              {t.linkedin}
+              <ArrowUpRight aria-hidden="true" />
+            </a>
+            <a href="https://github.com/joaquinganan" target="_blank" rel="noreferrer">
+              {t.github}
+              <ArrowUpRight aria-hidden="true" />
+            </a>
+          </div>
         </div>
       </section>
 

@@ -40,7 +40,7 @@ test("renders the public portfolio and E2E navigation contract", async () => {
   assert.match(html, /<strong>6\\+<\\/strong><span>QAs mentored<\\/span>/);
   assert.match(html, /multinational delivery teams/);
   assert.match(html, /UI \\+ backend validation/);
-  assert.match(html, /Provisioning.*flow SME/);
+  assert.match(html, /<strong>Provisioning flow<\/strong><span>SME<\/span>/);
   assert.doesNotMatch(html, /class="section-label section-marker"/);
   assert.match(html, /aria-expanded="false"/);
   assert.match(html, /aria-controls="expertise-detail-0"/);

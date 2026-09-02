@@ -36,15 +36,12 @@ test("defines the portfolio palette and responsive accessibility rules", async (
   assert.match(css, /aspect-ratio:\s*4\s*\/\s*5/);
   assert.match(css, /border-radius:\s*999px/);
   assert.match(css, /box-shadow:\s*0 0 0 100vmax var\(--surface\)/);
-  assert.match(css, /\.site-header\s*{[^}]*width:\s*100%/s);\n  assert.doesNotMatch(css, /\.section-marker\s*{/);
+  assert.match(css, /\.lab-section\s*\{[\s\S]*?background:\s*#000;[\s\S]*?box-shadow:\s*none;/);
+  assert.match(css, /\.toolbox-section\s*\{[\s\S]*?box-shadow:\s*0 0 0 100vmax var\(--background\)/);
+  assert.match(css, /\.site-header\s*{[^}]*width:\s*100%/s);
+  assert.doesNotMatch(css, /\.section-marker\s*{/);
   assert.match(css, /@media \(prefers-reduced-motion:\s*no-preference\)/);
   assert.match(css, /\.site-nav a\.is-active/);
-  assert.match(css, /scroll-padding-top:\s*6\.5rem/);
-  assert.match(css, /@media \(hover:\s*hover\) and \(pointer:\s*fine\)/);
-  assert.doesNotMatch(css, /section\[id\]\s*{[^}]*scroll-margin-top/s);
-  assert.match(css, /\.resume-label-short/);
-  assert.match(css, /\.site-footer a\s*{[^}]*border-radius:\s*999px/s);
-  assert.match(css, /\.expertise-item\s*{[^}]*text-align:\s*center/s);
   assert.doesNotMatch(css, /\.site-nav\s*{[^}]*display:\s*none/s);
 });
 

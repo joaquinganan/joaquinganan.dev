@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState, type ReactNode } from "react";
 import {
   ArrowUpRight,
   Check,
@@ -14,8 +14,16 @@ import {
   RefreshCw,
   ShieldCheck,
 } from "lucide-react";
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from "@/components/ui/accordion";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 type Language = "en" | "es";
+type LabView = "overview" | "browsers" | "coverage" | "progress";
 
 type LabData = {
   run: {
@@ -61,7 +69,7 @@ const labels = {
   en: {
     status: "Live QA Lab",
     title: "This portfolio tests itself.",
-    intro: "Run the production Playwright suite and follow its progress from the same interface it validates.",
+    intro: "Run the production Playwright suite and inspect its latest CI evidence.",
     loading: "Loading the latest CI evidence...",
     unavailable: "Live CI data is temporarily unavailable.",
     retry: "Try again",
@@ -74,11 +82,16 @@ const labels = {
     executions: "Cross-browser executions",
     projects: "Browser projects",
     environment: "Environment",
+    runner: "Runner",
+    branch: "Branch",
     commit: "Commit",
     duration: "Duration",
-    triggered: "Triggered",
+    triggered: "Triggered by",
+    overview: "Overview",
+    browsers: "Browsers",
     browserMatrix: "Browser matrix",
-    coverage: "Coverage by category",
+    coverage: "Coverage",
+    coverageCategory: "Coverage by category",
     progress: "Live progress",
     evidence: "Evidence & diagnostics",
     report: "Download HTML report",
@@ -91,14 +104,13 @@ const labels = {
     active: "Running",
     waiting: "Waiting",
     unknown: "Status unavailable",
-    mins: "min",
     secure: "Server-side dispatch · 10-minute cooldown · no credentials exposed",
     scope: "Production · Chromium, Firefox, WebKit, Pixel 7 and iPhone 15",
   },
   es: {
     status: "QA Lab en vivo",
     title: "Este portafolio se prueba a sí mismo.",
-    intro: "Ejecuta la suite de Playwright en producción y sigue su progreso desde la misma interfaz que valida.",
+    intro: "Ejecuta la suite de Playwright en producción y revisa su evidencia más reciente de CI.",
     loading: "Cargando la evidencia más reciente de CI...",
     unavailable: "Los datos de CI no están disponibles temporalmente.",
     retry: "Intentar nuevamente",
@@ -111,11 +123,16 @@ const labels = {
     executions: "Ejecuciones cross-browser",
     projects: "Proyectos de navegador",
     environment: "Ambiente",
+    runner: "Runner",
+    branch: "Rama",
     commit: "Commit",
     duration: "Duración",
     triggered: "Iniciada por",
+    overview: "Resumen",
+    browsers: "Navegadores",
     browserMatrix: "Matriz de navegadores",
-    coverage: "Cobertura por categoría",
+    coverage: "Cobertura",
+    coverageCategory: "Cobertura por categoría",
     progress: "Progreso en vivo",
     evidence: "Evidencia y diagnósticos",
     report: "Descargar reporte HTML",
@@ -128,7 +145,6 @@ const labels = {
     active: "En ejecución",
     waiting: "En espera",
     unknown: "Estado no disponible",
-    mins: "min",
     secure: "Ejecución server-side · cooldown de 10 minutos · credenciales protegidas",
     scope: "Producción · Chromium, Firefox, WebKit, Pixel 7 y iPhone 15",
   },
@@ -157,6 +173,7 @@ export function QaAutomationLab({ language }: { language: Language }) {
   const [error, setError] = useState("");
   const [requestId, setRequestId] = useState<string | null>(null);
   const [dispatching, setDispatching] = useState(false);
+  const [activeView, setActiveView] = useState<LabView>("overview");
   const pollRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   const loadStatus = useCallback(async (correlationId?: string | null) => {
@@ -213,6 +230,7 @@ export function QaAutomationLab({ language }: { language: Language }) {
 
   const dispatch = async () => {
     setDispatching(true);
+    setActiveView("progress");
     setError("");
     try {
       const response = await fetch(new URL("/api/qa-lab", API_BASE), {
@@ -240,14 +258,72 @@ export function QaAutomationLab({ language }: { language: Language }) {
   };
 
   const state = runState(data, language);
-  const isActive = dispatching || Boolean(requestId) || data?.run.status !== "completed";
+  const isActive = dispatching || Boolean(requestId) || (data ? data.run.status !== "completed" : true);
   const testJob = data?.jobs.find((job) => job.name.toLowerCase().includes("test")) ?? data?.jobs[0];
   const progressSteps = testJob?.steps ?? [];
 
+  const overviewContent = data ? (
+    <div className="qa-overview-content">
+      <dl className="qa-overview-list">
+        <div><dt>{t.environment}</dt><dd><a href={data.environment.baseUrl}>{data.environment.name}</a></dd></div>
+        <div><dt>{t.runner}</dt><dd>{data.environment.runner}</dd></div>
+        <div><dt>{t.branch}</dt><dd>{data.run.branch}</dd></div>
+        <div><dt>{t.triggered}</dt><dd>{data.run.actor}</dd></div>
+      </dl>
+      <p className="qa-scope"><Code2 aria-hidden="true" />{t.scope}</p>
+    </div>
+  ) : null;
+
+  const browsersContent = data ? (
+    <div className="qa-detail-content">
+      <h3>{t.browserMatrix}</h3>
+      <div className="browser-matrix">
+        {data.coverage.browsers.map((browser) => (
+          <div key={browser.project}><span><i aria-hidden="true" />{browser.target}</span><strong>{browser.executions}</strong></div>
+        ))}
+      </div>
+    </div>
+  ) : null;
+
+  const coverageContent = data ? (
+    <div className="qa-detail-content">
+      <h3>{t.coverageCategory}</h3>
+      <div className="coverage-bars">
+        {data.coverage.categories.map((category) => (
+          <div key={category.name}>
+            <span>{category.name}<small>{category.defined} / {category.executions}</small></span>
+            <i><b style={{ width: `${(category.executions / data.coverage.executions) * 100}%` }} /></i>
+          </div>
+        ))}
+      </div>
+    </div>
+  ) : null;
+
+  const progressContent = (
+    <div className="qa-detail-content">
+      <h3>{t.progress}</h3>
+      <ol className="qa-progress-list">
+        {progressSteps.length ? progressSteps.map((step) => (
+          <li key={`${step.number}-${step.name}`} className={`step-${step.conclusion ?? step.status}`}>
+            {step.conclusion === "success" ? <Check aria-hidden="true" /> : step.status === "in_progress" ? <LoaderCircle className="spin" aria-hidden="true" /> : <span aria-hidden="true" />}
+            <span>{step.name}</span>
+          </li>
+        )) : <li><span aria-hidden="true" /><span>{t.waiting}</span></li>}
+      </ol>
+    </div>
+  );
+
+  const views: Array<{ value: LabView; label: string; content: ReactNode }> = [
+    { value: "overview", label: t.overview, content: overviewContent },
+    { value: "browsers", label: t.browsers, content: browsersContent },
+    { value: "coverage", label: t.coverage, content: coverageContent },
+    { value: "progress", label: t.progress, content: progressContent },
+  ];
+
   return (
     <div className="qa-lab-live">
-      <div className="qa-lab-intro">
-        <div>
+      <header className="qa-lab-header">
+        <div className="qa-lab-title-block">
           <div className="lab-heading-row">
             <p className="section-label">QA Automation Lab</p>
             <span className={`run-badge run-badge-${state.tone}`}><CircleDot aria-hidden="true" />{t.status}</span>
@@ -262,7 +338,7 @@ export function QaAutomationLab({ language }: { language: Language }) {
           </button>
           <span><ShieldCheck aria-hidden="true" />{t.secure}</span>
         </div>
-      </div>
+      </header>
 
       {loading ? (
         <div className="qa-lab-message"><LoaderCircle className="spin" aria-hidden="true" />{t.loading}</div>
@@ -277,76 +353,48 @@ export function QaAutomationLab({ language }: { language: Language }) {
         <>
           {(requestId || error) && <div className="qa-lab-notice" role="status">{requestId ? t.queued : error}</div>}
 
-          <div className="qa-run-overview">
-            <div className="qa-run-heading">
-              <div>
-                <span>{t.latest}</span>
-                <strong>#{data.run.number}</strong>
-              </div>
+          <div className="qa-run-strip">
+            <div className="qa-run-identity">
+              <span>{t.latest}</span>
+              <strong>#{data.run.number}</strong>
               <span className={`run-badge run-badge-${state.tone}`}>
                 {state.tone === "passed" ? <Check aria-hidden="true" /> : state.tone === "active" ? <LoaderCircle className="spin" aria-hidden="true" /> : <CircleDot aria-hidden="true" />}
                 {state.text}
               </span>
             </div>
-
-            <div className="qa-metric-grid">
-              <article><strong>{data.coverage.definedTests}</strong><span>{t.defined}</span></article>
-              <article><strong>{data.coverage.executions}</strong><span>{t.executions}</span></article>
-              <article><strong>{data.coverage.projects}</strong><span>{t.projects}</span></article>
+            <div className="qa-metric-strip">
+              <div><strong>{data.coverage.definedTests}</strong><span>{t.defined}</span></div>
+              <div><strong>{data.coverage.executions}</strong><span>{t.executions}</span></div>
+              <div><strong>{data.coverage.projects}</strong><span>{t.projects}</span></div>
+              <div><strong><Clock3 aria-hidden="true" />{formatDuration(data.run.durationSeconds)}</strong><span>{t.duration}</span></div>
+              <div><strong className="qa-commit"><GitCommitHorizontal aria-hidden="true" />{data.run.commit}</strong><span>{t.commit}</span></div>
             </div>
-
-            <dl className="qa-run-meta">
-              <div><dt><Code2 aria-hidden="true" />{t.environment}</dt><dd><a href={data.environment.baseUrl}>{data.environment.name}</a></dd></div>
-              <div><dt><GitCommitHorizontal aria-hidden="true" />{t.commit}</dt><dd><a href={`https://github.com/joaquinganan/portfolio-e2e-automation/commit/${data.run.commitSha}`} target="_blank" rel="noreferrer">{data.run.commit}</a></dd></div>
-              <div><dt><Clock3 aria-hidden="true" />{t.duration}</dt><dd>{formatDuration(data.run.durationSeconds)}</dd></div>
-              <div><dt><Play aria-hidden="true" />{t.triggered}</dt><dd>{data.run.actor}</dd></div>
-            </dl>
           </div>
 
-          <div className="qa-lab-details">
-            <article className="qa-panel">
-              <h3>{t.browserMatrix}</h3>
-              <div className="browser-matrix">
-                {data.coverage.browsers.map((browser) => (
-                  <div key={browser.project}><span><i aria-hidden="true" />{browser.target}</span><strong>{browser.executions}</strong></div>
-                ))}
-              </div>
-              <p>{t.scope}</p>
-            </article>
+          <Tabs value={activeView} onValueChange={(value) => setActiveView(value as LabView)} className="qa-desktop-tabs">
+            <TabsList variant="line" aria-label="QA Lab views">
+              {views.map((view) => <TabsTrigger key={view.value} value={view.value}>{view.label}</TabsTrigger>)}
+            </TabsList>
+            {views.map((view) => <TabsContent key={view.value} value={view.value}>{view.content}</TabsContent>)}
+          </Tabs>
 
-            <article className="qa-panel">
-              <h3>{t.coverage}</h3>
-              <div className="coverage-bars">
-                {data.coverage.categories.map((category) => (
-                  <div key={category.name}>
-                    <span>{category.name}<small>{category.defined} / {category.executions}</small></span>
-                    <i><b style={{ width: `${(category.executions / data.coverage.executions) * 100}%` }} /></i>
-                  </div>
-                ))}
-              </div>
-            </article>
+          <Accordion type="single" value={activeView} onValueChange={(value) => value && setActiveView(value as LabView)} className="qa-mobile-accordion">
+            {views.map((view) => (
+              <AccordionItem key={view.value} value={view.value}>
+                <AccordionTrigger>{view.label}</AccordionTrigger>
+                <AccordionContent>{view.content}</AccordionContent>
+              </AccordionItem>
+            ))}
+          </Accordion>
 
-            <article className="qa-panel qa-progress-panel">
-              <h3>{t.progress}</h3>
-              <ol className="qa-progress-list">
-                {progressSteps.length ? progressSteps.map((step) => (
-                  <li key={`${step.number}-${step.name}`} className={`step-${step.conclusion ?? step.status}`}>
-                    {step.conclusion === "success" ? <Check aria-hidden="true" /> : step.status === "in_progress" ? <LoaderCircle className="spin" aria-hidden="true" /> : <span aria-hidden="true" />}
-                    <span>{step.name}</span>
-                  </li>
-                )) : <li><span aria-hidden="true" /><span>{t.waiting}</span></li>}
-              </ol>
-            </article>
-          </div>
-
-          <div className="qa-evidence">
+          <footer className="qa-evidence">
             <div><h3>{t.evidence}</h3><p>{t.artifacts}</p></div>
             <div className="qa-evidence-links">
               <a className="primary-link" href={data.links.report} target="_blank" rel="noreferrer">{t.report}<ExternalLink aria-hidden="true" /></a>
               <a href={data.run.url} target="_blank" rel="noreferrer">{t.workflow}<ArrowUpRight aria-hidden="true" /></a>
               <a href={data.links.repository} target="_blank" rel="noreferrer">{t.repository}<ArrowUpRight aria-hidden="true" /></a>
             </div>
-          </div>
+          </footer>
         </>
       ) : null}
     </div>

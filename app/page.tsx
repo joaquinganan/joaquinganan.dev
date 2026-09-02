@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import {
   AppWindow,
@@ -51,6 +51,7 @@ const copy = {
       ["Contact", "#contact"],
     ],
     language: "Switch to Spanish",
+    labCta: "Go to Lab",
     resume: "Download résumé (EN)",
     resumeShort: "CV (EN)",
     availability: "Open to remote opportunities",
@@ -101,7 +102,7 @@ const copy = {
       "A real Playwright framework validates the experience you are using now. The interactive runner is the next step; the current suite and CI history are already public.",
     labStatus: "Lab preview",
     latestRunTitle: "Current production coverage",
-    latestRunText: "16 test cases · 44 cross-browser executions · 5 browser projects",
+    latestRunText: "28 test cases · 78 cross-browser executions · 5 browser projects",
     suiteLink: "View automation suite",
     runsLink: "View latest CI run",
     terminalLabel: "Latest verified suite summary",
@@ -194,6 +195,7 @@ const copy = {
       ["Contacto", "#contact"],
     ],
     language: "Cambiar a inglés",
+    labCta: "Ir al Lab",
     resume: "Descargar CV (ES)",
     resumeShort: "CV (ES)",
     availability: "Disponible para oportunidades remotas",
@@ -244,7 +246,7 @@ const copy = {
       "Un framework real de Playwright valida la experiencia que estás utilizando. El runner interactivo es el próximo paso; la suite y su historial de CI ya son públicos.",
     labStatus: "Vista previa del lab",
     latestRunTitle: "Cobertura actual en producción",
-    latestRunText: "16 casos de prueba · 44 ejecuciones cross-browser · 5 proyectos de navegador",
+    latestRunText: "28 casos de prueba · 78 ejecuciones cross-browser · 5 proyectos de navegador",
     suiteLink: "Ver suite de automatización",
     runsLink: "Ver última ejecución CI",
     terminalLabel: "Resumen de la última suite verificada",
@@ -332,6 +334,7 @@ export default function Home() {
   const [language, setLanguage] = useState<Language>("en");
   const [activeSection, setActiveSection] = useState("");
   const [expandedExpertise, setExpandedExpertise] = useState<number | null>(null);
+  const portraitRef = useRef<HTMLDivElement>(null);
   const t = copy[language];
 
   useEffect(() => {
@@ -421,6 +424,24 @@ export default function Home() {
     });
   };
 
+  const movePortrait = (event: React.PointerEvent<HTMLDivElement>) => {
+    if (!window.matchMedia("(pointer: fine) and (prefers-reduced-motion: no-preference)").matches) return;
+
+    const frame = portraitRef.current;
+    if (!frame) return;
+
+    const bounds = frame.getBoundingClientRect();
+    const x = ((event.clientX - bounds.left) / bounds.width - 0.5) * 2;
+    const y = ((event.clientY - bounds.top) / bounds.height - 0.5) * 2;
+    frame.style.setProperty("--portrait-x", `${x * 3}px`);
+    frame.style.setProperty("--portrait-y", `${y * 3}px`);
+  };
+
+  const resetPortrait = () => {
+    portraitRef.current?.style.removeProperty("--portrait-x");
+    portraitRef.current?.style.removeProperty("--portrait-y");
+  };
+
   return (
     <main id="content" className="site-shell">
       <a className="skip-link" href="#intro">
@@ -447,6 +468,10 @@ export default function Home() {
         </nav>
 
         <div className="header-actions">
+          <a className="header-lab-link" href="#qa-lab">
+            <i aria-hidden="true" />
+            <span>{t.labCta}</span>
+          </a>
           <Button
             type="button"
             variant="ghost"
@@ -500,7 +525,12 @@ export default function Home() {
           </div>
         </div>
 
-        <div className="portrait-frame">
+        <div
+          className="portrait-frame"
+          ref={portraitRef}
+          onPointerMove={movePortrait}
+          onPointerLeave={resetPortrait}
+        >
           <Image
             src="/joaquin-ganan-profile.jpeg"
             alt={t.portrait}

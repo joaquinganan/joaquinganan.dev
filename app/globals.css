@@ -104,7 +104,6 @@ button:focus-visible {
   transform: translateY(0);
 }
 
-.site-header,
 .hero,
 .metric-row,
 .content-section,
@@ -116,6 +115,10 @@ button:focus-visible {
 }
 
 .site-header {
+  width: 100%;
+  margin-inline: 0;
+  padding-inline: max(2rem, calc((100vw - 1320px) / 2));
+  box-sizing: border-box;
   position: sticky;
   z-index: 50;
   top: 0;
@@ -284,28 +287,6 @@ button:focus-visible {
   font-weight: 750;
   letter-spacing: 0.16em;
   text-transform: uppercase;
-}
-
-.section-marker {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.8rem;
-}
-
-.section-marker > span:first-child {
-  min-width: 2rem;
-  color: var(--accent);
-  font-variant-numeric: tabular-nums;
-}
-
-.section-marker > span:first-child::after {
-  content: "";
-  width: 24px;
-  height: 1px;
-  display: inline-block;
-  margin-left: 0.65rem;
-  vertical-align: middle;
-  background: var(--accent-bright);
 }
 
 .hero-name {
@@ -486,8 +467,7 @@ button:focus-visible {
   border-top: 2px solid var(--accent);
 }
 
-.experience-section,
-.toolbox-section {
+.experience-section {
   background: var(--surface);
   box-shadow: 0 0 0 100vmax var(--surface);
   clip-path: inset(0 -100vmax);
@@ -508,7 +488,6 @@ button:focus-visible {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   border-top: 1px solid var(--line);
-  border-bottom: 1px solid var(--line);
 }
 
 .expertise-item {
@@ -874,7 +853,14 @@ button:focus-visible {
 
 .toolbox-section {
   padding-top: 7rem;
-  border-top: 1px solid var(--line-strong);
+  background: var(--background);
+}
+
+.tool-list article:last-child,
+.education-row,
+.project-row:last-child,
+.timeline .job:last-child {
+  border-bottom: 0;
 }
 
 .tool-list article {
@@ -928,10 +914,6 @@ button:focus-visible {
 }
 
 .contact-label {
-  color: var(--pistachio);
-}
-
-.contact-label.section-marker > span:first-child {
   color: var(--pistachio);
 }
 
@@ -1018,7 +1000,7 @@ button:focus-visible {
   .site-header {
     flex-wrap: wrap;
     gap: 0.35rem 1rem;
-    padding: 0.65rem 0 0;
+    padding: 0.65rem max(2rem, calc((100vw - 1320px) / 2)) 0;
   }
 
   .brand {
@@ -1058,7 +1040,6 @@ button:focus-visible {
 }
 
 @media (max-width: 820px) {
-  .site-header,
   .hero,
   .metric-row,
   .content-section,
@@ -1066,6 +1047,11 @@ button:focus-visible {
   .contact-section,
   .site-footer {
     width: min(100% - 2rem, 1320px);
+  }
+
+  .site-header {
+    width: 100%;
+    padding-inline: 1rem;
   }
 
   .hero {
@@ -1229,19 +1215,20 @@ button:focus-visible {
 
   .site-footer {
     min-height: 130px;
-    align-items: flex-start;
-    flex-wrap: wrap;
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr) auto;
+    align-items: center;
     padding: 2rem 0;
   }
 
   .site-footer p {
-    max-width: 220px;
+    max-width: none;
   }
 
   .site-footer a {
     width: auto;
-    margin-left: auto;
-    align-self: flex-end;
+    margin-left: 0;
+    align-self: auto;
   }
 }
 

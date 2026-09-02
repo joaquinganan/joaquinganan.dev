@@ -468,7 +468,7 @@ export default function Home() {
         </nav>
 
         <div className="header-actions">
-          <a className="header-lab-link" href="#qa-lab">
+          <a className="header-lab-link" href="#qa-lab" aria-label={t.labCta}>
             <i aria-hidden="true" />
             <span>{t.labCta}</span>
           </a>

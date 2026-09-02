@@ -4,6 +4,7 @@ import { useCallback, useEffect, useRef, useState, type ReactNode } from "react"
 import {
   ArrowUpRight,
   Check,
+  ChevronDown,
   CircleDot,
   Clock3,
   Code2,
@@ -93,6 +94,7 @@ const labels = {
     coverage: "Coverage",
     coverageCategory: "Coverage by category",
     progress: "Live progress",
+    collapse: "Select again to collapse",
     evidence: "Evidence & diagnostics",
     report: "Download HTML report",
     workflow: "View GitHub run",
@@ -134,6 +136,7 @@ const labels = {
     coverage: "Cobertura",
     coverageCategory: "Cobertura por categoría",
     progress: "Progreso en vivo",
+    collapse: "Selecciona nuevamente para contraer",
     evidence: "Evidencia y diagnósticos",
     report: "Descargar reporte HTML",
     workflow: "Ver ejecución en GitHub",
@@ -173,7 +176,8 @@ export function QaAutomationLab({ language }: { language: Language }) {
   const [error, setError] = useState("");
   const [requestId, setRequestId] = useState<string | null>(null);
   const [dispatching, setDispatching] = useState(false);
-  const [activeView, setActiveView] = useState<LabView>("overview");
+  const [activeView, setActiveView] = useState<LabView | null>(null);
+  const initialViewSetRef = useRef(false);
   const pollRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   const loadStatus = useCallback(async (correlationId?: string | null) => {
@@ -182,6 +186,10 @@ export function QaAutomationLab({ language }: { language: Language }) {
     const response = await fetch(url, { headers: { Accept: "application/json" } });
     if (!response.ok) throw new Error("status");
     const nextData = (await response.json()) as LabData;
+    if (!initialViewSetRef.current) {
+      setActiveView(nextData.run.status === "completed" ? "coverage" : "progress");
+      initialViewSetRef.current = true;
+    }
     setData(nextData);
     setError("");
     setLoading(false);
@@ -371,14 +379,46 @@ export function QaAutomationLab({ language }: { language: Language }) {
             </div>
           </div>
 
-          <Tabs value={activeView} onValueChange={(value) => setActiveView(value as LabView)} className="qa-desktop-tabs">
+          <Tabs
+            value={activeView ?? ""}
+            onValueChange={(value) => setActiveView(value as LabView)}
+            className="qa-desktop-tabs"
+            data-collapsed={activeView === null}
+          >
             <TabsList variant="line" aria-label="QA Lab views">
-              {views.map((view) => <TabsTrigger key={view.value} value={view.value}>{view.label}</TabsTrigger>)}
+              {views.map((view) => (
+                <TabsTrigger
+                  key={view.value}
+                  value={view.value}
+                  aria-label={activeView === view.value ? `${view.label}. ${t.collapse}` : view.label}
+                  onMouseDown={(event) => {
+                    if (activeView === view.value) {
+                      event.preventDefault();
+                      setActiveView(null);
+                    }
+                  }}
+                  onKeyDown={(event) => {
+                    if (activeView === view.value && (event.key === "Enter" || event.key === " ")) {
+                      event.preventDefault();
+                      setActiveView(null);
+                    }
+                  }}
+                >
+                  {view.label}
+                  <ChevronDown className="qa-tab-chevron" aria-hidden="true" />
+                </TabsTrigger>
+              ))}
             </TabsList>
             {views.map((view) => <TabsContent key={view.value} value={view.value}>{view.content}</TabsContent>)}
           </Tabs>
 
-          <Accordion type="single" value={activeView} onValueChange={(value) => value && setActiveView(value as LabView)} className="qa-mobile-accordion">
+          <Accordion
+            type="single"
+            collapsible
+            value={activeView ?? ""}
+            onValueChange={(value) => setActiveView(value ? value as LabView : null)}
+            className="qa-mobile-accordion"
+          >
             {views.map((view) => (
               <AccordionItem key={view.value} value={view.value}>
                 <AccordionTrigger>{view.label}</AccordionTrigger>

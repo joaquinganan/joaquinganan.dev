@@ -45,6 +45,10 @@ test("renders the public portfolio and E2E navigation contract", async () => {
   assert.match(html, /aria-controls="expertise-detail-0"/);
   assert.match(html, /View M4PP project/);
   assert.match(html, /Case study in progress/);
+  assert.match(html, /Self-testing QA Portfolio/);
+  assert.match(html, /href="#qa-lab">Open live QA Lab/);
+  assert.match(html, /github\.com\/joaquinganan\/joaquinganan\.dev/);
+  assert.match(html, /github\.com\/joaquinganan\/portfolio-e2e-automation/);
   assert.match(html, /<div class="project-heading"><span class="project-number" aria-hidden="true">0/);
   assert.match(html, /<p class="project-type">Public automation project<\/p>/);
 });

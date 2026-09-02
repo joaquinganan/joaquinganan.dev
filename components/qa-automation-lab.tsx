@@ -64,6 +64,8 @@ type LabData = {
   links: { report: string; repository: string; actions: string };
 };
 
+type LabStep = NonNullable<LabData["jobs"][number]["steps"]>[number];
+
 const API_BASE = "https://joaquinganan-dev.joaquinganan.chatgpt.site";
 
 const labels = {
@@ -91,8 +93,10 @@ const labels = {
     overview: "Overview",
     browsers: "Browsers",
     browserMatrix: "Browser matrix",
-    coverage: "Coverage",
-    coverageCategory: "Coverage by category",
+    coverage: "Test distribution",
+    coverageCategory: "Tests and browser executions",
+    categoryTests: "defined tests",
+    categoryExecutions: "browser executions",
     progress: "Live progress",
     collapse: "Select again to collapse",
     evidence: "Evidence & diagnostics",
@@ -133,8 +137,10 @@ const labels = {
     overview: "Resumen",
     browsers: "Navegadores",
     browserMatrix: "Matriz de navegadores",
-    coverage: "Cobertura",
-    coverageCategory: "Cobertura por categoría",
+    coverage: "Distribución de pruebas",
+    coverageCategory: "Pruebas y ejecuciones por navegador",
+    categoryTests: "pruebas definidas",
+    categoryExecutions: "ejecuciones por navegador",
     progress: "Progreso en vivo",
     collapse: "Selecciona nuevamente para contraer",
     evidence: "Evidencia y diagnósticos",
@@ -167,6 +173,63 @@ function formatDuration(seconds: number) {
   const minutes = Math.floor(seconds / 60);
   const remainder = seconds % 60;
   return `${minutes}m ${remainder}s`;
+}
+
+function LiveProgressList({ steps, waiting }: { steps: LabStep[]; waiting: string }) {
+  const listRef = useRef<HTMLOListElement>(null);
+  let targetIndex = steps.findIndex((step) => step.status === "in_progress");
+
+  if (targetIndex < 0) {
+    for (let index = steps.length - 1; index >= 0; index -= 1) {
+      if (steps[index].conclusion === "success") {
+        targetIndex = index;
+        break;
+      }
+    }
+  }
+
+  const targetStepNumber = targetIndex >= 0 ? steps[targetIndex].number : null;
+
+  useEffect(() => {
+    const list = listRef.current;
+    if (!list || targetStepNumber === null) return;
+
+    const frame = window.requestAnimationFrame(() => {
+      const target = list.querySelector<HTMLElement>(`[data-step-number="${targetStepNumber}"]`);
+      if (!target) return;
+
+      const listRect = list.getBoundingClientRect();
+      const targetRect = target.getBoundingClientRect();
+      const centeredTop = list.scrollTop
+        + targetRect.top
+        - listRect.top
+        - (list.clientHeight - targetRect.height) / 2;
+      const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+      list.scrollTo({
+        top: Math.max(0, centeredTop),
+        behavior: reducedMotion ? "auto" : "smooth",
+      });
+    });
+
+    return () => window.cancelAnimationFrame(frame);
+  }, [targetStepNumber]);
+
+  return (
+    <ol className="qa-progress-list" ref={listRef}>
+      {steps.length ? steps.map((step) => (
+        <li
+          key={`${step.number}-${step.name}`}
+          className={`step-${step.conclusion ?? step.status}`}
+          data-step-number={step.number}
+          aria-current={step.status === "in_progress" ? "step" : undefined}
+        >
+          {step.conclusion === "success" ? <Check aria-hidden="true" /> : step.status === "in_progress" ? <LoaderCircle className="spin" aria-hidden="true" /> : <span aria-hidden="true" />}
+          <span>{step.name}</span>
+        </li>
+      )) : <li><span aria-hidden="true" /><span>{waiting}</span></li>}
+    </ol>
+  );
 }
 
 export function QaAutomationLab({ language }: { language: Language }) {
@@ -296,11 +359,12 @@ export function QaAutomationLab({ language }: { language: Language }) {
   const coverageContent = data ? (
     <div className="qa-detail-content">
       <h3>{t.coverageCategory}</h3>
-      <div className="coverage-bars">
+      <div className="test-distribution">
         {data.coverage.categories.map((category) => (
           <div key={category.name}>
-            <span>{category.name}<small>{category.defined} / {category.executions}</small></span>
-            <i><b style={{ width: `${(category.executions / data.coverage.executions) * 100}%` }} /></i>
+            <strong>{category.name}</strong>
+            <span><b>{category.defined}</b>{t.categoryTests}</span>
+            <span><b>{category.executions}</b>{t.categoryExecutions}</span>
           </div>
         ))}
       </div>
@@ -310,14 +374,7 @@ export function QaAutomationLab({ language }: { language: Language }) {
   const progressContent = (
     <div className="qa-detail-content">
       <h3>{t.progress}</h3>
-      <ol className="qa-progress-list">
-        {progressSteps.length ? progressSteps.map((step) => (
-          <li key={`${step.number}-${step.name}`} className={`step-${step.conclusion ?? step.status}`}>
-            {step.conclusion === "success" ? <Check aria-hidden="true" /> : step.status === "in_progress" ? <LoaderCircle className="spin" aria-hidden="true" /> : <span aria-hidden="true" />}
-            <span>{step.name}</span>
-          </li>
-        )) : <li><span aria-hidden="true" /><span>{t.waiting}</span></li>}
-      </ol>
+      <LiveProgressList steps={progressSteps} waiting={t.waiting} />
     </div>
   );
 

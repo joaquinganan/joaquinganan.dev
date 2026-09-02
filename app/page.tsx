@@ -118,6 +118,9 @@ const copy = {
     featured: "Public automation project",
     confidential: "Anonymized case snapshot",
     repository: "View M4PP project",
+    portfolioSource: "View portfolio source",
+    portfolioLab: "Open live QA Lab",
+    portfolioFramework: "View automation framework",
     caseStatus: "Case study in progress",
     projects: [
       {
@@ -129,6 +132,11 @@ const copy = {
         title: "Integrated Release Assurance",
         text: "A risk-led QA operating model connecting dependencies across 20+ applications with evidence-based go/no-go recommendations.",
         meta: "Enterprise QA · Integration · UAT",
+      },
+      {
+        title: "Self-testing QA Portfolio",
+        text: "A production portfolio paired with a server-triggered Playwright framework, live CI evidence, secure dispatch, and cross-browser validation.",
+        meta: "Next.js · Playwright · GitHub Actions · Cloudflare Workers",
       },
     ],
     experienceLabel: "Experience",
@@ -253,6 +261,9 @@ const copy = {
     featured: "Proyecto público de automatización",
     confidential: "Caso anonimizado",
     repository: "Ver proyecto M4PP",
+    portfolioSource: "Ver código del portafolio",
+    portfolioLab: "Abrir QA Lab en vivo",
+    portfolioFramework: "Ver framework de automatización",
     caseStatus: "Caso en preparación",
     projects: [
       {
@@ -264,6 +275,11 @@ const copy = {
         title: "Aseguramiento de releases integrados",
         text: "Modelo QA por riesgo que conecta dependencias entre más de 20 aplicaciones y sustenta recomendaciones go/no-go con evidencia.",
         meta: "QA empresarial · Integración · UAT",
+      },
+      {
+        title: "Portafolio QA que se prueba a sí mismo",
+        text: "Un portafolio en producción conectado a un framework Playwright ejecutable desde el servidor, con evidencia CI en vivo y validación cross-browser.",
+        meta: "Next.js · Playwright · GitHub Actions · Cloudflare Workers",
       },
     ],
     experienceLabel: "Experiencia",
@@ -596,7 +612,7 @@ export default function Home() {
               <div>
                 <div className="project-heading">
                   <span className="project-number" aria-hidden="true">0{index + 1}</span>
-                  <p className="project-type">{index === 0 ? t.featured : t.confidential}</p>
+                  <p className="project-type">{index === 1 ? t.confidential : t.featured}</p>
                 </div>
                 <h3>{project.title}</h3>
                 <p>{project.text}</p>
@@ -612,11 +628,21 @@ export default function Home() {
                     {t.repository}
                     <ArrowUpRight aria-hidden="true" />
                   </a>
-                ) : (
+                ) : index === 1 ? (
                   <span className="project-status">
                     <i aria-hidden="true" />
                     {t.caseStatus}
                   </span>
+                ) : (
+                  <div className="project-links">
+                    <a href="#qa-lab">{t.portfolioLab}<ArrowUpRight aria-hidden="true" /></a>
+                    <a href="https://github.com/joaquinganan/joaquinganan.dev" target="_blank" rel="noreferrer">
+                      {t.portfolioSource}<ArrowUpRight aria-hidden="true" />
+                    </a>
+                    <a href="https://github.com/joaquinganan/portfolio-e2e-automation" target="_blank" rel="noreferrer">
+                      {t.portfolioFramework}<ArrowUpRight aria-hidden="true" />
+                    </a>
+                  </div>
                 )}
               </div>
             </article>

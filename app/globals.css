@@ -915,6 +915,11 @@ section[id] {
   border-radius: 0.9rem 0.9rem 0 0;
 }
 
+.qa-desktop-tabs[data-collapsed="true"] [data-slot="tabs-list"] {
+  border-bottom: 1px solid rgba(247, 248, 246, 0.16);
+  border-radius: 0.9rem;
+}
+
 .qa-desktop-tabs [data-slot="tabs-trigger"] {
   min-height: 48px;
   border: 0;
@@ -939,6 +944,18 @@ section[id] {
 .qa-desktop-tabs [data-slot="tabs-trigger"][data-state="active"] {
   background: rgba(138, 202, 116, 0.09);
   color: var(--background);
+}
+
+.qa-desktop-tabs .qa-tab-chevron {
+  width: 15px;
+  height: 15px;
+  color: rgba(247, 248, 246, 0.48);
+  transition: transform 160ms ease;
+}
+
+.qa-desktop-tabs [data-slot="tabs-trigger"][data-state="active"] .qa-tab-chevron {
+  color: var(--accent-bright);
+  transform: rotate(180deg);
 }
 
 .qa-desktop-tabs [data-slot="tabs-content"] {

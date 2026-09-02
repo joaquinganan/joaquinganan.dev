@@ -108,6 +108,7 @@ const labels = {
     failed: "Failed",
     cancelled: "Cancelled",
     active: "Running",
+    starting: "Starting the new run...",
     waiting: "Waiting",
     unknown: "Status unavailable",
     secure: "Server-side dispatch · 10-minute cooldown · no credentials exposed",
@@ -152,6 +153,7 @@ const labels = {
     failed: "Fallida",
     cancelled: "Cancelada",
     active: "En ejecución",
+    starting: "Iniciando la nueva ejecución...",
     waiting: "En espera",
     unknown: "Estado no disponible",
     secure: "Ejecución server-side · cooldown de 10 minutos · credenciales protegidas",
@@ -239,6 +241,7 @@ export function QaAutomationLab({ language }: { language: Language }) {
   const [error, setError] = useState("");
   const [requestId, setRequestId] = useState<string | null>(null);
   const [dispatching, setDispatching] = useState(false);
+  const [awaitingRequestedRun, setAwaitingRequestedRun] = useState(false);
   const [activeView, setActiveView] = useState<LabView | null>(null);
   const initialViewSetRef = useRef(false);
   const pollRef = useRef<ReturnType<typeof setTimeout> | null>(null);
@@ -281,6 +284,7 @@ export function QaAutomationLab({ language }: { language: Language }) {
     const poll = async () => {
       try {
         const nextData = await loadStatus(requestId);
+        if (nextData.requestedRunFound) setAwaitingRequestedRun(false);
         const finished = nextData.requestedRunFound && nextData.run.status === "completed";
         if (finished) {
           setRequestId(null);
@@ -301,6 +305,7 @@ export function QaAutomationLab({ language }: { language: Language }) {
 
   const dispatch = async () => {
     setDispatching(true);
+    setAwaitingRequestedRun(true);
     setActiveView("progress");
     setError("");
     try {
@@ -311,18 +316,22 @@ export function QaAutomationLab({ language }: { language: Language }) {
       });
       const payload = (await response.json()) as { requestId?: string; error?: string; run?: LabData["run"] };
       if (response.status === 409 && payload.run) {
-        setData((current) => current ? { ...current, run: payload.run! } : current);
+        setData((current) => current ? { ...current, run: payload.run!, jobs: [] } : current);
         setError(t.running);
+        await loadStatus();
+        setAwaitingRequestedRun(false);
         return;
       }
       if (response.status === 429) {
         setError(t.cooldown);
+        setAwaitingRequestedRun(false);
         return;
       }
       if (!response.ok || !payload.requestId) throw new Error(payload.error ?? "dispatch");
       setRequestId(payload.requestId);
     } catch {
       setError(t.unavailable);
+      setAwaitingRequestedRun(false);
     } finally {
       setDispatching(false);
     }
@@ -331,7 +340,7 @@ export function QaAutomationLab({ language }: { language: Language }) {
   const state = runState(data, language);
   const isActive = dispatching || Boolean(requestId) || (data ? data.run.status !== "completed" : true);
   const testJob = data?.jobs.find((job) => job.name.toLowerCase().includes("test")) ?? data?.jobs[0];
-  const progressSteps = testJob?.steps ?? [];
+  const progressSteps = awaitingRequestedRun ? [] : testJob?.steps ?? [];
 
   const overviewContent = data ? (
     <div className="qa-overview-content">
@@ -374,7 +383,7 @@ export function QaAutomationLab({ language }: { language: Language }) {
   const progressContent = (
     <div className="qa-detail-content">
       <h3>{t.progress}</h3>
-      <LiveProgressList steps={progressSteps} waiting={t.waiting} />
+      <LiveProgressList steps={progressSteps} waiting={awaitingRequestedRun ? t.starting : t.waiting} />
     </div>
   );
 

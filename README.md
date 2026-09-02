@@ -1,4 +1,4 @@
-# Joaquín Gañán — QA Portfolio
+# Joaquín Gañán - QA Portfolio
 
 Personal portfolio for Joaquín Gañán, Senior QA Engineer. The site presents
 enterprise QA leadership, manual and exploratory testing, API/backend

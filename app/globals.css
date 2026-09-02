@@ -1080,42 +1080,45 @@ section[id] {
   font-weight: 700;
 }
 
-.coverage-bars {
+.test-distribution {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 1.4rem;
+  gap: 0.75rem;
 }
 
-.coverage-bars > div > span {
-  display: flex;
-  justify-content: space-between;
-  gap: 1rem;
-  margin-bottom: 0.55rem;
-  color: rgba(247, 248, 246, 0.82);
+.test-distribution > div {
+  min-width: 0;
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 0.35rem 0.8rem;
+  padding: 0.8rem 0.9rem;
+  border: 1px solid rgba(247, 248, 246, 0.12);
+  border-radius: 12px;
+}
+
+.test-distribution > div > strong {
+  grid-column: 1 / -1;
+  color: var(--background);
   font-size: 0.875rem;
-  font-weight: 700;
 }
 
-.coverage-bars small {
-  color: rgba(247, 248, 246, 0.56);
+.test-distribution span {
+  display: flex;
+  align-items: baseline;
+  gap: 0.35rem;
+  color: rgba(247, 248, 246, 0.82);
+  font-size: 0.72rem;
+}
+
+.test-distribution span:last-child {
+  justify-content: flex-end;
+  text-align: right;
+}
+
+.test-distribution b {
+  color: var(--accent-bright);
   font-family: "Courier New", monospace;
-  font-size: 0.75rem;
-  font-weight: 400;
-}
-
-.coverage-bars i {
-  height: 7px;
-  display: block;
-  overflow: hidden;
-  border-radius: 999px;
-  background: rgba(247, 248, 246, 0.12);
-}
-
-.coverage-bars b {
-  height: 100%;
-  display: block;
-  border-radius: inherit;
-  background: var(--accent-bright);
+  font-size: 0.9rem;
 }
 
 .qa-progress-list {
@@ -1163,6 +1166,12 @@ section[id] {
 .qa-progress-list .step-in_progress > svg {
   border: 0;
   color: var(--accent-bright);
+}
+
+.qa-progress-list .step-in_progress {
+  border-radius: 0.35rem;
+  background: rgba(138, 202, 116, 0.1);
+  color: var(--background);
 }
 
 .qa-evidence {
@@ -1447,6 +1456,13 @@ section[id] {
   border-bottom: 1px solid var(--mughal);
   color: var(--mughal);
   font-weight: 750;
+}
+
+.project-links {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 0.2rem;
 }
 
 .project-meta svg {
@@ -1832,9 +1848,12 @@ section[id] {
     border-right: 0;
   }
 
-  .coverage-bars {
+  .test-distribution {
     grid-template-columns: 1fr;
-    gap: 1rem;
+  }
+
+  .test-distribution > div {
+    grid-template-columns: 1fr 1fr;
   }
 
   .qa-evidence {
@@ -1855,6 +1874,10 @@ section[id] {
   .project-meta {
     align-items: flex-start;
     text-align: left;
+  }
+
+  .project-links {
+    align-items: flex-start;
   }
 
   .contact-section {

@@ -636,17 +636,25 @@ export default function Home() {
             const detailId = `expertise-detail-${index}`;
 
             return (
-            <article className={`expertise-item${isExpanded ? " is-expanded" : ""}`} key={item.title}>
+            <article
+              className={`expertise-item${isExpanded ? " is-expanded" : ""}`}
+              key={item.title}
+              role="button"
+              tabIndex={0}
+              aria-label={item.title}
+              aria-expanded={isExpanded}
+              aria-controls={detailId}
+              onClick={() => setExpandedExpertise(isExpanded ? null : index)}
+              onKeyDown={(event) => {
+                if (event.key === "Enter" || event.key === " ") {
+                  event.preventDefault();
+                  setExpandedExpertise(isExpanded ? null : index);
+                }
+              }}
+            >
               <h3>
-                <button
-                  type="button"
-                  aria-expanded={isExpanded}
-                  aria-controls={detailId}
-                  onClick={() => setExpandedExpertise(isExpanded ? null : index)}
-                >
-                  <span>{item.title}</span>
-                  <ChevronDown aria-hidden="true" />
-                </button>
+                <span>{item.title}</span>
+                <ChevronDown aria-hidden="true" />
               </h3>
               <p>{item.text}</p>
               <div className="expertise-detail" id={detailId} aria-hidden={!isExpanded}>

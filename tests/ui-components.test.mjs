@@ -43,7 +43,9 @@ test("defines the portfolio palette and responsive accessibility rules", async (
   assert.match(css, /\.footer-trademark\s*\{[\s\S]*?grid-column:\s*1 \/ -1;[\s\S]*?max-width:\s*none;/);
   assert.match(css, /\.content-section\[id\]\s*\{\s*scroll-margin-top:\s*-1\.25rem;/);
   assert.match(css, /\.contact-secondary-links\s*\{[\s\S]*?display:\s*flex;/);
-  assert.match(css, /\.site-footer\s*>\s*a\s*\{\s*justify-self:\s*end;/);
+  assert.match(css, /html\.dark\s*\{[\s\S]*?--background:\s*#111511/);
+  assert.match(css, /\.back-to-top\s*\{[\s\S]*?position:\s*fixed/);
+  assert.match(css, /\.back-to-top\.is-visible\s*\{[\s\S]*?pointer-events:\s*auto/);
   assert.match(css, /\.site-header\s*{[^}]*width:\s*100%/s);
   assert.doesNotMatch(css, /\.section-marker\s*{/);
   assert.match(css, /@media \(prefers-reduced-motion:\s*no-preference\)/);

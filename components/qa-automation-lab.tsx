@@ -243,7 +243,7 @@ export function QaAutomationLab({ language }: { language: Language }) {
   const [dispatching, setDispatching] = useState(false);
   const [awaitingRequestedRun, setAwaitingRequestedRun] = useState(false);
   const [activeView, setActiveView] = useState<LabView | null>(null);
-  const initialViewSetRef = useRef(false);
+  const userControlledViewRef = useRef(false);
   const pollRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   const loadStatus = useCallback(async (correlationId?: string | null) => {
@@ -252,9 +252,8 @@ export function QaAutomationLab({ language }: { language: Language }) {
     const response = await fetch(url, { headers: { Accept: "application/json" } });
     if (!response.ok) throw new Error("status");
     const nextData = (await response.json()) as LabData;
-    if (!initialViewSetRef.current) {
+    if (!userControlledViewRef.current) {
       setActiveView(nextData.run.status === "completed" ? "coverage" : "progress");
-      initialViewSetRef.current = true;
     }
     setData(nextData);
     setError("");
@@ -306,6 +305,7 @@ export function QaAutomationLab({ language }: { language: Language }) {
   const dispatch = async () => {
     setDispatching(true);
     setAwaitingRequestedRun(true);
+    userControlledViewRef.current = true;
     setActiveView("progress");
     setError("");
     try {
@@ -447,7 +447,10 @@ export function QaAutomationLab({ language }: { language: Language }) {
 
           <Tabs
             value={activeView ?? ""}
-            onValueChange={(value) => setActiveView(value as LabView)}
+            onValueChange={(value) => {
+              userControlledViewRef.current = true;
+              setActiveView(value as LabView);
+            }}
             className="qa-desktop-tabs"
             data-collapsed={activeView === null}
           >
@@ -460,12 +463,14 @@ export function QaAutomationLab({ language }: { language: Language }) {
                   onMouseDown={(event) => {
                     if (activeView === view.value) {
                       event.preventDefault();
+                      userControlledViewRef.current = true;
                       setActiveView(null);
                     }
                   }}
                   onKeyDown={(event) => {
                     if (activeView === view.value && (event.key === "Enter" || event.key === " ")) {
                       event.preventDefault();
+                      userControlledViewRef.current = true;
                       setActiveView(null);
                     }
                   }}
@@ -482,7 +487,10 @@ export function QaAutomationLab({ language }: { language: Language }) {
             type="single"
             collapsible
             value={activeView ?? ""}
-            onValueChange={(value) => setActiveView(value ? value as LabView : null)}
+            onValueChange={(value) => {
+              userControlledViewRef.current = true;
+              setActiveView(value ? value as LabView : null);
+            }}
             className="qa-mobile-accordion"
           >
             {views.map((view) => (

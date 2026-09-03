@@ -430,9 +430,16 @@ section[id] {
 }
 
 .text-link {
-  min-height: 44px;
-  padding-block: 0.55rem;
-  border-bottom: 1px solid var(--line-strong);
+  padding: 0.8rem 1.15rem;
+  border: 1px solid var(--line-strong);
+  border-radius: 999px;
+  color: var(--mughal);
+  transition: background 160ms ease, border-color 160ms ease;
+}
+
+.text-link:hover {
+  border-color: var(--accent);
+  background: var(--surface);
 }
 
 .primary-link svg,
@@ -1442,8 +1449,7 @@ section[id] {
 }
 
 .project-list,
-.timeline,
-.tool-list {
+.timeline {
   border-top: 1px solid var(--line);
 }
 
@@ -1628,12 +1634,21 @@ section[id] {
   border-bottom: 0;
 }
 
-.tool-list article {
+.tool-list {
   display: grid;
-  grid-template-columns: 180px minmax(0, 1fr);
-  gap: 2rem;
-  padding: 1.35rem 0;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  border-top: 1px solid var(--line);
   border-bottom: 1px solid var(--line);
+}
+
+.tool-list article {
+  min-width: 0;
+  padding: 1.5rem;
+  border-right: 1px solid var(--line);
+}
+
+.tool-list article:last-child {
+  border-right: 0;
 }
 
 .tool-list h3 {
@@ -1645,7 +1660,7 @@ section[id] {
 }
 
 .tool-list p {
-  margin: 0;
+  margin: 0.75rem 0 0;
   color: var(--mughal-soft);
   font-size: 1rem;
   line-height: 1.65;
@@ -2203,6 +2218,19 @@ section[id] {
   .education-row {
     grid-template-columns: 1fr;
     gap: 0.75rem;
+  }
+
+  .tool-list {
+    grid-template-columns: 1fr;
+  }
+
+  .tool-list article {
+    border-right: 0;
+    border-bottom: 1px solid var(--line);
+  }
+
+  .tool-list article:last-child {
+    border-bottom: 0;
   }
 
   .contact-section {

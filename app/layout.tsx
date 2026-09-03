@@ -10,7 +10,10 @@ export const metadata: Metadata = {
   title,
   description,
   icons: {
-    icon: "/favicon.svg",
+    icon: [
+      { url: "/favicon-light.svg", media: "(prefers-color-scheme: light)" },
+      { url: "/favicon-dark.svg", media: "(prefers-color-scheme: dark)" },
+    ],
     shortcut: "/favicon.svg",
   },
   openGraph: {
@@ -37,8 +40,11 @@ export const metadata: Metadata = {
 };
 
 export const viewport: Viewport = {
-  themeColor: "#f7f8f6",
-  colorScheme: "light",
+  themeColor: [
+    { media: "(prefers-color-scheme: light)", color: "#f7f8f6" },
+    { media: "(prefers-color-scheme: dark)", color: "#111511" },
+  ],
+  colorScheme: "light dark",
 };
 
 export default function RootLayout({
@@ -47,7 +53,14 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning>
+      <head>
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `(function(){try{var saved=localStorage.getItem("portfolio-theme");var dark=saved==="dark"||(saved!=="light"&&matchMedia("(prefers-color-scheme: dark)").matches);document.documentElement.classList.toggle("dark",dark);document.documentElement.style.colorScheme=dark?"dark":"light"}catch(e){}})();`,
+          }}
+        />
+      </head>
       <body>{children}</body>
     </html>
   );

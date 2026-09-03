@@ -4,7 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import {
   AppWindow,
-  ArrowDown,
+  ArrowUp,
   ArrowUpRight,
   CalendarCheck,
   ChevronDown,
@@ -14,7 +14,9 @@ import {
   Languages,
   Mail,
   MapPin,
+  Moon,
   Network,
+  Sun,
   Users,
   Workflow,
 } from "lucide-react";
@@ -23,6 +25,7 @@ import { Button } from "@/components/ui/button";
 import { QaAutomationLab } from "@/components/qa-automation-lab";
 
 type Language = "en" | "es";
+type Theme = "light" | "dark";
 
 const experienceBrands = [
   [
@@ -51,6 +54,8 @@ const copy = {
       ["Contact", "#contact"],
     ],
     language: "Switch to Spanish",
+    themeLight: "Switch to light mode",
+    themeDark: "Switch to dark mode",
     labCta: "Go to Lab",
     resume: "Download résumé (EN)",
     resumeShort: "CV (EN)",
@@ -102,7 +107,7 @@ const copy = {
       "A real Playwright framework validates the experience you are using now. The interactive runner is the next step; the current suite and CI history are already public.",
     labStatus: "Lab preview",
     latestRunTitle: "Current production coverage",
-    latestRunText: "28 test cases · 78 cross-browser executions · 5 browser projects",
+    latestRunText: "30 test cases · 84 cross-browser executions · 5 browser projects",
     suiteLink: "View automation suite",
     runsLink: "View latest CI run",
     terminalLabel: "Latest verified suite summary",
@@ -120,10 +125,14 @@ const copy = {
     confidential: "Anonymized case snapshot",
     repository: "View M4PP project",
     portfolioSource: "View portfolio source",
-    portfolioLab: "Open live QA Lab",
     portfolioFramework: "View automation framework",
     caseStatus: "Case study in progress",
     projects: [
+      {
+        title: "Self-testing QA Portfolio",
+        text: "A production portfolio paired with a server-triggered Playwright framework, live CI evidence, secure dispatch, and cross-browser validation.",
+        meta: "Next.js · Playwright · GitHub Actions · Cloudflare Workers",
+      },
       {
         title: "M4PP Playwright Automation Suite",
         text: "End-to-end and API coverage for authentication, interactive canvas behavior, access control, and backend integrations.",
@@ -133,11 +142,6 @@ const copy = {
         title: "Integrated Release Assurance",
         text: "A risk-led QA operating model connecting dependencies across 20+ applications with evidence-based go/no-go recommendations.",
         meta: "Enterprise QA · Integration · UAT",
-      },
-      {
-        title: "Self-testing QA Portfolio",
-        text: "A production portfolio paired with a server-triggered Playwright framework, live CI evidence, secure dispatch, and cross-browser validation.",
-        meta: "Next.js · Playwright · GitHub Actions · Cloudflare Workers",
       },
     ],
     experienceLabel: "Experience",
@@ -195,6 +199,8 @@ const copy = {
       ["Contacto", "#contact"],
     ],
     language: "Cambiar a inglés",
+    themeLight: "Cambiar a modo claro",
+    themeDark: "Cambiar a modo oscuro",
     labCta: "Ir al Lab",
     resume: "Descargar CV (ES)",
     resumeShort: "CV (ES)",
@@ -246,7 +252,7 @@ const copy = {
       "Un framework real de Playwright valida la experiencia que estás utilizando. El runner interactivo es el próximo paso; la suite y su historial de CI ya son públicos.",
     labStatus: "Vista previa del lab",
     latestRunTitle: "Cobertura actual en producción",
-    latestRunText: "28 casos de prueba · 78 ejecuciones cross-browser · 5 proyectos de navegador",
+    latestRunText: "30 casos de prueba · 84 ejecuciones cross-browser · 5 proyectos de navegador",
     suiteLink: "Ver suite de automatización",
     runsLink: "Ver última ejecución CI",
     terminalLabel: "Resumen de la última suite verificada",
@@ -264,10 +270,14 @@ const copy = {
     confidential: "Caso anonimizado",
     repository: "Ver proyecto M4PP",
     portfolioSource: "Ver código del portafolio",
-    portfolioLab: "Abrir QA Lab en vivo",
     portfolioFramework: "Ver framework de automatización",
     caseStatus: "Caso en preparación",
     projects: [
+      {
+        title: "Portafolio QA que se prueba a sí mismo",
+        text: "Un portafolio en producción conectado a un framework Playwright ejecutable desde el servidor, con evidencia CI en vivo y validación cross-browser.",
+        meta: "Next.js · Playwright · GitHub Actions · Cloudflare Workers",
+      },
       {
         title: "Suite de automatización Playwright para M4PP",
         text: "Cobertura end-to-end y de API para autenticación, canvas interactivo, control de acceso e integraciones backend.",
@@ -277,11 +287,6 @@ const copy = {
         title: "Aseguramiento de releases integrados",
         text: "Modelo QA por riesgo que conecta dependencias entre más de 20 aplicaciones y sustenta recomendaciones go/no-go con evidencia.",
         meta: "QA empresarial · Integración · UAT",
-      },
-      {
-        title: "Portafolio QA que se prueba a sí mismo",
-        text: "Un portafolio en producción conectado a un framework Playwright ejecutable desde el servidor, con evidencia CI en vivo y validación cross-browser.",
-        meta: "Next.js · Playwright · GitHub Actions · Cloudflare Workers",
       },
     ],
     experienceLabel: "Experiencia",
@@ -332,6 +337,8 @@ const copy = {
 
 export default function Home() {
   const [language, setLanguage] = useState<Language>("en");
+  const [theme, setTheme] = useState<Theme>("light");
+  const [showBackToTop, setShowBackToTop] = useState(false);
   const [activeSection, setActiveSection] = useState("");
   const [expandedExpertise, setExpandedExpertise] = useState<number | null>(null);
   const portraitRef = useRef<HTMLDivElement>(null);
@@ -355,6 +362,34 @@ export default function Home() {
   useEffect(() => {
     document.documentElement.lang = language;
   }, [language]);
+
+  useEffect(() => {
+    let savedTheme: string | null = null;
+
+    try {
+      savedTheme = window.localStorage.getItem("portfolio-theme");
+    } catch {
+      // The system preference remains available when storage is unavailable.
+    }
+
+    const initialTheme = savedTheme === "light" || savedTheme === "dark"
+      ? savedTheme
+      : window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
+    const frame = window.requestAnimationFrame(() => setTheme(initialTheme));
+    return () => window.cancelAnimationFrame(frame);
+  }, []);
+
+  useEffect(() => {
+    document.documentElement.classList.toggle("dark", theme === "dark");
+    document.documentElement.style.colorScheme = theme;
+  }, [theme]);
+
+  useEffect(() => {
+    const updateBackToTop = () => setShowBackToTop(window.scrollY > 24);
+    updateBackToTop();
+    window.addEventListener("scroll", updateBackToTop, { passive: true });
+    return () => window.removeEventListener("scroll", updateBackToTop);
+  }, []);
 
   useEffect(() => {
     const sections = ["expertise", "experience", "work", "contact"]
@@ -424,6 +459,18 @@ export default function Home() {
     });
   };
 
+  const toggleTheme = () => {
+    setTheme((currentTheme) => {
+      const nextTheme = currentTheme === "light" ? "dark" : "light";
+      try {
+        window.localStorage.setItem("portfolio-theme", nextTheme);
+      } catch {
+        // The theme switch still works when storage is unavailable.
+      }
+      return nextTheme;
+    });
+  };
+
   const movePortrait = (event: React.PointerEvent<HTMLDivElement>) => {
     if (!window.matchMedia("(pointer: fine) and (prefers-reduced-motion: no-preference)").matches) return;
 
@@ -475,6 +522,16 @@ export default function Home() {
           <Button
             type="button"
             variant="ghost"
+            className="theme-button"
+            onClick={toggleTheme}
+            aria-label={theme === "dark" ? t.themeLight : t.themeDark}
+            aria-pressed={theme === "dark"}
+          >
+            {theme === "dark" ? <Sun aria-hidden="true" /> : <Moon aria-hidden="true" />}
+          </Button>
+          <Button
+            type="button"
+            variant="ghost"
             className="language-button"
             onClick={toggleLanguage}
             aria-label={t.language}
@@ -516,11 +573,9 @@ export default function Home() {
           <div className="hero-actions">
             <a className="primary-link" href="#work">
               {t.explore}
-              <ArrowDown aria-hidden="true" />
             </a>
             <a className="text-link" href="#contact">
               {t.contact}
-              <ArrowUpRight aria-hidden="true" />
             </a>
           </div>
         </div>
@@ -642,14 +697,14 @@ export default function Home() {
               <div>
                 <div className="project-heading">
                   <span className="project-number" aria-hidden="true">0{index + 1}</span>
-                  <p className="project-type">{index === 1 ? t.confidential : t.featured}</p>
+                  <p className="project-type">{index === 2 ? t.confidential : t.featured}</p>
                 </div>
                 <h3>{project.title}</h3>
                 <p>{project.text}</p>
               </div>
               <div className="project-meta">
                 <span>{project.meta}</span>
-                {index === 0 ? (
+                {index === 1 ? (
                   <a
                     href="https://github.com/joaquinganan/m4pp-sqe"
                     target="_blank"
@@ -658,14 +713,13 @@ export default function Home() {
                     {t.repository}
                     <ArrowUpRight aria-hidden="true" />
                   </a>
-                ) : index === 1 ? (
+                ) : index === 2 ? (
                   <span className="project-status">
                     <i aria-hidden="true" />
                     {t.caseStatus}
                   </span>
                 ) : (
                   <div className="project-links">
-                    <a href="#qa-lab">{t.portfolioLab}<ArrowUpRight aria-hidden="true" /></a>
                     <a href="https://github.com/joaquinganan/joaquinganan.dev" target="_blank" rel="noreferrer">
                       {t.portfolioSource}<ArrowUpRight aria-hidden="true" />
                     </a>
@@ -727,12 +781,18 @@ export default function Home() {
       <footer className="site-footer">
         <span>JG</span>
         <p>© 2026 Joaquín Gañán. {t.footer}</p>
-        <a href="#intro">
-          {t.backToTop}
-          <ArrowUpRight aria-hidden="true" />
-        </a>
         <small className="footer-trademark">{t.trademarkNotice}</small>
       </footer>
+
+      <button
+        type="button"
+        className={`back-to-top ${showBackToTop ? "is-visible" : ""}`}
+        onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
+        aria-label={t.backToTop}
+        tabIndex={showBackToTop ? 0 : -1}
+      >
+        <ArrowUp aria-hidden="true" />
+      </button>
     </main>
   );
 }

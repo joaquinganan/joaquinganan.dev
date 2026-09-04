@@ -1314,6 +1314,18 @@ section[id] {
   background: #a4dc90;
 }
 
+.qa-evidence-links .qa-replay-link {
+  padding-inline: 1rem;
+  border: 1px solid rgba(138, 202, 116, 0.65);
+  border-radius: 999px;
+  color: var(--on-dark);
+}
+
+.qa-evidence-links .qa-replay-link:hover {
+  background: rgba(138, 202, 116, 0.14);
+  border-color: var(--accent-bright);
+}
+
 .qa-evidence-links svg {
   width: 14px;
 }
@@ -2170,7 +2182,8 @@ section[id] {
     gap: 0.8rem;
   }
 
-  .qa-evidence-links .primary-link {
+  .qa-evidence-links .primary-link,
+  .qa-evidence-links .qa-replay-link {
     justify-content: center;
     width: 100%;
   }

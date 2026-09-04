@@ -395,7 +395,7 @@ export function QaAutomationLab({ language }: { language: Language }) {
   ];
 
   return (
-    <div className="qa-lab-live">
+    <div className="qa-lab-live" aria-busy={loading}>
       <header className="qa-lab-header">
         <div className="qa-lab-title-block">
           <div className="lab-heading-row">

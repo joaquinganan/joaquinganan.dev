@@ -56,6 +56,8 @@ test("defines the portfolio palette and responsive accessibility rules", async (
   assert.match(lab, /setAwaitingRequestedRun\(true\)/);
   assert.match(lab, /const progressSteps = awaitingRequestedRun \? \[\]/);
   assert.match(lab, /awaitingRequestedRun \? t\.starting : t\.waiting/);
+  assert.match(lab, /className="qa-lab-live" aria-busy=\{loading\}/);
+  assert.match(css, /\.qa-lab-live\s*\{[^}]*min-block-size: 43rem;/s);
 });
 
 test("forwards progress semantics to the primitive", async () => {

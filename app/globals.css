@@ -720,6 +720,7 @@ section[id] {
 
 .qa-lab-live {
   min-width: 0;
+  min-block-size: 43rem;
 }
 
 .lab-section a:focus-visible,
@@ -1867,6 +1868,10 @@ section[id] {
     grid-template-columns: 1fr;
   }
 
+  .qa-lab-live {
+    min-block-size: 50rem;
+  }
+
   .qa-lab-run-control {
     max-width: 420px;
   }
@@ -2129,6 +2134,10 @@ section[id] {
 
   .qa-lab-header {
     gap: 1.4rem;
+  }
+
+  .qa-lab-live {
+    min-block-size: 68rem;
   }
 
   .qa-lab-run-control {

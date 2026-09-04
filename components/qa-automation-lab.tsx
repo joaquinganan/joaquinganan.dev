@@ -67,7 +67,6 @@ type LabData = {
 type LabStep = NonNullable<LabData["jobs"][number]["steps"]>[number];
 
 const API_BASE = "https://joaquinganan-dev.joaquinganan.chatgpt.site";
-const BROWSER_REPLAY_URL = "https://raw.githubusercontent.com/joaquinganan/portfolio-e2e-automation/replay-assets/portfolio-browser-replay.webm";
 
 const labels = {
   en: {
@@ -104,8 +103,6 @@ const labels = {
     report: "Download HTML report",
     workflow: "View GitHub run",
     repository: "View framework",
-    followRun: "Follow live run",
-    watchReplay: "Watch browser replay",
     artifacts: "Artifacts retained for 14 days",
     passed: "Passed",
     failed: "Failed",
@@ -151,8 +148,6 @@ const labels = {
     report: "Descargar reporte HTML",
     workflow: "Ver ejecución en GitHub",
     repository: "Ver framework",
-    followRun: "Seguir ejecución en vivo",
-    watchReplay: "Ver replay del navegador",
     artifacts: "Artefactos conservados durante 14 días",
     passed: "Aprobada",
     failed: "Fallida",
@@ -346,8 +341,6 @@ export function QaAutomationLab({ language }: { language: Language }) {
   const isActive = dispatching || Boolean(requestId) || (data ? data.run.status !== "completed" : true);
   const testJob = data?.jobs.find((job) => job.name.toLowerCase().includes("test")) ?? data?.jobs[0];
   const progressSteps = awaitingRequestedRun ? [] : testJob?.steps ?? [];
-  const replayLink = isActive ? data?.run.url : BROWSER_REPLAY_URL;
-  const replayLabel = isActive ? t.followRun : t.watchReplay;
 
   const overviewContent = data ? (
     <div className="qa-overview-content">
@@ -511,10 +504,9 @@ export function QaAutomationLab({ language }: { language: Language }) {
           <footer className="qa-evidence">
             <div><h3>{t.evidence}</h3><p>{t.artifacts}</p></div>
             <div className="qa-evidence-links">
-              {replayLink && <a className="qa-replay-link" href={replayLink} target="_blank" rel="noreferrer">{replayLabel}<Play aria-hidden="true" /></a>}
               <a className="primary-link" href={data.links.report} target="_blank" rel="noreferrer">{t.report}<ExternalLink aria-hidden="true" /></a>
               <div className="qa-evidence-secondary">
-                {!isActive && <a href={data.run.url} target="_blank" rel="noreferrer">{t.workflow}<ArrowUpRight aria-hidden="true" /></a>}
+                <a href={data.run.url} target="_blank" rel="noreferrer">{t.workflow}<ArrowUpRight aria-hidden="true" /></a>
                 <a href={data.links.repository} target="_blank" rel="noreferrer">{t.repository}<ArrowUpRight aria-hidden="true" /></a>
               </div>
             </div>

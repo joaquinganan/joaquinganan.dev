@@ -56,6 +56,10 @@ test("defines the portfolio palette and responsive accessibility rules", async (
   assert.match(lab, /setAwaitingRequestedRun\(true\)/);
   assert.match(lab, /const progressSteps = awaitingRequestedRun \? \[\]/);
   assert.match(lab, /awaitingRequestedRun \? t\.starting : t\.waiting/);
+  assert.match(lab, /followRun: "Follow live run"/);
+  assert.match(lab, /watchReplay: "Watch browser replay"/);
+  assert.match(lab, /replay-assets\/portfolio-browser-replay\.webm/);
+  assert.match(lab, /const replayLabel = isActive \? t\.followRun : t\.watchReplay/);
 });
 
 test("forwards progress semantics to the primitive", async () => {

@@ -22,6 +22,7 @@ import {
   AccordionTrigger,
 } from "@/components/ui/accordion";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { loadSuiteCoverage } from "@/lib/qa-lab-coverage";
 
 type Language = "en" | "es";
 type LabView = "overview" | "browsers" | "coverage" | "progress";
@@ -251,7 +252,10 @@ export function QaAutomationLab({ language }: { language: Language }) {
     if (correlationId) url.searchParams.set("request_id", correlationId);
     const response = await fetch(url, { headers: { Accept: "application/json" } });
     if (!response.ok) throw new Error("status");
-    const nextData = (await response.json()) as LabData;
+    const apiData = (await response.json()) as LabData;
+    // Coverage comes from the E2E repo at this run's commit (the API's own numbers are only a fallback).
+    const suiteCoverage = await loadSuiteCoverage(apiData.run.commitSha);
+    const nextData = suiteCoverage ? { ...apiData, coverage: suiteCoverage } : apiData;
     if (!userControlledViewRef.current) {
       setActiveView(nextData.run.status === "completed" ? "coverage" : "progress");
     }

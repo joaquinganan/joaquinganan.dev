@@ -60,6 +60,16 @@ test("renders the public portfolio and E2E navigation contract", async () => {
   assert.match(html, /href="https:\/\/github\.com\/joaquinganan\/agentic-fin-tracker"[^>]*>View tracker repository/);
   assert.match(html, /href="https:\/\/github\.com\/joaquinganan\/agentic-fin-tracker\/tree\/main\/tests"[^>]*>View tracker test suite/);
   assert.match(html, /href="https:\/\/github\.com\/joaquinganan\/m4pp-sqe"[^>]*>View M4PP project/);
+  assert.match(html, /href="\/demos\/agentic-fin-tracker\.html"[^>]*>Watch demo \(50 s\)/);
+  const fs = await import("node:fs");
+  const player = fs.readFileSync(new URL("../public/demos/agentic-fin-tracker.html", import.meta.url), "utf8");
+  assert.match(player, /<source src="\/demos\/agentic-fin-tracker-demo\.webm" type="video\/webm">/);
+  assert.match(player, /<source src="\/demos\/agentic-fin-tracker-demo\.mp4" type="video\/mp4">/);   // Safari / H.264 fallback
+  for (const f of ["agentic-fin-tracker-demo.webm", "agentic-fin-tracker-demo.mp4"]) {
+    assert.ok(fs.statSync(new URL("../public/demos/" + f, import.meta.url)).size > 100000, f + " ships with the site");
+  }
+  assert.ok(fs.statSync(new URL("../public/demos/agentic-fin-tracker-demo.mp4", import.meta.url)).size > 100000, "the demo video ships with the site");
+  assert.ok(fs.existsSync(new URL("../public/demos/agentic-fin-tracker-demo-poster.png", import.meta.url)));
   assert.equal((html.match(/class="project-row"/g) || []).length, 4);
   assert.equal((html.match(/Case study in progress/g) || []).length, 1, "only the anonymized case has no links");
   assert.match(html, /aria-label="Switch to dark mode"/);

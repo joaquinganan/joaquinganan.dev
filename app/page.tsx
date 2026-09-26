@@ -144,7 +144,7 @@ const copy = {
         links: [
           { label: "View tracker repository", href: "https://github.com/joaquinganan/agentic-fin-tracker" },
           { label: "View tracker test suite", href: "https://github.com/joaquinganan/agentic-fin-tracker/tree/main/tests" },
-          { label: "Watch demo (50 s)", href: "/demos/agentic-fin-tracker.html" },
+          { label: "Watch demo", href: "/demos/agentic-fin-tracker.html" },
         ],
       },
       {
@@ -307,7 +307,7 @@ const copy = {
         links: [
           { label: "Ver repositorio del tracker", href: "https://github.com/joaquinganan/agentic-fin-tracker" },
           { label: "Ver suite de pruebas del tracker", href: "https://github.com/joaquinganan/agentic-fin-tracker/tree/main/tests" },
-          { label: "Ver demo (50 s)", href: "/demos/agentic-fin-tracker.html" },
+          { label: "Ver demo", href: "/demos/agentic-fin-tracker.html" },
         ],
       },
       {

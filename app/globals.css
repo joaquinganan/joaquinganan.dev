@@ -589,15 +589,21 @@ section[id] {
   padding: 7rem 0 6rem;
 }
 
+/* Section headers: label above a centred title. The title used to start in a
+   second grid column (~27% in) that lined up with nothing below it, so short
+   titles read as almost-but-not-quite centred. */
 .section-intro {
-  display: grid;
-  grid-template-columns: minmax(140px, 0.28fr) minmax(0, 1fr);
-  gap: 2.5rem;
-  margin-bottom: 4.25rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.1rem;
+  max-width: 52rem;
+  margin: 0 auto 4.25rem;
+  text-align: center;
 }
 
-.section-intro .section-label {
-  padding-top: 0.65rem;
+.section-intro h2 {
+  text-wrap: balance;
 }
 
 .expertise-section {
@@ -1910,8 +1916,8 @@ section[id] {
   }
 
   .section-intro {
-    grid-template-columns: 1fr;
-    gap: 1rem;
+    gap: 0.85rem;
+    margin-bottom: 3rem;
   }
 
   .expertise-grid {
@@ -2335,5 +2341,26 @@ section[id] {
   .motion-ready .reveal-item.is-visible {
     opacity: 1;
     transform: translateY(0);
+  }
+}
+
+/* Small phones (≤ 400px): the four nav links didn't fit, the row scrolled with a
+   hidden scrollbar, and a link was always cut off at one edge (e.g. "RTISE" at 320px).
+   Kept at the end of the file so it overrides the mobile rules above. */
+@media (max-width: 400px) {
+  .site-nav {
+    justify-content: space-between;
+    gap: 0.5rem;
+  }
+
+  .site-nav a {
+    font-size: 0.6875rem;
+    letter-spacing: 0.04em;
+  }
+
+  /* "CV (EN)" wrapped onto two lines at 320px */
+  .resume-link {
+    white-space: nowrap;
+    padding-inline: 0.85rem;
   }
 }

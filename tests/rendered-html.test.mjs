@@ -60,7 +60,7 @@ test("renders the public portfolio and E2E navigation contract", async () => {
   assert.match(html, /href="https:\/\/github\.com\/joaquinganan\/agentic-fin-tracker"[^>]*>View tracker repository/);
   assert.match(html, /href="https:\/\/github\.com\/joaquinganan\/agentic-fin-tracker\/tree\/main\/tests"[^>]*>View tracker test suite/);
   assert.match(html, /href="https:\/\/github\.com\/joaquinganan\/m4pp-sqe"[^>]*>View M4PP project/);
-  assert.match(html, /href="\/demos\/agentic-fin-tracker\.html"[^>]*>Watch demo \(50 s\)/);
+  assert.match(html, /href="\/demos\/agentic-fin-tracker\.html"[^>]*>Watch demo</);
   const fs = await import("node:fs");
   const player = fs.readFileSync(new URL("../public/demos/agentic-fin-tracker.html", import.meta.url), "utf8");
   assert.match(player, /<source src="\/demos\/agentic-fin-tracker-demo\.webm" type="video\/webm">/);

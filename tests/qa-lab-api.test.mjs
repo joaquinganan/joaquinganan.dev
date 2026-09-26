@@ -49,8 +49,12 @@ test("returns normalized live QA Lab evidence without exposing its credential", 
     assert.equal(response.status, 200);
     assert.equal(body.run.conclusion, "success");
     assert.equal(body.run.commit, "1234567");
-    assert.equal(body.coverage.definedTests, 30);
-    assert.equal(body.coverage.executions, 84);
+    assert.equal(body.coverage.definedTests, 33);
+    assert.equal(body.coverage.executions, 93);
+    // the breakdowns must add up to the totals (the per-browser numbers were 14/14/14/4/4 = 50, not 84)
+    assert.equal(body.coverage.categories.reduce((sum, x) => sum + x.defined, 0), body.coverage.definedTests);
+    assert.equal(body.coverage.categories.reduce((sum, x) => sum + x.executions, 0), body.coverage.executions);
+    assert.equal(body.coverage.browsers.reduce((sum, x) => sum + x.executions, 0), body.coverage.executions);
     assert.equal(body.coverage.projects, 5);
     assert.doesNotMatch(JSON.stringify(body), /never-return-this-token/);
   } finally {

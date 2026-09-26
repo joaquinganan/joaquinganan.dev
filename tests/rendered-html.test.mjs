@@ -52,8 +52,16 @@ test("renders the public portfolio and E2E navigation contract", async () => {
   assert.doesNotMatch(html, /Open live QA Lab/);
   assert.match(html, /github\.com\/joaquinganan\/joaquinganan\.dev/);
   assert.match(html, /github\.com\/joaquinganan\/portfolio-e2e-automation/);
-  assert.ok(html.indexOf("Self-testing QA Portfolio") < html.indexOf("M4PP Playwright Automation Suite"));
+  assert.ok(html.indexOf("Self-testing QA Portfolio") < html.indexOf("Agentic Finance Tracker"));
+  assert.ok(html.indexOf("Agentic Finance Tracker") < html.indexOf("M4PP Playwright Automation Suite"));
   assert.ok(html.indexOf("M4PP Playwright Automation Suite") < html.indexOf("Integrated Release Assurance"));
+  // Agentic Finance Tracker: its own type label and both links (Selected Work renders from data, not position)
+  assert.match(html, /<p class="project-type">AI-built system · human QA<\/p>/);
+  assert.match(html, /href="https:\/\/github\.com\/joaquinganan\/agentic-fin-tracker"[^>]*>View tracker repository/);
+  assert.match(html, /href="https:\/\/github\.com\/joaquinganan\/agentic-fin-tracker\/tree\/main\/tests"[^>]*>View tracker test suite/);
+  assert.match(html, /href="https:\/\/github\.com\/joaquinganan\/m4pp-sqe"[^>]*>View M4PP project/);
+  assert.equal((html.match(/class="project-row"/g) || []).length, 4);
+  assert.equal((html.match(/Case study in progress/g) || []).length, 1, "only the anonymized case has no links");
   assert.match(html, /aria-label="Switch to dark mode"/);
   assert.match(html, /class="back-to-top /);
   assert.match(html, /<div class="project-heading"><span class="project-number" aria-hidden="true">0/);

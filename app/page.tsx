@@ -107,7 +107,7 @@ const copy = {
       "A real Playwright framework validates the experience you are using now. The interactive runner is the next step; the current suite and CI history are already public.",
     labStatus: "Lab preview",
     latestRunTitle: "Current production coverage",
-    latestRunText: "30 test cases · 84 cross-browser executions · 5 browser projects",
+    latestRunText: "33 test cases · 93 cross-browser executions · 5 browser projects",
     suiteLink: "View automation suite",
     runsLink: "View latest CI run",
     terminalLabel: "Latest verified suite summary",
@@ -123,25 +123,42 @@ const copy = {
     workTitle: "Evidence over buzzwords.",
     featured: "Public automation project",
     confidential: "Anonymized case snapshot",
-    repository: "View M4PP project",
-    portfolioSource: "View portfolio source",
-    portfolioFramework: "View automation framework",
     caseStatus: "Case study in progress",
+    aiBuilt: "AI-built system · human QA",
     projects: [
       {
         title: "Self-testing QA Portfolio",
         text: "A production portfolio paired with a server-triggered Playwright framework, live CI evidence, secure dispatch, and cross-browser validation.",
         meta: "Next.js · Playwright · GitHub Actions · Cloudflare Workers",
+        kind: "featured",
+        links: [
+          { label: "View portfolio source", href: "https://github.com/joaquinganan/joaquinganan.dev" },
+          { label: "View automation framework", href: "https://github.com/joaquinganan/portfolio-e2e-automation" },
+        ],
+      },
+      {
+        title: "Agentic Finance Tracker",
+        text: "An AI-built Apps Script system that turns bank email alerts into a Google Sheets dashboard with daily and monthly summaries. I owned the QA: real-data exploratory testing, evidence-backed defects, release verification, and a CI-run regression suite.",
+        meta: "Apps Script · Node.js · GitHub Actions · AI-built",
+        kind: "ai",
+        links: [
+          { label: "View tracker repository", href: "https://github.com/joaquinganan/agentic-fin-tracker" },
+          { label: "View tracker test suite", href: "https://github.com/joaquinganan/agentic-fin-tracker/tree/main/tests" },
+        ],
       },
       {
         title: "M4PP Playwright Automation Suite",
         text: "End-to-end and API coverage for authentication, interactive canvas behavior, access control, and backend integrations.",
         meta: "Playwright · JavaScript · POM · API",
+        kind: "featured",
+        links: [{ label: "View M4PP project", href: "https://github.com/joaquinganan/m4pp-sqe" }],
       },
       {
         title: "Integrated Release Assurance",
         text: "A risk-led QA operating model connecting dependencies across 20+ applications with evidence-based go/no-go recommendations.",
         meta: "Enterprise QA · Integration · UAT",
+        kind: "confidential",
+        links: [],
       },
     ],
     experienceLabel: "Experience",
@@ -252,7 +269,7 @@ const copy = {
       "Un framework real de Playwright valida la experiencia que estás utilizando. El runner interactivo es el próximo paso; la suite y su historial de CI ya son públicos.",
     labStatus: "Vista previa del lab",
     latestRunTitle: "Cobertura actual en producción",
-    latestRunText: "30 casos de prueba · 84 ejecuciones cross-browser · 5 proyectos de navegador",
+    latestRunText: "33 casos de prueba · 93 ejecuciones cross-browser · 5 proyectos de navegador",
     suiteLink: "Ver suite de automatización",
     runsLink: "Ver última ejecución CI",
     terminalLabel: "Resumen de la última suite verificada",
@@ -268,25 +285,42 @@ const copy = {
     workTitle: "Evidencia antes que palabras de moda.",
     featured: "Proyecto público de automatización",
     confidential: "Caso anonimizado",
-    repository: "Ver proyecto M4PP",
-    portfolioSource: "Ver código del portafolio",
-    portfolioFramework: "Ver framework de automatización",
     caseStatus: "Caso en preparación",
+    aiBuilt: "Sistema creado con IA · QA humano",
     projects: [
       {
         title: "Portafolio QA que se prueba a sí mismo",
         text: "Un portafolio en producción conectado a un framework Playwright ejecutable desde el servidor, con evidencia CI en vivo y validación cross-browser.",
         meta: "Next.js · Playwright · GitHub Actions · Cloudflare Workers",
+        kind: "featured",
+        links: [
+          { label: "Ver código del portafolio", href: "https://github.com/joaquinganan/joaquinganan.dev" },
+          { label: "Ver framework de automatización", href: "https://github.com/joaquinganan/portfolio-e2e-automation" },
+        ],
+      },
+      {
+        title: "Agentic Finance Tracker",
+        text: "Un sistema en Apps Script creado con IA que convierte alertas bancarias por correo en un dashboard de Google Sheets con resúmenes diarios y mensuales. Me encargué del QA: pruebas exploratorias con datos reales, defectos con evidencia, verificación de releases y una suite de regresión en CI.",
+        meta: "Apps Script · Node.js · GitHub Actions · Creado con IA",
+        kind: "ai",
+        links: [
+          { label: "Ver repositorio del tracker", href: "https://github.com/joaquinganan/agentic-fin-tracker" },
+          { label: "Ver suite de pruebas del tracker", href: "https://github.com/joaquinganan/agentic-fin-tracker/tree/main/tests" },
+        ],
       },
       {
         title: "Suite de automatización Playwright para M4PP",
         text: "Cobertura end-to-end y de API para autenticación, canvas interactivo, control de acceso e integraciones backend.",
         meta: "Playwright · JavaScript · POM · API",
+        kind: "featured",
+        links: [{ label: "Ver proyecto M4PP", href: "https://github.com/joaquinganan/m4pp-sqe" }],
       },
       {
         title: "Aseguramiento de releases integrados",
         text: "Modelo QA por riesgo que conecta dependencias entre más de 20 aplicaciones y sustenta recomendaciones go/no-go con evidencia.",
         meta: "QA empresarial · Integración · UAT",
+        kind: "confidential",
+        links: [],
       },
     ],
     experienceLabel: "Experiencia",
@@ -705,35 +739,32 @@ export default function Home() {
               <div>
                 <div className="project-heading">
                   <span className="project-number" aria-hidden="true">0{index + 1}</span>
-                  <p className="project-type">{index === 2 ? t.confidential : t.featured}</p>
+                  <p className="project-type">
+                    {project.kind === "confidential" ? t.confidential : project.kind === "ai" ? t.aiBuilt : t.featured}
+                  </p>
                 </div>
                 <h3>{project.title}</h3>
                 <p>{project.text}</p>
               </div>
               <div className="project-meta">
                 <span>{project.meta}</span>
-                {index === 1 ? (
-                  <a
-                    href="https://github.com/joaquinganan/m4pp-sqe"
-                    target="_blank"
-                    rel="noreferrer"
-                  >
-                    {t.repository}
-                    <ArrowUpRight aria-hidden="true" />
-                  </a>
-                ) : index === 2 ? (
+                {project.links.length === 0 ? (
                   <span className="project-status">
                     <i aria-hidden="true" />
                     {t.caseStatus}
                   </span>
+                ) : project.links.length === 1 ? (
+                  <a href={project.links[0].href} target="_blank" rel="noreferrer">
+                    {project.links[0].label}
+                    <ArrowUpRight aria-hidden="true" />
+                  </a>
                 ) : (
                   <div className="project-links">
-                    <a href="https://github.com/joaquinganan/joaquinganan.dev" target="_blank" rel="noreferrer">
-                      {t.portfolioSource}<ArrowUpRight aria-hidden="true" />
-                    </a>
-                    <a href="https://github.com/joaquinganan/portfolio-e2e-automation" target="_blank" rel="noreferrer">
-                      {t.portfolioFramework}<ArrowUpRight aria-hidden="true" />
-                    </a>
+                    {project.links.map((link) => (
+                      <a key={link.href} href={link.href} target="_blank" rel="noreferrer">
+                        {link.label}<ArrowUpRight aria-hidden="true" />
+                      </a>
+                    ))}
                   </div>
                 )}
               </div>

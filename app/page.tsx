@@ -137,7 +137,7 @@ const copy = {
       },
       {
         title: "Agentic Finance Tracker",
-        text: "An AI-built Apps Script system that turns bank email alerts into a Google Sheets dashboard with daily and monthly summaries. I owned the QA: real-data exploratory testing, evidence-backed defects, release verification, and a CI-run regression suite.",
+        text: "An AI-built Apps Script system that turns bank email alerts into a Google Sheets dashboard with daily and monthly summaries, and tracks investments from broker emails with live prices and real returns. I owned the QA: real-data exploratory testing, evidence-backed defects, release verification, and a CI-run regression suite.",
         meta: "Apps Script · Node.js · GitHub Actions · AI-built",
         kind: "ai",
         links: [
@@ -299,7 +299,7 @@ const copy = {
       },
       {
         title: "Agentic Finance Tracker",
-        text: "Un sistema en Apps Script creado con IA que convierte alertas bancarias por correo en un dashboard de Google Sheets con resúmenes diarios y mensuales. Me encargué del QA: pruebas exploratorias con datos reales, defectos con evidencia, verificación de releases y una suite de regresión en CI.",
+        text: "Un sistema en Apps Script creado con IA que convierte alertas bancarias por correo en un dashboard de Google Sheets con resúmenes diarios y mensuales, y lleva las inversiones desde los correos del broker con precios en vivo y rendimiento real. Me encargué del QA: pruebas exploratorias con datos reales, defectos con evidencia, verificación de releases y una suite de regresión en CI.",
         meta: "Apps Script · Node.js · GitHub Actions · Creado con IA",
         kind: "ai",
         links: [
